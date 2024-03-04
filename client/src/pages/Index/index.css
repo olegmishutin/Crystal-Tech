@@ -1,0 +1,104 @@
+.circle-container .index-circle {
+    position: relative;
+    border-radius: 50%;
+    margin: 10px;
+    filter: blur(20px);
+    z-index: -2;
+}
+
+.circle-container .index-circle:nth-child(1) {
+    background: linear-gradient(45deg, #A542AF, rgba(7, 55, 225, 0.5));
+    width: 617.01px;
+    height: 583.5px;
+}
+
+.circle-container .index-circle:nth-child(2) {
+    background: linear-gradient(45deg, rgb(147, 15, 15, 0.4), #FF7A00);
+    /* оранжевый */
+    left: 60%;
+    top: 61%;
+    transform: translate(-50%, -50%);
+    width: 494px;
+    height: 494px;
+}
+
+.circle-container .index-circle:nth-child(3) {
+    background: linear-gradient(45deg, #A74098, #A74098);
+    /* правый угол круг */
+    top: -1100px;
+    left: 78%;
+    width: 494px;
+    height: 494px;
+}
+
+.circle-container .index-circle:nth-child(4) {
+    background: linear-gradient(45deg, #28072E, #22091E);
+    width: 501px;
+    height: 501px;
+    bottom: -22%;
+    top: -900px;
+    left: 15%;
+}
+
+.text-zagolovok {
+    color: rgb(255, 255, 255);
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.text-information {
+    color: rgb(255, 255, 255);
+    font-size: 24px;
+    font-weight: 200;
+}
+
+.text-information,
+.text-zagolovok {
+    margin-bottom: 25px;
+    padding: 5px;
+    word-wrap: break-word;
+    font-family: "Inter", sans-serif;
+}
+
+main {
+    display: flex;
+    padding: 10px 250px 10px 325px;
+    box-sizing: border-box;
+}
+
+.main-text {
+    min-width: 390px;
+}
+
+.side-images {
+    padding-left: 30px;
+    position: relative;
+    width: calc(100% - 390px);
+    height: auto;
+    background-image: url("../../images/Index/vector.png");
+    background-repeat: no-repeat;
+    background-position: 80%, center;
+}
+
+.js {
+    top: 180px;
+    left: 80px;
+}
+
+.c-sharp {
+    left: 725px;
+    top: 183px;
+}
+
+.pyt {
+    left: 281px;
+    top: 494px;
+}
+
+.c-sharp,
+.js,
+.pyt {
+    position: absolute;
+    width: 190px;
+    margin-bottom: 10px;
+}

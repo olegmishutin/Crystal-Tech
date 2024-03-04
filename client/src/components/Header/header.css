@@ -1,0 +1,26 @@
+header {
+    color: #fff;
+    padding: 10px ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    font-family: "Inter", sans-serif;
+    gap: 300px;
+}
+
+.head-content {
+    font-weight: bold;
+    font-size: 38px;
+    display: flex;
+    align-items: center;
+}
+
+.head-content p {
+    margin-left: 0;
+}
+.infoGuide {
+    display: flex;
+    align-items: center;
+    gap: 250px;
+}

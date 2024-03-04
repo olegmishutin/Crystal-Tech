@@ -1,0 +1,51 @@
+footer {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 136px;
+    position: relative;
+    font-weight: 200;
+    font-size:12px;
+    font-family: "Inter", sans-serif;
+}
+
+.footer-logo {
+    margin-left: 400px;
+
+}
+.footer-logo,
+.footer-social {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.footer-information {
+    text-align: center;
+}
+
+.footer-social {
+    margin-right: 260px;
+}
+.footer-social .social-icons {
+    display: flex;
+    align-items: center;
+}
+.social-icons {
+    margin-right: 100px;
+}
+
+.social-icons .forum {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+.link {
+    color: white;
+}
+.icon_logo{
+    width: 50px;
+}
