@@ -2,15 +2,30 @@ from rest_framework import serializers
 from .models import Material, Site
 
 
+class SiteSerializer(serializers.ModelSerializer):
+    material = serializers.PrimaryKeyRelatedField(queryset=Material.objects.all(), required=False)
+
+    class Meta:
+        model = Site
+        fields = ['id', 'href', 'material']
+
+    def create(self, validated_data):
+        if 'material' in validated_data:
+            return super(SiteSerializer, self).create(validated_data)
+        raise serializers.ValidationError({'material': ['This field is required.']})
+
+
 class MaterialSerializer(serializers.ModelSerializer):
-    sites = serializers.PrimaryKeyRelatedField(queryset=Site.objects.all(), many=True, required=False)
+    sites = SiteSerializer(many=True, required=False)
 
     class Meta:
         model = Material
         fields = '__all__'
 
+    def create(self, validated_data):
+        siteData = validated_data.pop('sites', [])
+        material = Material.objects.create(**validated_data)
 
-class SiteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Site
-        fields = '__all__'
+        for site in siteData:
+            Site.objects.create(material=material, **site)
+        return material
