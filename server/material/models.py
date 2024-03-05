@@ -1,3 +1,4 @@
+import os
 from django.db import models
 from level.models import Level
 
@@ -12,6 +13,16 @@ class Material(models.Model):
         db_table = 'Material'
         verbose_name = 'Материал'
         verbose_name_plural = 'Материалы'
+
+
+    def delete(self, *args, **kwargs):
+        if os.path.exists(self.file.path):
+            os.remove(self.file.path)
+
+        if self.image and os.path.exists(self.image.path):
+            os.remove(self.image.path)
+
+        super(Material, self).delete(*args, **kwargs)
 
     def __str__(self):
         return self.name

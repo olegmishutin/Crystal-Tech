@@ -1,3 +1,4 @@
+import os
 from django.db import models
 from language.models import Language
 from users.models import User
@@ -14,6 +15,13 @@ class Level(models.Model):
         db_table = 'Level'
         verbose_name = 'Уровень'
         verbose_name_plural = 'Уровни'
+        unique_together = ['language', 'number']
+
+    def delete(self, using=None, keep_parents=False):
+        if os.path.exists(self.image.path):
+            os.remove(self.image.path)
+
+        super(Level, self).delete(using, keep_parents)
 
     def __str__(self):
         return f'level {self.number}, {self.language.name}'
@@ -29,6 +37,7 @@ class Task(models.Model):
         db_table = 'Task'
         verbose_name = 'Задача'
         verbose_name_plural = 'Задачи'
+        unique_together = ['number', 'level']
 
     def __str__(self):
         return self.text[:10]

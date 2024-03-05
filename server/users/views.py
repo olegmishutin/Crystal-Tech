@@ -19,7 +19,7 @@ class LoginView(APIView):
         if user:
             login(request, user)
             return Response({'message': 'Logged', 'username': user.name}, status=status.HTTP_200_OK)
-        return Response({'message': 'Bad date'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': 'Bad data'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class RegisterView(generics.CreateAPIView):

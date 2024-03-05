@@ -1,3 +1,52 @@
-from django.shortcuts import render
+import os
+from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework.permissions import IsAdminUser
+from .models import Level, Task, TestCase
+from .serializers import LevelSerializer, TaskSerializer, TestCaseSerializer
+from language.models import Language
 
-# Create your views here.
+
+class AdminLevelsView(generics.ListCreateAPIView):
+    queryset = Level.objects.all()
+    serializer_class = LevelSerializer
+    permission_classes = [IsAdminUser]
+
+
+class AdminLevelView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Level.objects.all()
+    serializer_class = LevelSerializer
+    permission_classes = [IsAdminUser]
+
+    def perform_update(self, serializer):
+        if 'image' in serializer.validated_data:
+            pk = self.kwargs.get('pk')
+
+            imagePath = Level.objects.get(pk=pk).image.path
+            if os.path.exists(imagePath):
+                os.remove(imagePath)
+        serializer.save()
+
+
+class AdminTasksView(generics.ListCreateAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+    permission_classes = [IsAdminUser]
+
+
+class AdminTaskView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+    permission_classes = [IsAdminUser]
+
+
+class AdminTestCasesView(generics.ListCreateAPIView):
+    queryset = TestCase.objects.all()
+    serializer_class = TestCaseSerializer
+    permission_classes = [IsAdminUser]
+
+
+class AdminTestCaseView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = TestCase.objects.all()
+    serializer_class = TestCaseSerializer
+    permission_classes = [IsAdminUser]
