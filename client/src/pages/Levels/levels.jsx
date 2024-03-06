@@ -3,9 +3,8 @@ import './levels.css'
 
 import Header from "../../components/Header/Header.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
-import AuthModal from "../../components/Modal/Modal.jsx";
+import AuthModal from "../../components/AuthModal/authModal.jsx";
 
-import user from '../../images/Header/user.png'
 import back from '../../images/Header/back.png'
 
 import levelImg1 from '../../images/Levels/first.png'

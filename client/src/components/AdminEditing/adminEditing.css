@@ -1,0 +1,65 @@
+.adminEditing{
+    width: max-content;
+    min-height: 200px;
+    padding: 20px;
+    box-sizing: border-box;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    font-family: Inter, sans-serif;
+}
+
+.adminEditing .block{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.adminEditing .button__box{
+    gap: 10px;
+    display: flex;
+}
+
+.adminEditing .button__box button{
+    width: 150px;
+    height: 50px;
+    border-radius: 20px;
+    border: none;
+    font-family: Inter, sans-serif;
+    font-size: 20px;
+}
+
+
+.adminEditing .button__box .editButton{
+    background-color: greenyellow;
+}
+
+.adminEditing .button__box .deleteButton{
+    background-color: red;
+}
+
+.adminEditing .image{
+    width: 300px;
+    height: 300px;
+}
+
+.adminEditing .image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.adminEditing p{
+    margin: 0;
+    max-width: 500px;
+    text-align: center;
+    font-family: Inter, sans-serif;
+}
+
+.adminEditingFront{
+    background-color: rgba(128, 128, 128, 0.15);
+    border-radius: 20px;
+}

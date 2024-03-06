@@ -1,10 +1,11 @@
 from rest_framework import serializers
 from .models import Language
 from level.models import Level
+from level.serializers import LevelSerializer
 
 
 class LanguageSerializer(serializers.ModelSerializer):
-    levels = serializers.PrimaryKeyRelatedField(queryset=Level.objects.all(), many=True, required=False)
+    levels = LevelSerializer(many=True, required=False)
 
     class Meta:
         model = Language

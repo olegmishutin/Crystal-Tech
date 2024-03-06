@@ -34,8 +34,8 @@ class TaskSerializer(serializers.ModelSerializer):
 
 
 class LevelSerializer(serializers.ModelSerializer):
-    tasks = TaskSerializer(many=True)
-    material = MaterialSerializer()
+    tasks = TaskSerializer(many=True, required=False)
+    material = MaterialSerializer(required=False)
 
     class Meta:
         model = Level

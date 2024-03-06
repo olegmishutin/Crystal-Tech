@@ -1,7 +1,7 @@
 import {Link} from "react-router-dom";
 import './header.css'
 import logo from '../../images/Header/logo.png'
-import AuthModal from "../Modal/Modal.jsx";
+import AuthModal from "../AuthModal/authModal.jsx";
 import user from "../../images/Header/user.png";
 import axios from "axios";
 
@@ -13,7 +13,7 @@ export default function Header(props) {
             url: '/api/me'
         }).then((response) => {
             if (response.status === 200) {
-                window.location.href = 'me'
+                window.location.href = '/me/'
             }
         }).catch((error) => {
             const authModalWindow = document.getElementById('modal')

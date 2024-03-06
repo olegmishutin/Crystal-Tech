@@ -1,8 +1,8 @@
 import {Link} from 'react-router-dom'
 
 import Header from "../../components/Header/Header.jsx";
-import Circles from "../../components/Background/Background.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
+import MainBackground from "../../components/MainBackgound/mainBackground.jsx";
 
 import './index.css'
 
@@ -16,12 +16,7 @@ import plaid3 from '../../images/Index/plaid 3.png'
 export default function Index() {
     return (
         <>
-            <Circles>
-                <div className="index-circle"></div>
-                <div className="index-circle"></div>
-                <div className="index-circle"></div>
-                <div className="index-circle"></div>
-            </Circles>
+            <MainBackground/>
             <Header userProfile={true}>
                 <a href=""><img className="forum" src={sprav}/></a>
                 <a href=""><img className="forum" src={forum}/></a>
