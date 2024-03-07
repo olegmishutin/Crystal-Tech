@@ -36,6 +36,7 @@ class TaskSerializer(serializers.ModelSerializer):
 class LevelSerializer(serializers.ModelSerializer):
     tasks = TaskSerializer(many=True, required=False)
     material = MaterialSerializer(required=False)
+    image = serializers.ImageField()
 
     class Meta:
         model = Level

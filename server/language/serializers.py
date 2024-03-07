@@ -6,6 +6,7 @@ from level.serializers import LevelSerializer
 
 class LanguageSerializer(serializers.ModelSerializer):
     levels = LevelSerializer(many=True, required=False)
+    icon = serializers.ImageField()
 
     class Meta:
         model = Language

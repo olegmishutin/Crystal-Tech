@@ -17,10 +17,12 @@ class SiteSerializer(serializers.ModelSerializer):
 
 class MaterialSerializer(serializers.ModelSerializer):
     sites = SiteSerializer(many=True, required=False)
+    image = serializers.ImageField(required=False)
+    file = serializers.FileField()
 
     class Meta:
         model = Material
-        fields = '__all__'
+        fields = ['id', 'name', 'image', 'file', 'level', 'sites']
 
     def create(self, validated_data):
         siteData = validated_data.pop('sites', [])

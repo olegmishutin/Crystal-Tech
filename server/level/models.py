@@ -8,7 +8,7 @@ class Level(models.Model):
     language = models.ForeignKey(Language, related_name='levels', on_delete=models.CASCADE)
     number = models.IntegerField()
     description = models.TextField()
-    image = models.ImageField(upload_to='levelsImage/')
+    _image = models.ImageField(upload_to='levelsImage/')
     users = models.ManyToManyField(User, db_table='CompletedLevel', related_name='completed_levels')
 
     class Meta:
@@ -17,11 +17,22 @@ class Level(models.Model):
         verbose_name_plural = 'Уровни'
         unique_together = ['language', 'number']
 
-    def delete(self, using=None, keep_parents=False):
-        if os.path.exists(self.image.path):
-            os.remove(self.image.path)
+    @property
+    def image(self):
+        return self._image
 
-        super(Level, self).delete(using, keep_parents)
+    @image.setter
+    def image(self, value):
+        if self._image and os.path.exists(self._image.path):
+            os.remove(self._image.path)
+
+        self._image = value
+
+    def delete(self, *args, **kwargs):
+        if os.path.exists(self._image.path):
+            os.remove(self._image.path)
+
+        return super(Level, self).delete(*args, **kwargs)
 
     def __str__(self):
         return f'level {self.number}, {self.language.name}'

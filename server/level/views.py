@@ -1,4 +1,3 @@
-import os
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser
@@ -17,15 +16,6 @@ class AdminLevelView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Level.objects.all()
     serializer_class = LevelSerializer
     permission_classes = [IsAdminUser]
-
-    def perform_update(self, serializer):
-        if 'image' in serializer.validated_data:
-            pk = self.kwargs.get('pk')
-
-            imagePath = Level.objects.get(pk=pk).image.path
-            if os.path.exists(imagePath):
-                os.remove(imagePath)
-        serializer.save()
 
 
 class AdminTasksView(generics.ListCreateAPIView):
