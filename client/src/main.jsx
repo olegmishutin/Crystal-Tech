@@ -10,6 +10,7 @@ import AdminLanguages from "./pages/AdminLanguages/adminLanguages.jsx";
 import AdminLevels from "./pages/AdminLevels/adminLevels.jsx";
 import AdminTasks from "./pages/AdminTasks/adminTasks.jsx";
 import AdminTestCases from "./pages/AdminTestCases/adminTestCases.jsx";
+import AdminTestCase from "./pages/AdminTestCase/adminTestCase.jsx";
 import './main.css'
 
 const router = createBrowserRouter([
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
             {
                 path: 'task/:id',
                 element: <AdminTestCases/>
+            },
+            {
+                path: 'test-case/:id',
+                element: <AdminTestCase/>
             }
         ]
     }

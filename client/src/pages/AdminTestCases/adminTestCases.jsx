@@ -128,7 +128,7 @@ export default function AdminTestCases() {
                     <textarea placeholder='Опишите задачу' name='taskText' id='taskText'
                               defaultValue={task.text}></textarea>
                 </AdminEditing>
-                <AdminMainList data={task.testCases}></AdminMainList>
+                <AdminMainList data={task.testCases} nextPage={'/admin/test-case/'}></AdminMainList>
             </main>
             <Footer/>
             <AdminModal createFunc={createTestCase} closeModalFunc={closeModal} status={testCaseStatus}>
