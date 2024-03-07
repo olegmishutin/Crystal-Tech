@@ -63,7 +63,7 @@ export default function AdminLevels() {
             }
         }).catch((error) => {
             if (error.response.status === 400) {
-                setLanguageStatus('Введены недействительные данные, такой язык уже существует!')
+                setLanguageStatus('Введены недействительные данные, проверьте все ли поля заполнены, также названия языков не должны повторяться!')
             } else {
                 setLanguageStatus('Что то пошло не так :(')
             }
@@ -113,7 +113,7 @@ export default function AdminLevels() {
             }
         }).catch((error) => {
             if (error.response.status === 400) {
-                setLevelStatus('Введены недействительные данные, заполните все поля и не создавайте уровни с одинаковыми номерами!')
+                setLevelStatus('Введены недействительные данные, проверьте все ли поля заполнены, также номера уровней не должны повторяться!')
             } else {
                 setLevelStatus('Что то пошло не так :(')
             }

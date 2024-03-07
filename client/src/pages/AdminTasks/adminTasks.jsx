@@ -65,10 +65,26 @@ export default function AdminTasks() {
             }
         }).catch((error) => {
             if (error.response.status === 400) {
-                setLevelStatus('Введены недействительные данные, такой номер уровня уже существует!')
+                setLevelStatus('Введены недействительные данные, проверьте все ли поля заполнены, также номера уровней не должны повторяться!')
             } else {
                 setLevelStatus('Что то пошло не так :(')
             }
+        })
+    }
+
+    function deleteLevel(){
+        axios({
+            method: 'DELETE',
+            url: `/api/admin/level/${id}`,
+            xsrfCookieName: 'csrftoken',
+            xsrfHeaderName: 'X-CSRFTOKEN',
+            withCredentials: true
+        }).then((response) => {
+            if (response.status === 204) {
+                window.location.href = `/admin/language/${level.language}`
+            }
+        }).catch((error) => {
+            console.log(error.response.status)
         })
     }
 
@@ -102,7 +118,7 @@ export default function AdminTasks() {
             }
         }).catch((error) => {
             if (error.response.status === 400) {
-                setTaskStatus('Введены недействительные данные, заполните все поля и не создавайте задачи с одинаковыми номерами!')
+                setTaskStatus('Введены недействительные данные, проверьте все ли поля заполнены, также номера задач не должны повторяться!')
             } else {
                 setTaskStatus('Что то пошло не так :(')
             }
@@ -127,7 +143,7 @@ export default function AdminTasks() {
                 <Link to={`/admin/language/${level.language}`}><img className="back" src={back}/></Link>
             </Header>
             <main className='admin__tasks__main'>
-                <AdminEditing editFunc={editLevel} status={levelStatus}>
+                <AdminEditing editFunc={editLevel} deleteFunc={deleteLevel} status={levelStatus}>
                     <input type='number' name='levelNumber' id='levelNumber' placeholder='Номер уровня' min='0'
                            defaultValue={level.number}/>
                     <textarea placeholder='Краткое описание' name='description' id='description'
@@ -139,7 +155,7 @@ export default function AdminTasks() {
                         <input type='file' name='image' id='image'/>
                     </div>
                 </AdminEditing>
-                <AdminMainList data={tasks}></AdminMainList>
+                <AdminMainList data={tasks} nextPage={`/admin/task/`}></AdminMainList>
             </main>
             <Footer/>
             <AdminModal createFunc={createTask} closeModalFunc={closeModal} status={taskStatus}>

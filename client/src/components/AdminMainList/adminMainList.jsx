@@ -20,8 +20,10 @@ export default function AdminMainList(props) {
                                         <div className="admin__main__list__element__image">
                                             <img src={value.image} alt='language image'/>
                                         </div> : ''}
-                                    {value.number ? <h2>Уровень {value.number}</h2> : ''}
+                                    {value.number && !value.text ? <h2>Уровень {value.number}</h2> : ''}
                                     {value.name ? <h2>{value.name}</h2> : ''}
+                                    {value.number && value.text ? <h2>Задача {value.number}</h2> : ''}
+                                    {value.text && value.code ? <h2>{value.text}</h2> : ''}
                                 </Link>
                             </li>
                         </>
