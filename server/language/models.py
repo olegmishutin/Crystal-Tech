@@ -5,7 +5,7 @@ from users.models import User
 
 class Language(models.Model):
     name = models.CharField(max_length=150, unique=True)
-    _icon = models.ImageField(upload_to='languagesIcons/')
+    _image = models.ImageField(upload_to='languagesIcons/')
     users = models.ManyToManyField(User, db_table='CompletedLanguage', related_name='completed_languages')
 
     class Meta:
@@ -14,18 +14,18 @@ class Language(models.Model):
         verbose_name_plural = 'Языки'
 
     @property
-    def icon(self):
-        return self._icon
-    @icon.setter
-    def icon(self, value):
-        if self._icon and os.path.exists(self._icon.path):
-            os.remove(self._icon.path)
+    def image(self):
+        return self._image
+    @image.setter
+    def image(self, value):
+        if self._image and os.path.exists(self._image.path):
+            os.remove(self._image.path)
 
-        self._icon = value
+        self._image = value
 
     def delete(self, *args, **kwargs):
-        if os.path.exists(self._icon.path):
-            os.remove(self._icon.path)
+        if os.path.exists(self._image.path):
+            os.remove(self._image.path)
 
         return super(Language, self).delete(*args, **kwargs)
 

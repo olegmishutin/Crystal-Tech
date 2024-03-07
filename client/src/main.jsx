@@ -8,6 +8,7 @@ import Book from "./pages/Book/book.jsx";
 import Profile from "./pages/Profile/profile.jsx";
 import AdminLanguages from "./pages/AdminLanguages/adminLanguages.jsx";
 import AdminLevels from "./pages/AdminLevels/adminLevels.jsx";
+import AdminTasks from "./pages/AdminTasks/adminTasks.jsx";
 import './main.css'
 
 const router = createBrowserRouter([
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
             {
                 path: 'language/:id',
                 element: <AdminLevels/>
+            },
+            {
+                path: 'level/:id',
+                element: <AdminTasks/>
             }
         ]
     }

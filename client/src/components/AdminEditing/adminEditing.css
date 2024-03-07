@@ -63,3 +63,18 @@
     background-color: rgba(128, 128, 128, 0.15);
     border-radius: 20px;
 }
+
+.adminEditing input[type='number'],
+.adminEditing textarea{
+    width: 90%;
+    height: 20px;
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+    font-family: Inter, sans-serif;
+}
+
+.adminEditing textarea{
+    min-height: 150px;
+    resize: none;
+}

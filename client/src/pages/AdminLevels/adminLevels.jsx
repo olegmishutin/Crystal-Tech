@@ -6,6 +6,7 @@ import Footer from "../../components/Footer/Footer.jsx";
 import AdminModal from "../../components/AdminModal/adminModal.jsx";
 import MainBackground from "../../components/MainBackgound/mainBackground.jsx";
 import AdminEditing from "../../components/AdminEditing/adminEditing.jsx";
+import AdminMainList from "../../components/AdminMainList/adminMainList.jsx";
 import axios from "axios";
 
 import './adminLevels.css'
@@ -39,13 +40,13 @@ export default function AdminLevels() {
     function editLanguage(event) {
         setLanguageStatus('')
         const language = document.getElementById('name').value
-        const icon = document.getElementById('icon').files[0]
+        const image = document.getElementById('languageImage').files[0]
 
         const formData = new FormData
         formData.append('name', language)
 
-        if (icon) {
-            formData.append('icon', icon)
+        if (image) {
+            formData.append('image', image)
         }
 
         axios({
@@ -58,10 +59,13 @@ export default function AdminLevels() {
         }).then((response) => {
             if (response.status === 200) {
                 setLanguage(response.data)
+                setLanguageStatus('Изменения применены!')
             }
         }).catch((error) => {
             if (error.response.status === 400) {
                 setLanguageStatus('Введены недействительные данные, такой язык уже существует!')
+            } else {
+                setLanguageStatus('Что то пошло не так :(')
             }
         })
 
@@ -86,12 +90,12 @@ export default function AdminLevels() {
 
     function createLevel(event) {
         const number = document.getElementById('number').value
-        const decription = document.getElementById('description').value
+        const description = document.getElementById('description').value
         const image = document.getElementById('image').files[0]
 
         const formData = new FormData
         formData.append('number', number)
-        formData.append('description', decription)
+        formData.append('description', description)
         formData.append('image', image)
         formData.append('language', id)
 
@@ -110,13 +114,10 @@ export default function AdminLevels() {
         }).catch((error) => {
             if (error.response.status === 400) {
                 setLevelStatus('Введены недействительные данные, заполните все поля и не создавайте уровни с одинаковыми номерами!')
+            } else {
+                setLevelStatus('Что то пошло не так :(')
             }
         })
-    }
-
-    function openModal() {
-        const modal = document.getElementById('adminModal')
-        modal.className = 'adminModal adminModalActive'
     }
 
     function closeModal() {
@@ -131,7 +132,7 @@ export default function AdminLevels() {
                 <Link to={'/admin/languages/'}><img className="back" src={back}/></Link>
             </Header>
             <main className='admin__levels__main'>
-                <AdminEditing>
+                <AdminEditing editFunc={editLanguage} deleteFunc={deleteLanguage} status={languageStatus}>
                     <div className="block">
                         <label htmlFor='name'>Текущий язык программирования: {language.name}</label>
                         <select name='name' id='name'>
@@ -141,50 +142,21 @@ export default function AdminLevels() {
                     </div>
                     <div className="block">
                         <div className="image">
-                            <img src={language.icon} alt='language icon'/>
+                            <img src={language.image} alt='language icon'/>
                         </div>
-                        <input type='file' name='icon' id='icon'/>
+                        <input type='file' name='languageImage' id='languageImage'/>
                     </div>
-                    <div className="button__box">
-                        <button className='editButton' type='button' onClick={editLanguage}>Edit</button>
-                        <button className='deleteButton' type='button' onClick={deleteLanguage}>Delete</button>
-                    </div>
-                    <p>{languageStatus}</p>
                 </AdminEditing>
-                <ul className='admin__levels__main__list adminEditingFront'>
-                    {levels.map((value, index) => {
-                        return (
-                            <>
-                                <li className='admin__levels__main__list__element'>
-                                    <Link className='admin__levels__main__list__element__link'
-                                          to={`/admin/level/${value.id}`}>
-                                        <div className="admin__levels__main__list__element__image">
-                                            <img src={value.image} alt='language image'/>
-                                        </div>
-                                        <h2>Уровень {value.number}</h2>
-                                    </Link>
-                                </li>
-                            </>
-                        )
-                    })}
-                    <li className='admin__levels__main__list__element'>
-                        <button className='admin__levels__main__list__element__link' onClick={openModal}>+</button>
-                    </li>
-                </ul>
+                <AdminMainList data={levels} nextPage={'/admin/level/'}/>
             </main>
             <Footer/>
-            <AdminModal>
+            <AdminModal createFunc={createLevel} closeModalFunc={closeModal} status={levelStatus}>
                 <input type='number' name='number' id='number' placeholder='Номер уровня' min='0'/>
                 <textarea placeholder='Краткое описание' name='description' id='description'></textarea>
                 <div className="block">
                     <label htmlFor='image'>Картинка уровня</label>
                     <input type='file' name='image' id='image'/>
                 </div>
-                <div className="button__box">
-                    <button className='createButton' type='button' onClick={createLevel}>Create</button>
-                    <button className='cancelButton' type='button' onClick={closeModal}>Cancel</button>
-                </div>
-                <p className='status'>{levelStatus}</p>
             </AdminModal>
         </>
     )

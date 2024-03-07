@@ -18,7 +18,7 @@ class TestCaseSerializer(serializers.ModelSerializer):
 
 
 class TaskSerializer(serializers.ModelSerializer):
-    testCases = TestCaseSerializer(many=True, required=False)
+    testCases = TestCaseSerializer(many=True)
 
     class Meta:
         model = Task

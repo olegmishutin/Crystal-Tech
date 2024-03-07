@@ -7,7 +7,7 @@ from language.models import Language
 
 
 class AdminLevelsView(generics.ListCreateAPIView):
-    queryset = Level.objects.all()
+    queryset = Level.objects.all().order_by('-number')
     serializer_class = LevelSerializer
     permission_classes = [IsAdminUser]
 

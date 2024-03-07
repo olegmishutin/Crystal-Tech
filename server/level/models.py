@@ -51,7 +51,7 @@ class Task(models.Model):
         unique_together = ['number', 'level']
 
     def __str__(self):
-        return self.text[:10]
+        return f'task {self.number}, level {self.level}'
 
 
 class TestCase(models.Model):
