@@ -18,11 +18,16 @@ class TestCaseSerializer(serializers.ModelSerializer):
 
 
 class TaskSerializer(serializers.ModelSerializer):
+    is_completed = serializers.SerializerMethodField(source='get_is_completed')
     testCases = TestCaseSerializer(many=True)
 
     class Meta:
         model = Task
-        fields = ['id', 'number', 'text', 'level', 'testCases']
+        fields = ['id', 'number', 'text', 'level', 'is_completed', 'testCases']
+
+    def get_is_completed(self, obj):
+        user = self.context.get('request').user
+        return obj.users.filter(id=user.id).exists()
 
     def create(self, validated_data):
         testCasesData = validated_data.pop('testCases', [])

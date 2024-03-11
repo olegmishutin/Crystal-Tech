@@ -1,4 +1,5 @@
 import {Link} from 'react-router-dom'
+import {useState, useEffect} from "react";
 
 import Header from "../../components/Header/Header.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
@@ -8,12 +9,22 @@ import './index.css'
 
 import forum from '../../images/Header/forum.png'
 import sprav from '../../images/Header/sprav.png'
-
-import plaid1 from '../../images/Index/plaid 1.png'
-import plaid2 from '../../images/Index/plaid 2.png'
-import plaid3 from '../../images/Index/plaid 3.png'
+import axios from "axios";
 
 export default function Index() {
+    const [languages, setLanguages] = useState([])
+
+    useEffect(() => {
+        axios({
+            method: 'GET',
+            url: '/api/languages'
+        }).then((response) => {
+            if (response.status === 200) {
+                setLanguages(response.data)
+            }
+        })
+    }, []);
+
     return (
         <>
             <MainBackground/>
@@ -54,12 +65,13 @@ export default function Index() {
                     </div>
                 </div>
                 <div className="side-images">
-                    <div className="top-images">
-                        <Link to={'language/1'}><img className="js" id="js" src={plaid1}/></Link>
-                        <div className="spacer"></div>
-                        <Link to={'language/2'}><img className="c-sharp" id="c-sharp" src={plaid2}/></Link>
-                    </div>
-                    <Link to={'language/3'}><img className="pyt" id="pyt" src={plaid3}/></Link>
+                    {languages.map((value, index) => {
+                        return (
+                            <>
+                                <Link to={`language/${value.id}`}><img className={value.name} src={value.image}/></Link>
+                            </>
+                        )
+                    })}
                 </div>
             </main>
             <Footer/>

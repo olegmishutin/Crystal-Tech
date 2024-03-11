@@ -48,14 +48,14 @@ main {
     top: 183px;
 }
 
-.pyt {
+.python {
     left: 281px;
     top: 494px;
 }
 
 .c-sharp,
 .js,
-.pyt {
+.python {
     position: absolute;
     width: 190px;
     margin-bottom: 10px;

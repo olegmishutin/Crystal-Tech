@@ -94,12 +94,18 @@
     height: 149px;
     max-width: 216px;
     max-height: 149px;
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.book__main__materials__block__image img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.book__main__materials__block__image h4{
+    color: black;
+    font-family: Inter, sans-serif;
+    font-size: 20px;
 }
 
 .book__main__materials__block__href{

@@ -23,11 +23,11 @@ const router = createBrowserRouter([
         element: <Levels/>
     },
     {
-        path: 'level/:id',
+        path: 'task/:id',
         element: <Level/>
     },
     {
-        path: 'book/',
+        path: 'level/:id/book',
         element: <Book/>
     },
     {

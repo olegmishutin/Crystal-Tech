@@ -9,5 +9,6 @@ urlpatterns = [
         re_path(r'^material/(?P<pk>\w+)$', views.AdminMaterialView.as_view(), name='admin-material'),
         re_path(r'^sites$', views.AdminSitesView.as_view(), name='admin-sites'),
         re_path(r'^site/(?P<pk>\w+)$', views.AdminSiteView.as_view(), name='admin-site'),
-    ]))
+    ])),
+    re_path(r'^get-material/(?P<pk>\w+)$', views.MaterialView.as_view(), name='material')
 ]
