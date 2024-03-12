@@ -2,7 +2,7 @@ import './adminModal.css'
 
 export default function AdminModal(props){
     return (
-        <div className='adminModal' id='adminModal'>
+        <div className='adminModal' id={!props.id ? 'adminModal' : props.id}>
             <div className="adminModal__block">
                 {props.children}
                 <div className="button__box">

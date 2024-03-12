@@ -6,24 +6,12 @@ from level.models import Level
 class Material(models.Model):
     level = models.OneToOneField(Level, on_delete=models.CASCADE)
     name = models.CharField(max_length=150)
-    _image = models.ImageField(upload_to='materialsImage/', null=True, blank=True)
     _file = models.FileField(upload_to='materialsFiles/')
 
     class Meta:
         db_table = 'Material'
         verbose_name = 'Материал'
         verbose_name_plural = 'Материалы'
-
-    @property
-    def image(self):
-        return self._image
-
-    @image.setter
-    def image(self, value):
-        if self._image and os.path.exists(self._image.path):
-            os.remove(self._image.path)
-
-        self._image = value
 
     @property
     def file(self):
@@ -39,9 +27,6 @@ class Material(models.Model):
     def delete(self, *args, **kwargs):
         if os.path.exists(self._file.path):
             os.remove(self._file.path)
-
-        if self._image and os.path.exists(self._image.path):
-            os.remove(self._image.path)
 
         return super(Material, self).delete(*args, **kwargs)
 

@@ -24,13 +24,16 @@ export default function AdminMainList(props) {
                                     {value.name ? <h2>{value.name}</h2> : ''}
                                     {value.number && value.text ? <h2>Задача {value.number}</h2> : ''}
                                     {value.text && value.code ? <h2>{value.text}</h2> : ''}
+                                    {value.href? <h2>{value.href}</h2> : ''}
                                 </Link>
                             </li>
                         </>
                     )
                 })}
                 <li className='admin__main__list__element'>
-                    <button className='admin__main__list__element__link' onClick={openModal}>+</button>
+                    <button className='admin__main__list__element__link'
+                            onClick={!props.openModal ? openModal : props.openModal}>+
+                    </button>
                 </li>
             </ul>
         </>
