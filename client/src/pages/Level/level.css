@@ -58,7 +58,9 @@
 
 .level__main{
     width: 100%;
-    padding: 80px 0 80px 390px;
+    padding: 80px 390px 80px 390px;
+    display: flex;
+    gap: 20px;
 }
 
 .level__main__task{
@@ -70,6 +72,8 @@
     gap: 42px;
 }
 
+.level__main__right__game,
+.level__main__right__testcases li,
 .level__main__task__block{
     width: 100%;
     border: 2px solid white;
@@ -78,6 +82,14 @@
     padding: 15px 20px;
     box-sizing: border-box;
     color: white;
+}
+
+.level__main__task__block{
+    min-width: 660px;
+}
+
+.level__main__button{
+    min-width: auto;
 }
 
 .level__main__task__block p{
@@ -100,4 +112,29 @@
 
 .level__main__task input[type='button']:hover{
     cursor: pointer;
+}
+
+.level__main__right{
+    width: 100%;
+    max-height: 645px;
+    overflow: auto;
+}
+
+.level__main__right__game{
+    min-height: 400px;
+}
+
+.level__main__right__testcases{
+    margin: 15px 0 0 0;
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.level__main__right__testcases li{
+    width: auto;
+    padding: 5px 10px;
+    font-family: Inter, sans-serif;
 }

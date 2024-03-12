@@ -14,7 +14,7 @@ import axios from "axios";
 export default function Level() {
     let {id} = useParams()
     let {languageId} = useParams()
-    const [task, setTask] = useState({})
+    const [task, setTask] = useState({testCases: []})
 
     useEffect(() => {
         axios({
@@ -42,7 +42,7 @@ export default function Level() {
                 <div className="circle"></div>
             </Circles>
             <Header userProfile={true}>
-                <a href={`/language/${languageId}`}><img className="back" src={back}/></a>
+                <Link to={`/language/${languageId}`}><img className="back" src={back}/></Link>
                 <Link to={`/language/${languageId}/task/${id}/level/${task.level}/book`}><img className="back"
                                                                                               src={reference}/></Link>
             </Header>
@@ -53,8 +53,22 @@ export default function Level() {
                     </div>
                     <textarea className='level__main__task__block' name='code'
                               placeholder='Пишите сюда свой код'></textarea>
-                    <input className='level__main__task__block' type='button' value='Check the code'/>
+                    <input className='level__main__task__block level__main__button' type='button' value='Check the code'/>
                 </form>
+                <div className="level__main__right">
+                    <div className="level__main__right__game"></div>
+                    <ul className='level__main__right__testcases'>
+                        {task.testCases.map((value, index) => {
+                            return (
+                                <>
+                                    <li>
+                                        <p>{value.text}</p>
+                                    </li>
+                                </>
+                            )
+                        })}
+                    </ul>
+                </div>
             </main>
             <Footer/>
         </>

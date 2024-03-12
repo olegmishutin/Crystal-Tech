@@ -6,7 +6,8 @@ import Circles from "../../components/Background/Background.jsx"
 
 import './book.css'
 import axios from "axios";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
+import back from "../../images/Header/back.png";
 
 export default function Book() {
     let {id} = useParams()
@@ -43,7 +44,9 @@ export default function Book() {
                 <div className="book__circle"></div>
                 <div className="book__circle"></div>
             </Circles>
-            <Header/>
+            <Header>
+                <Link to={`/language/${languageId}/task/${taskId}`}><img className="back" src={back}/></Link>
+            </Header>
             <main className='book__main'>
                 <div className="book__main__materials">
                     <h2>Материалы для изучения:</h2>
