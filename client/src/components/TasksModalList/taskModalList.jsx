@@ -20,7 +20,8 @@ export default function TaskModalList(props) {
                             return (
                                 <>
                                     <li>
-                                        <Link className='link' to={`/task/${value.id}`}>Задание №{value.number}</Link>
+                                        <Link className='link' to={`/language/${props.data.language}/task/${value.id}`}>Задание
+                                            №{value.number}</Link>
                                     </li>
                                 </>
                             )

@@ -60,6 +60,8 @@ export default function AdminLevels() {
             if (response.status === 200) {
                 setLanguage(response.data)
                 setLanguageStatus('Изменения применены!')
+            } else {
+                setLanguageStatus('Что то пошло не так :(')
             }
         }).catch((error) => {
             if (error.response.status === 400) {
@@ -72,7 +74,7 @@ export default function AdminLevels() {
         event.preventDefault()
     }
 
-    function deleteLanguage() {
+    function deleteLanguage(event) {
         axios({
             method: 'DELETE',
             url: `/api/admin/language/${id}`,
@@ -82,10 +84,14 @@ export default function AdminLevels() {
         }).then((response) => {
             if (response.status === 204) {
                 window.location.href = '/admin/languages/'
+            } else {
+                setLanguageStatus('Что то пошло не так :(')
             }
         }).catch((error) => {
-            console.log(error.response.status)
+            setLanguageStatus('Что то пошло не так :(')
         })
+
+        event.preventDefault()
     }
 
     function createLevel(event) {
@@ -110,6 +116,8 @@ export default function AdminLevels() {
             if (response.status === 201) {
                 getLanguageLevels()
                 closeModal()
+            } else {
+                setLevelStatus('Что то пошло не так :(')
             }
         }).catch((error) => {
             if (error.response.status === 400) {
@@ -118,6 +126,8 @@ export default function AdminLevels() {
                 setLevelStatus('Что то пошло не так :(')
             }
         })
+
+        event.preventDefault()
     }
 
     function closeModal() {
@@ -129,7 +139,7 @@ export default function AdminLevels() {
         <>
             <MainBackground/>
             <Header>
-                <Link to={'/admin/languages/'}><img className="back" src={back}/></Link>
+                <Link to={'/admin/'}><img className="back" src={back}/></Link>
             </Header>
             <main className='admin__levels__main'>
                 <AdminEditing editFunc={editLanguage} deleteFunc={deleteLanguage} status={languageStatus}>

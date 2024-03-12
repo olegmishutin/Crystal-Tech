@@ -39,7 +39,7 @@ export default function AdminTasks() {
         })
     }
 
-    function editLevel() {
+    function editLevel(event) {
         setLevelStatus('')
         const number = document.getElementById('levelNumber').value
         const description = document.getElementById('description').value
@@ -64,6 +64,8 @@ export default function AdminTasks() {
             if (response.status === 200) {
                 setLevel(response.data)
                 setLevelStatus('Изменения применены!')
+            } else {
+                setLevelStatus('Что то пошло не так :(')
             }
         }).catch((error) => {
             if (error.response.status === 400) {
@@ -72,9 +74,11 @@ export default function AdminTasks() {
                 setLevelStatus('Что то пошло не так :(')
             }
         })
+
+        event.preventDefault()
     }
 
-    function deleteLevel() {
+    function deleteLevel(event) {
         axios({
             method: 'DELETE',
             url: `/api/admin/level/${id}`,
@@ -84,10 +88,14 @@ export default function AdminTasks() {
         }).then((response) => {
             if (response.status === 204) {
                 window.location.href = `/admin/language/${level.language}`
+            } else {
+                setLevelStatus('Что то пошло не так :(')
             }
         }).catch((error) => {
-            console.log(error.response.status)
+            setLevelStatus('Что то пошло не так :(')
         })
+
+        event.preventDefault()
     }
 
     function createTask(event) {
@@ -117,6 +125,8 @@ export default function AdminTasks() {
                 getLevelAndTasks()
                 closeModal()
                 setTestCasesSet([1])
+            } else {
+                setTaskStatus('Что то пошло не так :(')
             }
         }).catch((error) => {
             if (error.response.status === 400) {
@@ -157,6 +167,8 @@ export default function AdminTasks() {
         }).then((response) => {
             if (response.status === 201) {
                 getLevelAndTasks()
+            } else {
+                setMaterialStatus('Что то пошло не так :(')
             }
         }).catch((error) => {
             if (error.response.status === 400) {
@@ -183,6 +195,9 @@ export default function AdminTasks() {
             if (response.status === 200) {
                 getLevelAndTasks()
                 document.getElementById('materialFileHref').setAttribute('href', response.data.file)
+                setMaterialStatus('Изменения применены!')
+            } else {
+                setMaterialStatus('Что то пошло не так :(')
             }
         }).catch((error) => {
             if (error.response.status === 400) {
@@ -205,15 +220,17 @@ export default function AdminTasks() {
         }).then((response) => {
             if (response.status === 204) {
                 getLevelAndTasks()
+            } else {
+                setMaterialStatus('Что то пошло не так :(')
             }
         }).catch((error) => {
-            console.log(error.response.status)
+            setMaterialStatus('Что то пошло не так :(')
         })
 
         event.preventDefault()
     }
 
-    function createMaterialSite() {
+    function createMaterialSite(event) {
         axios({
             method: 'POST',
             url: '/api/admin/sites',
@@ -228,6 +245,8 @@ export default function AdminTasks() {
             if (response.status === 201){
                 getLevelAndTasks()
                 closeSitesModal()
+            } else {
+                setSiteStatus('Что то пошло не так :(')
             }
         }).catch((error) => {
             if (error.response.status === 400){
@@ -236,6 +255,8 @@ export default function AdminTasks() {
                 setSiteStatus('Что то пошло не так :(')
             }
         })
+
+        event.preventDefault()
     }
 
     function closeModal() {

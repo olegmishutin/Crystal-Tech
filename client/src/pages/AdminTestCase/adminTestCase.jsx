@@ -48,6 +48,8 @@ export default function AdminTestCase() {
             if (response.status === 200) {
                 setTestCase(response.data)
                 setTestCaseStatus('Изменения применены!')
+            } else {
+                setTestCaseStatus('Что то пошло не так :(')
             }
         }).catch((error) => {
             if (error.response.status === 400) {
@@ -60,7 +62,7 @@ export default function AdminTestCase() {
         event.preventDefault()
     }
 
-    function deleteTestCase(){
+    function deleteTestCase(event){
         axios({
             method: 'DELETE',
             url: `/api/admin/test-case/${id}`,
@@ -70,10 +72,14 @@ export default function AdminTestCase() {
         }).then((response) => {
             if (response.status === 204) {
                 window.location.href = `/admin/task/${testCase.task}`
+            } else {
+                setTestCaseStatus('Что то пошло не так :(')
             }
         }).catch((error) => {
-            console.log(error.response.status)
+            setTestCaseStatus('Что то пошло не так :(')
         })
+
+        event.preventDefault()
     }
 
     return (

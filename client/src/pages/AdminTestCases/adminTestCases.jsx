@@ -52,6 +52,8 @@ export default function AdminTestCases() {
             if (response.status === 200) {
                 setTask(response.data)
                 setTaskStatus('Изменения применены!')
+            } else {
+                setTaskStatus('Что то пошло не так :(')
             }
         }).catch((error) => {
             if (error.response.status === 400) {
@@ -64,7 +66,7 @@ export default function AdminTestCases() {
         event.preventDefault()
     }
 
-    function deleteTask(){
+    function deleteTask(event){
         axios({
             method: 'DELETE',
             url: `/api/admin/task/${id}`,
@@ -74,10 +76,14 @@ export default function AdminTestCases() {
         }).then((response) => {
             if (response.status === 204) {
                 window.location.href = `/admin/level/${task.level}`
+            } else {
+                setTaskStatus('Что то пошло не так :(')
             }
         }).catch((error) => {
-            console.log(error.response.status)
+            setTaskStatus('Что то пошло не так :(')
         })
+
+        event.preventDefault()
     }
 
     function createTestCase(event){
@@ -98,6 +104,8 @@ export default function AdminTestCases() {
             if (response.status === 201){
                 getTask()
                 closeModal()
+            } else {
+                setTestCaseStatus('Что то пошло не так :(')
             }
         }).catch((error) => {
             if (error.response.status === 400) {

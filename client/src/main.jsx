@@ -24,11 +24,11 @@ const router = createBrowserRouter([
         element: <Levels/>
     },
     {
-        path: 'task/:id',
+        path: 'language/:languageId/task/:id',
         element: <Level/>
     },
     {
-        path: 'level/:id/book',
+        path: 'language/:languageId/task/:taskId/level/:id/book',
         element: <Book/>
     },
     {
@@ -39,7 +39,7 @@ const router = createBrowserRouter([
         path: 'admin/',
         children: [
             {
-                path: 'languages',
+                path: '',
                 element: <AdminLanguages/>
             },
             {

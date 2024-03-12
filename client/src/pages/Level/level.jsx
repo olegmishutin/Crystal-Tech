@@ -13,6 +13,7 @@ import axios from "axios";
 
 export default function Level() {
     let {id} = useParams()
+    let {languageId} = useParams()
     const [task, setTask] = useState({})
 
     useEffect(() => {
@@ -20,13 +21,13 @@ export default function Level() {
             method: 'GET',
             url: `/api/task/${id}`
         }).then((response) => {
-            if (response.status === 200){
+            if (response.status === 200) {
                 setTask(response.data)
+            } else {
+                window.location.href = `/language/${languageId}`
             }
         }).catch((error) => {
-            if (error.response.status === 403){
-                history.back()
-            }
+            window.location.href = `/language/${languageId}`
         })
     }, []);
 
@@ -41,10 +42,9 @@ export default function Level() {
                 <div className="circle"></div>
             </Circles>
             <Header userProfile={true}>
-                <a onClick={() => {
-                    history.back()
-                }}><img className="back" src={back}/></a>
-                <Link to={`/level/${task.level}/book`}><img className="back" src={reference}/></Link>
+                <a href={`/language/${languageId}`}><img className="back" src={back}/></a>
+                <Link to={`/language/${languageId}/task/${id}/level/${task.level}/book`}><img className="back"
+                                                                                              src={reference}/></Link>
             </Header>
             <main className='level__main'>
                 <form className="level__main__task">

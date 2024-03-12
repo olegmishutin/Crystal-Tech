@@ -10,6 +10,8 @@ import {useParams} from "react-router-dom";
 
 export default function Book() {
     let {id} = useParams()
+    let {languageId} = useParams()
+    let {taskId} = useParams()
     const [info, setInfo] = useState({tasks: [], material: {file: '', sites: []}})
 
     useEffect(() => {
@@ -18,10 +20,16 @@ export default function Book() {
             url: `/api/level/${id}`
         }).then((response) => {
             if (response.status === 200) {
-                setInfo(response.data)
+                if (response.data.material) {
+                    setInfo(response.data)
+                } else {
+                    window.location.href = `/language/${languageId}/task/${taskId}`
+                }
+            } else {
+                window.location.href = `/language/${languageId}/task/${taskId}`
             }
         }).catch((error) => {
-            console.log(error)
+            window.location.href = `/language/${languageId}/task/${taskId}`
         })
     }, []);
 
@@ -45,7 +53,7 @@ export default function Book() {
                         </div>
                         <div className="book__main__materials__block__href">
                             <a href={info.material ? info.material.file : ''}>Изучить материал</a>
-                            <a href={`/api/get-material/${info.material ? info.material.id: ''}`}>Скачать файл</a>
+                            <a href={`/api/get-material/${info.material ? info.material.id : ''}`}>Скачать файл</a>
                         </div>
                     </div>
                     <h3>Сайты с полезной информацией:</h3>

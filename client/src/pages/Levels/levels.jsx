@@ -16,7 +16,7 @@ import axios from "axios";
 export default function Levels() {
     let {id} = useParams()
     const [levels, setLevels] = useState([])
-    const [level, setLevel] = useState({number: 1, tasks: []})
+    const [level, setLevel] = useState({number: '', tasks: []})
 
     useEffect(() => {
         axios({
@@ -24,8 +24,14 @@ export default function Levels() {
             url: `/api/language/${id}`
         }).then((response) => {
             if (response.status === 200) {
-                setLevels(response.data.levels)
+                if (response.data.levels.length > 0) {
+                    setLevels(response.data.levels)
+                } else {
+                    window.location.href = '/'
+                }
             }
+        }).catch((error) => {
+            window.location.href = '/'
         })
     }, []);
 

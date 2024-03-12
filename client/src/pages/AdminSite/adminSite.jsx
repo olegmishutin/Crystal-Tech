@@ -41,6 +41,8 @@ export default function AdminSite() {
         }).then((response) => {
             if (response.status === 200) {
                 setStatus('Изменения успешно применены!')
+            } else {
+                setStatus('Что то пошло не так :(')
             }
         }).catch((error) => {
             if (error.response.status === 400) {
@@ -63,9 +65,11 @@ export default function AdminSite() {
         }).then((response) => {
             if (response.status === 204) {
                 window.location.href = `/admin/level/${levelId}`
+            } else {
+                setStatus('Что то пошло не так :(')
             }
         }).catch((error) => {
-            console.log(error.response.status)
+            setStatus('Что то пошло не так :(')
         })
 
         event.preventDefault()
