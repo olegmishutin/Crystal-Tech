@@ -42,7 +42,7 @@ class Task(models.Model):
     number = models.IntegerField()
     level = models.ForeignKey(Level, related_name='tasks', on_delete=models.CASCADE)
     text = models.TextField()
-    users = models.ManyToManyField(User, db_table='CompletedTask', related_name='completed_tasks')
+    users = models.ManyToManyField(User, through='CompletedTask', related_name='completed_tasks')
 
     class Meta:
         db_table = 'Task'
@@ -51,7 +51,7 @@ class Task(models.Model):
         unique_together = ['number', 'level']
 
     def __str__(self):
-        return f'task {self.number}, level {self.level}'
+        return f'task {self.number}, {self.level}'
 
 
 class TestCase(models.Model):
@@ -66,3 +66,17 @@ class TestCase(models.Model):
 
     def __str__(self):
         return self.text
+
+
+class CompletedTask(models.Model):
+    task = models.ForeignKey(Task, related_name='completedTasks', on_delete=models.CASCADE)
+    level = models.ForeignKey(Level, related_name='completedTasks', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='completedTasks', on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'CompletedTask'
+        verbose_name = 'Законченное задание'
+        verbose_name_plural = 'Законченные задания'
+
+    def __str__(self):
+        return f'task {self.task}, level {self.level}, user {self.user}'

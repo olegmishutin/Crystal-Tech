@@ -44,6 +44,10 @@
     text-decoration: none;
 }
 
+.task__modal__list__window .link-completed{
+    color: rgba(255, 255, 255, 0.5);
+}
+
 .task__modal__list__window .link:hover{
     text-decoration: underline;
 }

@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from .models import Level, Task, TestCase
 from .serializers import LevelSerializer, TaskSerializer, TestCaseSerializer
 from language.models import Language
+from .permission import TaskIsCanBePassed
 
 
 class AdminLevelsView(generics.ListCreateAPIView):
@@ -45,7 +46,7 @@ class AdminTestCaseView(generics.RetrieveUpdateDestroyAPIView):
 class TaskView(generics.RetrieveAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, TaskIsCanBePassed]
 
 
 class LevelView(generics.RetrieveAPIView):
