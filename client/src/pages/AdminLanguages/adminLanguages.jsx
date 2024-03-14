@@ -79,6 +79,7 @@ export default function AdminLanguages() {
                     <label htmlFor='name'>Выберите язык программирования:</label>
                     <select name='name' id='name'>
                         <option value='js'>js</option>
+                        <option value='py'>python</option>
                     </select>
                 </div>
                 <input type='file' name='image' id='image'/>

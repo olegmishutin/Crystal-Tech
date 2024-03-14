@@ -5,7 +5,8 @@ from users.models import User
 
 class Language(models.Model):
     choices = {
-        'js': 'JavaScript'
+        'js': 'JavaScript',
+        'py': 'Python'
     }
 
     name = models.CharField(max_length=150, choices=choices, unique=True)

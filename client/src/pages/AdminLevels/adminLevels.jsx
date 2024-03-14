@@ -147,6 +147,7 @@ export default function AdminLevels() {
                         <label htmlFor='name'>Текущий язык программирования: {language.name}</label>
                         <select name='name' id='name'>
                             <option value='js'>js</option>
+                            <option value='py'>python</option>
                         </select>
                     </div>
                     <div className="block">

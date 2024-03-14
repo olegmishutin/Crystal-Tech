@@ -59,10 +59,10 @@ export default function Level() {
                 if (response.data.task_is_passed) {
                     setStatus('Задание пройдено, возвращайтесь в меню и преступайте к другому!')
 
-                    if (response.data.level_is_passed){
+                    if (response.data.level_is_passed) {
                         setStatus('Поздравляю, вы закончили этот уровень, двигайся к другому!')
 
-                        if (response.data.language_is_passed){
+                        if (response.data.language_is_passed) {
                             setStatus('Вы прошли весь курс по этому ЯП-у!')
                         }
                     }
@@ -71,8 +71,13 @@ export default function Level() {
                 setStatus('Что то пошло не так :(')
             }
         }).catch((error) => {
-            if (error.response.status === 400){
-                setStatus('Обнаружены ошибки в коде, проверьте что названия функций и классов совпадают с теми, которые в задании!')
+            if (error.response.status === 400) {
+                if (error.response.data.message === 'Bad code data') {
+                    setStatus('Обнаружены ошибки в коде, проверьте что названия функций и классов совпадают с теми, которые в задании!')
+                }
+                if (error.response.data.message === 'Bad code result') {
+                    setStatus('Результаты кода оказались неправильными')
+                }
             } else {
                 setStatus('Что то пошло не так :(')
             }
