@@ -83,7 +83,7 @@ export default function AdminLevels() {
             withCredentials: true
         }).then((response) => {
             if (response.status === 204) {
-                window.location.href = '/admin/languages/'
+                window.location.href = '/admin/'
             } else {
                 setLanguageStatus('Что то пошло не так :(')
             }
@@ -146,7 +146,6 @@ export default function AdminLevels() {
                     <div className="block">
                         <label htmlFor='name'>Текущий язык программирования: {language.name}</label>
                         <select name='name' id='name'>
-                            <option value='python'>python</option>
                             <option value='js'>js</option>
                         </select>
                     </div>

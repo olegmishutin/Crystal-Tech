@@ -7,7 +7,7 @@ class TaskIsCanBePassed(BasePermission):
         completedTasks = [task.task_id for task in obj.level.completedTasks.all()]
         uncompletedTasks = list(obj.level.tasks.exclude(id__in=completedTasks).order_by('number'))
 
-        completedLevel = [level.id for level in request.user.completed_levels.all()]
+        completedLevel = [level.id for level in request.user.completedLevels.all()]
         uncompletedLevel = list(Level.objects.exclude(id__in=completedLevel).order_by('number'))
 
         try:

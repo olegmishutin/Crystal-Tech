@@ -15,6 +15,7 @@ export default function Level() {
     let {id} = useParams()
     let {languageId} = useParams()
     const [task, setTask] = useState({testCases: []})
+    const [status, setStatus] = useState('')
 
     useEffect(() => {
         axios({
@@ -29,7 +30,56 @@ export default function Level() {
         }).catch((error) => {
             window.location.href = `/language/${languageId}`
         })
+
+        const inputField = document.getElementById('textboxCode'); // get textarea object
+        inputField.onkeydown = function (e) {
+            if (e.keyCode === 9) {
+                this.setRangeText('\t', this.selectionStart, this.selectionStart, 'end')
+                return false;
+            }
+        };
     }, []);
+
+    function checkCode(event) {
+        axios({
+            method: 'POST',
+            url: '/api/check-code',
+            data: {
+                language: languageId,
+                code: document.getElementById('textboxCode').value,
+                task: id
+            },
+            xsrfCookieName: 'csrftoken',
+            xsrfHeaderName: 'X-CSRFTOKEN',
+            withCredentials: true
+        }).then((response) => {
+            if (response.status === 200) {
+                setTask(response.data)
+                setStatus('')
+                if (response.data.task_is_passed) {
+                    setStatus('Задание пройдено, возвращайтесь в меню и преступайте к другому!')
+
+                    if (response.data.level_is_passed){
+                        setStatus('Поздравляю, вы закончили этот уровень, двигайся к другому!')
+
+                        if (response.data.language_is_passed){
+                            setStatus('Вы прошли весь курс по этому ЯП-у!')
+                        }
+                    }
+                }
+            } else {
+                setStatus('Что то пошло не так :(')
+            }
+        }).catch((error) => {
+            if (error.response.status === 400){
+                setStatus('Обнаружены ошибки в коде, проверьте что названия функций и классов совпадают с теми, которые в задании!')
+            } else {
+                setStatus('Что то пошло не так :(')
+            }
+        })
+
+        event.preventDefault()
+    }
 
     return (
         <>
@@ -51,17 +101,20 @@ export default function Level() {
                     <div className="level__main__task__block">
                         <p>{task.text}</p>
                     </div>
-                    <textarea className='level__main__task__block' name='code'
+                    <textarea className='level__main__task__block' name='code' id='textboxCode'
                               placeholder='Пишите сюда свой код'></textarea>
-                    <input className='level__main__task__block level__main__button' type='button' value='Check the code'/>
+                    <input className='level__main__task__block level__main__button' type='button' onClick={checkCode}
+                           value='Check the code'/>
                 </form>
                 <div className="level__main__right">
-                    <div className="level__main__right__game"></div>
+                    <div className="level__main__right__game">
+                        <h2>{status}</h2>
+                    </div>
                     <ul className='level__main__right__testcases'>
                         {task.testCases.map((value, index) => {
                             return (
                                 <>
-                                    <li>
+                                    <li className={value.is_passed ? 'passeTestCase' : 'notPasseTestCase'}>
                                         <p>{value.text}</p>
                                     </li>
                                 </>

@@ -9,7 +9,7 @@ class Level(models.Model):
     number = models.IntegerField()
     description = models.TextField()
     _image = models.ImageField(upload_to='levelsImage/')
-    users = models.ManyToManyField(User, db_table='CompletedLevel', related_name='completed_levels')
+    users = models.ManyToManyField(User, db_table='CompletedLevel', related_name='completedLevels')
 
     class Meta:
         db_table = 'Level'

@@ -78,7 +78,6 @@ export default function AdminLanguages() {
                 <div className="block">
                     <label htmlFor='name'>Выберите язык программирования:</label>
                     <select name='name' id='name'>
-                        <option value='python'>python</option>
                         <option value='js'>js</option>
                     </select>
                 </div>

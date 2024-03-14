@@ -1,7 +1,10 @@
+import js2py
 from rest_framework import generics
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
-from .models import Level, Task, TestCase
+from rest_framework import status
+from .models import Level, Task, TestCase, CompletedTask
 from .serializers import LevelSerializer, TaskSerializer, TestCaseSerializer
 from language.models import Language
 from .permission import TaskIsCanBePassed
@@ -53,3 +56,52 @@ class LevelView(generics.RetrieveAPIView):
     queryset = Level.objects.all()
     serializer_class = LevelSerializer
     permission_classes = [IsAuthenticated]
+
+
+class CodeCheckerView(APIView):
+    def setPassed(self, query, id, obj, dataStatus):
+        queryset = [i.id for i in query]
+        if queryset[-1] == id:
+            self.responeData[dataStatus] = True
+            obj.add(self.request.user)
+            return True
+        return False
+
+    def post(self, request, format=None):
+        data = request.data
+        language = Language.objects.get(pk=data.get('language'))
+
+        task = Task.objects.get(pk=data.get('task'))
+        testCases = task.testCases.all()
+
+        passedTestCasesNumber = 0
+        self.responeData = {'level': task.level.id, 'text': task.text, 'testCases': [],
+                            'level_is_passed': False, 'task_is_passed': False, 'language_is_passed': False}
+
+        for testCase in testCases:
+            testCaseCode = testCase.code
+
+            if language.name == 'js':
+                code = f'{data.get("code")}\n{testCaseCode}'
+                try:
+                    serializer = TestCaseSerializer(testCase)
+                    serializerData = serializer.data
+
+                    result = js2py.eval_js(code)
+                    if result:
+                        passedTestCasesNumber += 1
+
+                    serializerData.update({'is_passed': result})
+                    self.responeData['testCases'].append(serializerData)
+                except BaseException:
+                    return Response({'message': 'Bad code data'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if testCases.count() == passedTestCasesNumber:
+            self.responeData['task_is_passed'] = True
+            obj, created = CompletedTask.objects.get_or_create(task=task, level=task.level, user=request.user)
+
+            if self.setPassed(task.level.tasks.all().order_by('number'), task.id, task.level.users, 'level_is_passed'):
+                self.setPassed(language.levels.all().order_by('number'), task.level.id, language.users,
+                               'language_is_passed')
+
+        return Response(self.responeData, status=status.HTTP_200_OK)

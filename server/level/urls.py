@@ -13,4 +13,5 @@ urlpatterns = [
     ])),
     re_path(r'^level/(?P<pk>\w+)$', views.LevelView.as_view(), name='level'),
     re_path(r'^task/(?P<pk>\w+)$', views.TaskView.as_view(), name='task'),
+    re_path(r'^check-code$', views.CodeCheckerView.as_view(), name='check-code')
 ]

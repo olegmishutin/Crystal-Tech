@@ -56,14 +56,14 @@
     height: 250px;
 }
 
-.level__main{
+.level__main {
     width: 100%;
     padding: 80px 390px 80px 390px;
     display: flex;
     gap: 20px;
 }
 
-.level__main__task{
+.level__main__task {
     width: 661px;
     max-width: 661px;
     display: flex;
@@ -74,7 +74,7 @@
 
 .level__main__right__game,
 .level__main__right__testcases li,
-.level__main__task__block{
+.level__main__task__block {
     width: 100%;
     border: 2px solid white;
     border-radius: 21px;
@@ -84,47 +84,50 @@
     color: white;
 }
 
-.level__main__task__block{
+.level__main__task__block {
     min-width: 660px;
 }
 
-.level__main__button{
+.level__main__button {
     min-width: auto;
 }
 
-.level__main__task__block p{
+.level__main__task__block p {
     font-family: Inter, sans-serif;
     font-size: 20px;
     font-weight: 300;
 }
 
-.level__main__task textarea{
+.level__main__task textarea {
     resize: none;
     min-height: 379px;
 }
 
-.level__main__task input[type='button']{
+.level__main__task input[type='button'] {
     width: 277px;
     height: 84px;
     font-family: Molle, sans-serif;
     font-size: 30px;
 }
 
-.level__main__task input[type='button']:hover{
+.level__main__task input[type='button']:hover {
     cursor: pointer;
 }
 
-.level__main__right{
+.level__main__right {
     width: 100%;
     max-height: 645px;
     overflow: auto;
 }
 
-.level__main__right__game{
+.level__main__right__game {
     min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.level__main__right__testcases{
+.level__main__right__testcases {
     margin: 15px 0 0 0;
     padding: 0;
     list-style-type: none;
@@ -133,8 +136,22 @@
     gap: 10px;
 }
 
-.level__main__right__testcases li{
+.level__main__right__testcases li {
     width: auto;
     padding: 5px 10px;
     font-family: Inter, sans-serif;
+}
+
+.level__main__right__testcases .passeTestCase {
+    border-color: greenyellow;
+}
+
+.level__main__right__testcases .notPasseTestCase {
+    border-color: red;
+}
+
+.level__main__right__game h2 {
+    font-family: Inter, sans-serif;
+    font-size: 20px;
+    text-align: center;
 }
