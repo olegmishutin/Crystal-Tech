@@ -36,13 +36,10 @@ class ProfileView(generics.RetrieveUpdateAPIView):
         return self.request.user
 
     def get(self, request, *args, **kwargs):
-        data = {'user': {}, 'languages': []}
-
         userSerializer = UserProfileSerializer(request.user, context={'request': self.request})
-        data['user'] = userSerializer.data
+        data = {'user': userSerializer.data, 'languages': []}
 
-        languages = Language.objects.all()
-        for language in languages:
+        for language in Language.objects.all():
             levelsData = []
             levels = language.levels.all()
 
