@@ -38,7 +38,8 @@ export default function AdminTestCases() {
     function editTask(event) {
         const data = {
             number: document.getElementById('taskNumber').value,
-            text: document.getElementById('taskText').value
+            text: document.getElementById('taskText').value,
+            time: document.getElementById('taskTime').value
         }
 
         axios({
@@ -133,6 +134,8 @@ export default function AdminTestCases() {
                 <AdminEditing status={taskStatus} editFunc={editTask} deleteFunc={deleteTask}>
                     <input type='number' placeholder='Номер задачи' name='taskNumber' id='taskNumber'
                            defaultValue={task.number}/>
+                    <input type='number' placeholder='Время на выполнение (в милисекундах)' name='taskTime' id='taskTime'
+                           defaultValue={task.time}/>
                     <textarea placeholder='Опишите задачу' name='taskText' id='taskText'
                               defaultValue={task.text}></textarea>
                 </AdminEditing>

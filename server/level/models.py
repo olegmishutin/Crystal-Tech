@@ -42,6 +42,7 @@ class Task(models.Model):
     number = models.IntegerField()
     level = models.ForeignKey(Level, related_name='tasks', on_delete=models.CASCADE)
     text = models.TextField()
+    time = models.IntegerField()
     users = models.ManyToManyField(User, through='CompletedTask', related_name='completed_tasks')
 
     class Meta:

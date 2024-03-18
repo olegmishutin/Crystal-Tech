@@ -102,6 +102,7 @@ export default function AdminTasks() {
         const data = {
             number: document.getElementById('taskNumber').value,
             text: document.getElementById('taskText').value,
+            time: document.getElementById('taskTime').value,
             level: id,
             testCases: []
         }
@@ -317,6 +318,7 @@ export default function AdminTasks() {
             <Footer/>
             <AdminModal createFunc={createTask} closeModalFunc={closeModal} status={taskStatus}>
                 <input type='number' name='taskNumber' id='taskNumber' placeholder='Номер задания' min='0'/>
+                <input type='number' name='taskTime' id='taskTime' placeholder='Время на выполнение (в милисекундах)' min='0'/>
                 <textarea placeholder='Опишите задачу' name='taskText' id='taskText'></textarea>
                 <h2>Тест кейс</h2>
                 <ul>

@@ -103,7 +103,8 @@
     min-height: 379px;
 }
 
-.level__main__task input[type='button'] {
+.level__main__task input[type='button'],
+.level__main__task button{
     width: 277px;
     height: 84px;
     font-family: Molle, sans-serif;
@@ -123,6 +124,7 @@
 .level__main__right__game {
     min-height: 400px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
@@ -154,4 +156,12 @@
     font-family: Inter, sans-serif;
     font-size: 20px;
     text-align: center;
+}
+
+.level__submit__button{
+    display: none;
+}
+
+.countdown__text{
+    font-family: Inter, sans-serif;
 }

@@ -23,7 +23,7 @@ class TaskSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Task
-        fields = ['id', 'number', 'text', 'level', 'is_completed', 'testCases']
+        fields = ['id', 'number', 'text', 'time', 'level', 'is_completed', 'testCases']
 
     def get_is_completed(self, obj):
         user = self.context.get('request').user
