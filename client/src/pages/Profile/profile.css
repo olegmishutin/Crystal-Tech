@@ -240,6 +240,8 @@
     display: flex;
     align-items: center;
     margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
 }
 
 .language__levels hr{
@@ -247,6 +249,10 @@
     width: 100px;
     height: 0;
     border: 1px solid #7A28E2;
+}
+
+.language__levels hr:last-child{
+    display: none;
 }
 
 .language__levels__level{
@@ -260,10 +266,16 @@
     font-size: 60px;
     font-family: Molle, sans-serif;
     background-color: white;
-    color: #7A28E2
+    color: #7A28E2;
+    margin-bottom: 10px;
 }
 
 .active{
     background-color: #7A28E2;
     color: white;
+}
+
+.progress{
+    width: 700px;
+    max-width: 700px;
 }

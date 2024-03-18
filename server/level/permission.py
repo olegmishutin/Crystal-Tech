@@ -7,10 +7,10 @@ class TaskIsCanBePassed(BasePermission):
         completedTasks = [task.task_id for task in obj.level.completedTasks.all()]
         uncompletedTasks = list(obj.level.tasks.exclude(id__in=completedTasks).order_by('number'))
 
-        completedLevel = [level.id for level in request.user.completedLevels.all()]
-        uncompletedLevel = list(Level.objects.exclude(id__in=completedLevel).order_by('number'))
+        completedLevels = [level.id for level in request.user.completedLevels.all()]
+        uncompletedLevels = list(Level.objects.exclude(id__in=completedLevels).order_by('number'))
 
         try:
-            return bool(uncompletedTasks.index(obj) == 0 and uncompletedLevel.index(obj.level) == 0)
+            return bool(uncompletedTasks.index(obj) == 0 and uncompletedLevels.index(obj.level) == 0)
         except ValueError:
             return True

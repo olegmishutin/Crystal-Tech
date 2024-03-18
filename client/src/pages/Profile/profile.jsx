@@ -18,15 +18,17 @@ import axios from "axios";
 export default function Profile() {
     let profileSettingsState = false
     const [info, setInfo] = useState({})
+    const [languages, setLanguages] = useState([{levels: []}])
 
     useEffect(() => {
         axios({
             method: 'GET',
             url: '/api/me'
         }).then((response) => {
-            setInfo(response.data)
+            setInfo(response.data.user)
+            setLanguages(response.data.languages)
         }).catch((error) => {
-            if (error.response.status === 403){
+            if (error.response.status === 403) {
                 window.location.href = '/'
             }
         })
@@ -143,111 +145,51 @@ export default function Profile() {
                         <p className='serverErrorsText' id='serverErrorsText'></p>
                     </div>
                     <ul className="awards" id='awards'>
-                        <li className='awards__award active-award'>
-                            <img src={awards} alt='awards icon'/>
-                            <h2>Java Script</h2>
-                        </li>
-                        <li className='awards__award'>
-                            <img src={awards} alt='awards icon'/>
-                            <h2>C Sharp</h2>
-                        </li>
-                        <li className='awards__award'>
-                            <img src={awards} alt='awards icon'/>
-                            <h2>Python</h2>
-                        </li>
+                        {languages.map((value, index) => {
+                            return (<>
+                                <li className={value.is_completed ? 'awards__award active-award' : 'awards__award'}>
+                                    <img src={awards} alt='awards icon'/>
+                                    <h2>{value.name}</h2>
+                                </li>
+                            </>)
+                        })}
                     </ul>
                 </div>
                 <div className="progress" id='progress'>
-                    <div className="language">
-                        <h2>Java Script</h2>
-                        <ul className='language__levels'>
-                            <li className='language__levels__level'>
-                                <span>🗸</span>
-                            </li>
-                            <hr/>
-                            <li className='language__levels__level'>
-                                <span>🗸</span>
-                            </li>
-                            <hr/>
-                            <li className='language__levels__level'>
-                                <span>🗸</span>
-                            </li>
-                            <hr/>
-                            <li className='language__levels__level active'>
-                                <span>🗸</span>
-                            </li>
-                        </ul>
-                        <CircularProgressbar
-                            value={10}
-                            text={`${10}%`}
-                            strokeWidth={15}
-                            styles={buildStyles({
-                                textColor: "white",
-                                pathColor: "#D9D9D9",
-                                trailColor: "#7A28E2",
-                            })}
-                        />
-                    </div>
-                    <div className="language">
-                        <h2>C Sharp</h2>
-                        <ul className='language__levels'>
-                            <li className='language__levels__level active'>
-                                <span>1</span>
-                            </li>
-                            <hr/>
-                            <li className='language__levels__level'>
-                                <span>2</span>
-                            </li>
-                            <hr/>
-                            <li className='language__levels__level'>
-                                <span>3</span>
-                            </li>
-                            <hr/>
-                            <li className='language__levels__level'>
-                                <span>4</span>
-                            </li>
-                        </ul>
-                        <CircularProgressbar
-                            value={1}
-                            text={`${1}%`}
-                            strokeWidth={15}
-                            styles={buildStyles({
-                                textColor: "white",
-                                pathColor: "#D9D9D9",
-                                trailColor: "#7A28E2",
-                            })}
-                        />
-                    </div>
-                    <div className="language">
-                        <h2>Python</h2>
-                        <ul className='language__levels'>
-                            <li className='language__levels__level active'>
-                                <span>1</span>
-                            </li>
-                            <hr/>
-                            <li className='language__levels__level'>
-                                <span>2</span>
-                            </li>
-                            <hr/>
-                            <li className='language__levels__level'>
-                                <span>3</span>
-                            </li>
-                            <hr/>
-                            <li className='language__levels__level'>
-                                <span>4</span>
-                            </li>
-                        </ul>
-                        <CircularProgressbar
-                            value={80}
-                            text={`${80}%`}
-                            strokeWidth={15}
-                            styles={buildStyles({
-                                textColor: "white",
-                                pathColor: "#D9D9D9",
-                                trailColor: "#7A28E2",
-                            })}
-                        />
-                    </div>
+                    {languages.map((value, index) => {
+                        return (<>
+                                <div className="language">
+                                    <h2>{value.name}</h2>
+                                    <ul className='language__levels'>
+                                        {value.levels.map((value, indexLevel) => {
+                                            return (<>
+                                                    <li className={value.is_current ? 'language__levels__level active' : 'language__levels__level'}>
+                                                        <span>{value.is_completed ? '🗸' : value.number}</span>
+                                                    </li>
+                                                    {indexLevel !== 0 && indexLevel % 3 === 0 ? '' : <hr/>}
+                                                </>
+                                            )
+                                        })}
+                                    </ul>
+                                    {value.levels.map((value, index) => {
+                                        return (<>
+                                            {value.is_current ?
+                                                <CircularProgressbar
+                                                    value={value.completedPercentage}
+                                                    text={`${value.completedPercentage}%`}
+                                                    strokeWidth={15}
+                                                    styles={buildStyles({
+                                                        textColor: "white",
+                                                        pathColor: "#D9D9D9",
+                                                        trailColor: "#7A28E2",
+                                                    })}
+                                                /> : ''}
+                                        </>)
+                                    })}
+                                </div>
+                            </>
+                        )
+                    })}
                 </div>
             </main>
             <Footer/>
