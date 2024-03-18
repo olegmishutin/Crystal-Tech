@@ -33,11 +33,3 @@ class ProfileView(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
-
-    def perform_update(self, serializer):
-        if 'photo' in serializer.validated_data:
-            oldPhoto = self.request.user.photo
-
-            if oldPhoto and os.path.exists(oldPhoto.path):
-                os.remove(oldPhoto.path)
-        serializer.save()
