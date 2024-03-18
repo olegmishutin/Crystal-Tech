@@ -60,8 +60,7 @@ class ProfileView(generics.RetrieveUpdateAPIView):
 
                 isCurrentLevel = False
                 if not allLevels:
-                    completedLevels.sort()
-                    if level.id == completedLevels[-1]:
+                    if level.id == [level.id for level in levels][-1]:
                         isCurrentLevel = True
                 else:
                     try:
@@ -75,6 +74,7 @@ class ProfileView(generics.RetrieveUpdateAPIView):
 
             is_completed = language.users.filter(id=request.user.id).exists()
             data['languages'].append(
-                {'name': language.get_name_display(), 'id': language.id, 'is_completed': is_completed, 'levels': levelsData})
+                {'name': language.get_name_display(), 'id': language.id, 'is_completed': is_completed,
+                 'levels': levelsData})
 
         return Response(data, status=status.HTTP_200_OK)
