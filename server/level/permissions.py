@@ -6,7 +6,7 @@ class TaskIsCanBePassed(BasePermission):
         taskLanguage = obj.level.language
         userAccepted = True
 
-        if taskLanguage.is_closed:
+        if taskLanguage.is_closed and not request.user.is_superuser:
             userAccepted = taskLanguage.accepted_users.filter(id=request.user.id).exists()
 
         completedTasks = [task.task_id for task in obj.level.completedTasks.all()]

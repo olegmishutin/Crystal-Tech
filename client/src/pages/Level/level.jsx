@@ -24,6 +24,7 @@ export default function Level() {
     const handleStart = (e) => {
         setTimerDate(Date.now() + task.time)
         setStatus('')
+        document.getElementById('textboxCode').value = ''
         timerRef.current.start();
         document.getElementById('checkCodeButton').style.display = 'block'
         document.getElementById('startCountdownButton').style.display = 'none'

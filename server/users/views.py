@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate, login
 from .models import User
 from .serializers import RegistrationSerializer, UserProfileSerializer
 from language.models import Language
+from level.models import CompletedTask
 
 
 class LoginView(APIView):
@@ -52,10 +53,17 @@ class ProfileView(generics.RetrieveUpdateAPIView):
                 except ZeroDivisionError:
                     completedPercentage = 0
 
-                completedLevels = [level.id for level in request.user.completedLevels.all()]
-                allLevels = [level.id for level in levels.exclude(id__in=completedLevels).order_by('number')]
+                completedLevels = []
 
+                for completedLevel in levels:
+                    completedLevelTasks = CompletedTask.objects.filter(level=completedLevel, user=request.user)
+
+                    if completedLevel.tasks.count() == completedLevelTasks.count():
+                        completedLevels.append(completedLevel.id)
+
+                allLevels = [level.id for level in levels.exclude(id__in=completedLevels).order_by('number')]
                 isCurrentLevel = False
+
                 if not allLevels:
                     if level.id == [level.id for level in levels][-1]:
                         isCurrentLevel = True
