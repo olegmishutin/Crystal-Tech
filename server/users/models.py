@@ -15,6 +15,7 @@ class User(AbstractUser):
     email = models.EmailField(_("email address"), unique=True)
     name = models.CharField(max_length=150)
     age = models.IntegerField(default=0)
+    group = models.CharField(max_length=150, default='', null=True, blank=True)
     _photo = models.ImageField(upload_to="usersPhotos/", null=True, blank=True)
 
     USERNAME_FIELD = 'email'

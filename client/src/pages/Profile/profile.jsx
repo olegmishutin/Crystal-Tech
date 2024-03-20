@@ -64,6 +64,7 @@ export default function Profile() {
         const email = document.getElementById('profileEmail').value
         const name = document.getElementById('profileName').value
         const age = document.getElementById('profileAge').value
+        const group = document.getElementById('group').value
 
         const formData = new FormData
         if (photo) {
@@ -72,6 +73,7 @@ export default function Profile() {
         formData.append('email', email)
         formData.append('name', name)
         formData.append('age', age)
+        formData.append('group', group)
 
         axios({
             method: 'PATCH',
@@ -114,6 +116,7 @@ export default function Profile() {
                         <div className="profile__info__user">
                             <p>Name: <span>{info.name}</span></p>
                             <p>Age: <span>{info.age}</span></p>
+                            <p>Group: <span>{info.group}</span></p>
                         </div>
                         <div className="profile__info__email">
                             <p>Email: <span>{info.email}</span></p>
@@ -137,6 +140,7 @@ export default function Profile() {
                             <p>Name: <input type='text' name='name' id='profileName' defaultValue={info.name}/></p>
                             <p>Age: <input type='number' name='age' min='0' max='100' id='profileAge'
                                            defaultValue={info.age}/></p>
+                            <p>Group <input type='text' name='group' id='group' defaultValue={info.group}/></p>
                         </div>
                         <div className="profile__info__email profile__info__email__settings">
                             <p>Email: <input type='email' name='email' id='profileEmail' defaultValue={info.email}/></p>
