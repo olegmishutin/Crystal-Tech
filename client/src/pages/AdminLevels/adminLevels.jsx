@@ -41,9 +41,11 @@ export default function AdminLevels() {
         setLanguageStatus('')
         const language = document.getElementById('name').value
         const image = document.getElementById('languageImage').files[0]
+        const courseType = document.getElementById('courseType').value
 
         const formData = new FormData
         formData.append('name', language)
+        formData.append('is_closed', courseType)
 
         if (image) {
             formData.append('image', image)
@@ -145,9 +147,17 @@ export default function AdminLevels() {
                 <AdminEditing editFunc={editLanguage} deleteFunc={deleteLanguage} status={languageStatus}>
                     <div className="block">
                         <label htmlFor='name'>Текущий язык программирования: {language.name}</label>
-                        <select name='name' id='name'>
-                            <option value='js'>js</option>
-                            <option value='py'>python</option>
+                        <select name='name' id='name' defaultValue={language.name}>
+                            <option value='js' selected={language.name === 'js'}>js</option>
+                            <option value='py' selected={language.name === 'py'}>python</option>
+                        </select>
+                    </div>
+                    <div className="block">
+                        <label htmlFor='courseType'>Текущий тип
+                            курса: {language.is_closed ? 'закрытый' : 'открытый'}</label>
+                        <select name='courseType' id='courseType'>
+                            <option value={true} selected={language.is_closed === true}>Закрытый</option>
+                            <option value={false} selected={language.is_closed === false}>Открытый</option>
                         </select>
                     </div>
                     <div className="block">

@@ -33,10 +33,12 @@ export default function AdminLanguages() {
     function createLanguage(event) {
         const language = document.getElementById('name').value
         const image = document.getElementById('image').files[0]
+        const courseType = document.getElementById('courseType').value
 
         const formData = new FormData
         formData.append('name', language)
         formData.append('image', image)
+        formData.append('is_closed', courseType)
 
         axios({
             method: 'POST',
@@ -80,6 +82,11 @@ export default function AdminLanguages() {
                     <select name='name' id='name'>
                         <option value='js'>js</option>
                         <option value='py'>python</option>
+                    </select>
+                    <label htmlFor='courseType'>Выберите тип курса</label>
+                    <select name='courseType' id='courseType'>
+                        <option value={true}>Закрытый</option>
+                        <option value={false}>Открытый</option>
                     </select>
                 </div>
                 <input type='file' name='image' id='image'/>

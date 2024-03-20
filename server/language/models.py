@@ -12,6 +12,8 @@ class Language(models.Model):
     name = models.CharField(max_length=150, choices=choices, unique=True)
     _image = models.ImageField(upload_to='languagesIcons/')
     users = models.ManyToManyField(User, db_table='CompletedLanguage', related_name='completedLanguages')
+    is_closed = models.BooleanField(default=False)
+    accepted_users = models.ManyToManyField(User, db_table='Accepted_Users', related_name='acceptedLanguages')
 
     class Meta:
         db_table = 'Language'

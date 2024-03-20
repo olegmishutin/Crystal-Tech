@@ -8,7 +8,7 @@ from rest_framework import status
 from .models import Level, Task, TestCase, CompletedTask
 from .serializers import LevelSerializer, TaskSerializer, TestCaseSerializer
 from language.models import Language
-from .permission import TaskIsCanBePassed
+from .permissions import TaskIsCanBePassed
 
 
 class AdminLevelsView(generics.ListCreateAPIView):
