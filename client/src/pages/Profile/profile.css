@@ -109,6 +109,7 @@
     text-align: center;
     font-family: Inter, sans-serif;
     color: white;
+    margin: 0;
 }
 
 .profile__header__photo img{
@@ -184,6 +185,7 @@
     border-radius: 20px;
     border: 1px solid white;
     font-family: Inter, sans-serif;
+    margin-bottom: 10px;
 }
 
 .awards{

@@ -5,14 +5,14 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from .models import User
 from .serializers import RegistrationSerializer, UserProfileSerializer
 from language.models import Language
 from level.models import CompletedTask
 
 
-class LoginView(APIView):
+class LoginLogoutView(APIView):
     def post(self, request):
         email = request.data.get('email')
         password = request.data.get('password')
@@ -22,6 +22,12 @@ class LoginView(APIView):
             login(request, user)
             return Response({'message': 'Logged', 'username': user.name}, status=status.HTTP_200_OK)
         return Response({'message': 'Bad data'}, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request):
+        if request.user.is_authenticated:
+            logout(request)
+            return Response({'message': 'Logged out!'}, status=status.HTTP_200_OK)
+        return Response({'message': 'Not logged in!'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class RegisterView(generics.CreateAPIView):

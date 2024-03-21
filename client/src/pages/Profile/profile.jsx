@@ -19,6 +19,7 @@ export default function Profile() {
     let profileSettingsState = false
     const [info, setInfo] = useState({})
     const [languages, setLanguages] = useState([{levels: []}])
+    const [profileError, setProfileError] = useState('')
 
     useEffect(() => {
         axios({
@@ -59,7 +60,7 @@ export default function Profile() {
         }
     }
 
-    function EditProfile() {
+    function EditProfile(event) {
         const photo = document.getElementById('profilePhotoFile').files[0]
         const email = document.getElementById('profileEmail').value
         const name = document.getElementById('profileName').value
@@ -85,10 +86,31 @@ export default function Profile() {
         }).then((response) => {
             if (response.status === 200) {
                 window.location.reload()
+            } else {
+                setProfileError('Не удалось изменить данные профиля')
             }
         }).catch((error) => {
-            document.getElementById('serverErrorsText').innerText = 'Не удалось изменить данные профиля'
+            setProfileError('Не удалось изменить данные профиля')
         })
+
+        event.preventDefault()
+    }
+
+    function Logout(event){
+        axios({
+            method: 'GET',
+            url: '/api/logout'
+        }).then((response) => {
+            if (response.status === 200){
+                window.location.href = '/'
+            } else {
+                setProfileError('Не удалось выйти')
+            }
+        }).catch((error) => {
+            setProfileError('Не удалось выйти')
+        })
+
+        event.preventDefault()
     }
 
     return (
@@ -146,7 +168,8 @@ export default function Profile() {
                             <p>Email: <input type='email' name='email' id='profileEmail' defaultValue={info.email}/></p>
                         </div>
                         <button className='profile__settings__button' onClick={EditProfile}>Изменить профиль</button>
-                        <p className='serverErrorsText' id='serverErrorsText'></p>
+                        <button className='profile__settings__button' onClick={Logout}>Выйти</button>
+                        <p className='serverErrorsText' id='serverErrorsText'>{profileError}</p>
                     </div>
                     <ul className="awards" id='awards'>
                         {languages.map((value, index) => {
