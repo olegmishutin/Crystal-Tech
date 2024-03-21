@@ -43,6 +43,15 @@ class ProfileView(generics.RetrieveUpdateAPIView):
         for language in Language.objects.all():
             levelsData = []
             levels = language.levels.all()
+            completedLevels = []
+
+            for completedLevel in levels:
+                completedLevelTasksCount = CompletedTask.objects.filter(level=completedLevel, user=request.user).count()
+
+                if completedLevel.tasks.count() == completedLevelTasksCount:
+                    completedLevels.append(completedLevel.id)
+
+            uncompletedLevels = [level.id for level in levels.exclude(id__in=completedLevels).order_by('number')]
 
             for level in levels:
                 levelTasks = len(level.tasks.all())
@@ -53,23 +62,13 @@ class ProfileView(generics.RetrieveUpdateAPIView):
                 except ZeroDivisionError:
                     completedPercentage = 0
 
-                completedLevels = []
-
-                for completedLevel in levels:
-                    completedLevelTasks = CompletedTask.objects.filter(level=completedLevel, user=request.user)
-
-                    if completedLevel.tasks.count() == completedLevelTasks.count():
-                        completedLevels.append(completedLevel.id)
-
-                allLevels = [level.id for level in levels.exclude(id__in=completedLevels).order_by('number')]
                 isCurrentLevel = False
-
-                if not allLevels:
+                if not uncompletedLevels:
                     if level.id == [level.id for level in levels][-1]:
                         isCurrentLevel = True
                 else:
                     try:
-                        isCurrentLevel = bool(allLevels.index(level.id) == 0)
+                        isCurrentLevel = bool(uncompletedLevels.index(level.id) == 0)
                     except ValueError:
                         isCurrentLevel = False
 

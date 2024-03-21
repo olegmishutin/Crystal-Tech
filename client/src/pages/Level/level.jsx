@@ -24,7 +24,7 @@ export default function Level() {
     const handleStart = (e) => {
         setTimerDate(Date.now() + task.time)
         setStatus('')
-        document.getElementById('textboxCode').value = ''
+        document.getElementById('textboxCode').readOnly = false
         timerRef.current.start();
         document.getElementById('checkCodeButton').style.display = 'block'
         document.getElementById('startCountdownButton').style.display = 'none'
@@ -32,6 +32,7 @@ export default function Level() {
 
     const handleStop = (e) => {
         timerRef.current.stop();
+        document.getElementById('textboxCode').readOnly = true
     }
 
     useEffect(() => {
@@ -126,7 +127,7 @@ export default function Level() {
                         <p>{task.text}</p>
                     </div>
                     <textarea className='level__main__task__block' name='code' id='textboxCode'
-                              placeholder='Пишите сюда свой код'></textarea>
+                              placeholder='Пишите сюда свой код' readOnly={true}></textarea>
                     <input className='level__main__task__block level__main__button level__submit__button' type='button'
                            onClick={checkCode} value='Check the code' id='checkCodeButton'/>
                     <button type='button' className='level__main__task__block level__main__button'
@@ -146,6 +147,7 @@ export default function Level() {
                                     document.getElementById('textboxCode').value = ''
                                     document.getElementById('checkCodeButton').style.display = 'none'
                                     document.getElementById('startCountdownButton').style.display = 'block'
+                                    document.getElementById('textboxCode').readOnly = true
                                     // Render a completed state
                                     return <h1 className='countdown__text'>Время вышло!</h1>;
                                 } else {
