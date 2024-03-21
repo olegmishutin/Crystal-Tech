@@ -3,11 +3,11 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.parsers import MultiPartParser
 from django.contrib.auth import authenticate, login, logout
 from .models import User
-from .serializers import RegistrationSerializer, UserProfileSerializer
+from .serializers import RegistrationSerializer, UserProfileSerializer, UserSerializer
 from language.models import Language
 from level.models import CompletedTask
 
@@ -32,6 +32,57 @@ class LoginLogoutView(APIView):
 
 class RegisterView(generics.CreateAPIView):
     serializer_class = RegistrationSerializer
+
+
+class AllUsersView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
+
+    def addOrRemoveAcceptedUser(self, request):
+        userId = request.data.get('userId')
+        languageId = request.data.get('languageId')
+
+        if userId and languageId:
+            user = User.objects.get(pk=userId)
+            language = Language.objects.get(pk=languageId)
+
+            if request.method == 'POST':
+                language.accepted_users.add(user)
+                return Response({'message': 'User accepted'}, status=status.HTTP_200_OK)
+
+            elif request.method == 'DELETE':
+                language.accepted_users.remove(user)
+                return Response({'message': 'User delete from accepted users'}, status=status.HTTP_200_OK)
+        return Response({'message': 'Bad data'}, status=status.HTTP_400_BAD_REQUEST)
+
+    def post(self, request):
+        if self.request.data.get('is_search'):
+            value = self.request.data.get('value')
+            users = User.objects.filter(email__icontains=value)
+
+            if not users.exists():
+                users = User.objects.filter(group__icontains=value)
+
+            if not users.exists():
+                users = User.objects.filter(name__icontains=value)
+
+            if users.exists():
+                userSerializer = UserSerializer(users, many=True)
+                return Response(userSerializer.data, status=status.HTTP_200_OK)
+
+            userSerializer = UserSerializer(User.objects.all(), many=True)
+            return Response(userSerializer.data, status=status.HTTP_200_OK)
+        return self.addOrRemoveAcceptedUser(request)
+
+    def delete(self, request):
+        return self.addOrRemoveAcceptedUser(request)
+
+
+class DeleteUser(generics.DestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
 
 
 class ProfileView(generics.RetrieveUpdateAPIView):

@@ -48,3 +48,18 @@
     color: white;
     font-size: 30px;
 }
+
+.admin__main__list__element{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.admin__main__list__element .deleteButton{
+    width: 200px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: red;
+    padding: 5px;
+}

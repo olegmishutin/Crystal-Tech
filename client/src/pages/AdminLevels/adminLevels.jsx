@@ -17,6 +17,8 @@ export default function AdminLevels() {
     const [levelStatus, setLevelStatus] = useState('')
     const [languageStatus, setLanguageStatus] = useState('')
     const [language, setLanguage] = useState({})
+    const [users, setUsers] = useState([])
+    const [usersStatus, setUsersStatus] = useState('')
     const [levels, setLevels] = useState([])
 
     function getLanguageLevels() {
@@ -35,6 +37,19 @@ export default function AdminLevels() {
 
     useEffect(() => {
         getLanguageLevels()
+
+        axios({
+            method: 'GET',
+            url: '/api/admin/all-users'
+        }).then((response) => {
+            if (response.status === 200) {
+                setUsers(response.data)
+            } else {
+                console.log(response)
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
     }, []);
 
     function editLanguage(event) {
@@ -132,9 +147,86 @@ export default function AdminLevels() {
         event.preventDefault()
     }
 
+    function addAcceptedUser(userId) {
+        axios({
+            method: 'POST',
+            url: '/api/admin/all-users',
+            data: {
+                userId: userId,
+                languageId: id,
+            },
+            xsrfCookieName: 'csrftoken',
+            xsrfHeaderName: 'X-CSRFTOKEN',
+            withCredentials: true
+        }).then((response) => {
+            if (response.status === 200) {
+                setUsersStatus('Пользователь добавлен!')
+                getLanguageLevels()
+            } else {
+                setUsersStatus('Что то пошло не так :(')
+            }
+        }).catch((error) => {
+            setUsersStatus('Что то пошло не так :(')
+        })
+    }
+
+    function removeAcceptedUser(userId) {
+        axios({
+            method: 'DELETE',
+            url: '/api/admin/remove-accepted-user',
+            data: {
+                userId: userId,
+                languageId: id,
+            },
+            xsrfCookieName: 'csrftoken',
+            xsrfHeaderName: 'X-CSRFTOKEN',
+            withCredentials: true
+        }).then((response) => {
+            if (response.status === 200) {
+                getLanguageLevels()
+            } else {
+                console.log(response)
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+
+    function searchUser(event){
+        axios({
+            method: 'POST',
+            url: '/api/admin/all-users',
+            data: {
+                is_search: true,
+                value: document.getElementById('userEmailOrGroup').value
+            },
+            xsrfCookieName: 'csrftoken',
+            xsrfHeaderName: 'X-CSRFTOKEN',
+            withCredentials: true
+        }).then((response) => {
+            if (response.status === 200){
+                setUsers(response.data)
+            } else {
+                console.log(response)
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+
+        event.preventDefault()
+    }
+
     function closeModal() {
         const modal = document.getElementById('adminModal')
         modal.className = 'adminModal'
+    }
+
+    function OpenAddAcceptedUserModal() {
+        document.getElementById('add-accepted-user-modal').className = 'adminModal adminModalActive'
+    }
+
+    function CloseAddAcceptedUserModal() {
+        document.getElementById('add-accepted-user-modal').className = 'adminModal'
     }
 
     return (
@@ -168,6 +260,9 @@ export default function AdminLevels() {
                     </div>
                 </AdminEditing>
                 <AdminMainList data={levels} nextPage={'/admin/level/'}/>
+                {language.is_closed ?
+                    <AdminMainList data={language.accepted_users} deleteElement={removeAcceptedUser}
+                                   openModal={OpenAddAcceptedUserModal}/> : ''}
             </main>
             <Footer/>
             <AdminModal createFunc={createLevel} closeModalFunc={closeModal} status={levelStatus}>
@@ -177,6 +272,27 @@ export default function AdminLevels() {
                     <label htmlFor='image'>Картинка уровня</label>
                     <input type='file' name='image' id='image'/>
                 </div>
+            </AdminModal>
+            <AdminModal id='add-accepted-user-modal' status={usersStatus} closeModalFunc={CloseAddAcceptedUserModal}>
+                <div className="block flexBlock">
+                    <input type='text' name='userEmailOrGroup' id='userEmailOrGroup'
+                           placeholder='Поиск по email или группе'/>
+                    <div className="button__box">
+                        <button onClick={searchUser}>Поиск</button>
+                    </div>
+                </div>
+                <ul className='big__list'>
+                    {users.map((value, index) => {
+                        return (<>
+                            <li className='row__list__element'>
+                                <h3>{value.email}</h3>
+                                <p>{value.name}</p>
+                                <p>{value.group}</p>
+                                <button onClick={() => addAcceptedUser(value.id)}>Добавить</button>
+                            </li>
+                        </>)
+                    })}
+                </ul>
             </AdminModal>
         </>
     )

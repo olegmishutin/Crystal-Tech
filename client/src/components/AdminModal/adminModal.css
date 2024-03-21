@@ -31,10 +31,16 @@
 }
 
 .adminModal__block .block{
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
+}
+
+.adminModal__block .block.flexBlock{
+    flex-direction: row;
+    align-items: center;
 }
 
 .adminModal__block .button__box{
@@ -50,6 +56,10 @@
     border: none;
     font-family: Inter, sans-serif;
     font-size: 20px;
+}
+
+.adminModal__block .block.flexBlock .button__box{
+    margin: 0;
 }
 
 .adminModal__block .button__box .createButton{
@@ -107,4 +117,21 @@
     justify-content: center;
     gap: 5px;
     margin-bottom: 20px;
+}
+
+.adminModal .big__list{
+    max-height: 500px;
+}
+
+.adminModal__block ul .row__list__element{
+    flex-direction: row;
+    gap: 10px;
+    background-color: white;
+    border-radius: 20px;
+    padding: 0 20px 0 20px;
+    box-sizing: border-box;
+}
+
+.adminModal__block ul .row__list__element button:last-child{
+    margin-left: auto;
 }

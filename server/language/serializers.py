@@ -14,4 +14,4 @@ class LanguageSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'image', 'levels', 'is_closed', 'accepted_users']
 
     def get_accepted_users(self, obj):
-        return [user.email for user in obj.accepted_users.all()]
+        return [{'id': user.id, 'email': user.email} for user in obj.accepted_users.all()]
