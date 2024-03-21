@@ -276,7 +276,7 @@ export default function AdminLevels() {
             <AdminModal id='add-accepted-user-modal' status={usersStatus} closeModalFunc={CloseAddAcceptedUserModal}>
                 <div className="block flexBlock">
                     <input type='text' name='userEmailOrGroup' id='userEmailOrGroup'
-                           placeholder='Поиск по email или группе'/>
+                           placeholder='Поиск по email, имени или группе'/>
                     <div className="button__box">
                         <button onClick={searchUser}>Поиск</button>
                     </div>

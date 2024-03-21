@@ -18,9 +18,13 @@
     font-family: "Inter", sans-serif;
 }
 
-main {
+.index__main {
     display: flex;
     padding: 10px 250px 10px 325px;
+    box-sizing: border-box;
+}
+
+main{
     box-sizing: border-box;
 }
 

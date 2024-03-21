@@ -32,7 +32,7 @@ export default function Index() {
                 <a href=""><img className="forum" src={sprav}/></a>
                 <a href=""><img className="forum" src={forum}/></a>
             </Header>
-            <main>
+            <main className='index__main'>
                 <div className="main-text">
                     <div className="text-zagolovok">
                         <p>

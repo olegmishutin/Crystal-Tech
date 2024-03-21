@@ -6,6 +6,7 @@ urlpatterns = [
     re_path(r'^admin/', include([
         re_path(r'^all-users$', views.AllUsersView.as_view(), name='all-users'),
         re_path(r'^remove-accepted-user$', views.AllUsersView.as_view(), name='remove-accepted-user'),
+        re_path(r'^delete-user/(?P<pk>\w+)$', views.DeleteUser.as_view(), name='delete-user'),
     ])),
     re_path(r'^login$', views.LoginLogoutView.as_view(), name='login'),
     re_path(r'^logout$', views.LoginLogoutView.as_view(), name='logout'),

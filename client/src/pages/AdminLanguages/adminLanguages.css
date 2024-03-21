@@ -1,5 +1,79 @@
-.admin__language__main {
+.admin__language__main,
+.admin__users{
     width: 100%;
     min-height: 70vh;
     padding: 80px 300px;
+}
+
+.admin__users{
+    min-height: auto;
+    background-color: rgba(128, 128, 128, 0.15);;
+    border-radius: 20px;
+    box-sizing: border-box;
+}
+
+.admin__users .row-block{
+    display: flex;
+    gap: 10px;
+}
+
+.admin__users input[type='text']{
+    width: 100%;
+    border-radius: 20px;
+    border: none;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.admin__users button{
+    border-radius: 20px;
+    border: none;
+    padding: 0 20px;
+    font-size: 18px;
+    font-family: Inter, sans-serif;
+    box-sizing: border-box;
+}
+
+.admin__users__list{
+    list-style-type: none;
+    margin: 20px 0 0 0 ;
+    padding: 0 10px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 750px;
+    overflow: auto;
+}
+
+.admin__users__list::-webkit-scrollbar{
+    background: none;
+    width: 10px;
+}
+
+.admin__users__list::-webkit-scrollbar-thumb{
+    background-color: white;
+    border-radius: 20px;
+}
+
+.admin__users__list .deleteButton{
+    height: 35px;
+    background-color: red;
+    color: white;
+    margin-left: auto;
+}
+
+.admin__users__list__element{
+    background-color: rgba(84, 84, 84, 0.5);;
+    border-radius: 20px;
+    padding: 10px;
+    box-sizing: border-box;
+    font-family: Inter, sans-serif;
+    color: white;
+}
+
+.admin__users__list__element__info{
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }

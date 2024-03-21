@@ -11,6 +11,7 @@ import axios from "axios";
 
 export default function AdminLanguages() {
     const [languages, setLanguages] = useState([])
+    const [users, setUsers] = useState([])
     const [status, setStatus] = useState('')
 
     function getLanguages() {
@@ -26,8 +27,24 @@ export default function AdminLanguages() {
         })
     }
 
+    function getUsers() {
+        axios({
+            method: 'GET',
+            url: '/api/admin/all-users'
+        }).then((response) => {
+            if (response.status === 200) {
+                setUsers(response.data)
+            } else {
+                console.log(response)
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+
     useEffect(() => {
         getLanguages()
+        getUsers()
     }, []);
 
     function createLanguage(event) {
@@ -63,6 +80,52 @@ export default function AdminLanguages() {
         event.preventDefault()
     }
 
+    function deleteUser(userId) {
+        axios({
+            method: 'DELETE',
+            url: `/api/admin/delete-user/${userId}`,
+            xsrfCookieName: 'csrftoken',
+            xsrfHeaderName: 'X-CSRFTOKEN',
+            withCredentials: true
+        }).then((response) => {
+            if (response.status === 204) {
+                if (document.getElementById('userEmailOrGroup').value) {
+                    searchUser()
+                } else {
+                    getUsers()
+                }
+            } else {
+                console.log(response)
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+
+    function searchUser(event) {
+        axios({
+            method: 'POST',
+            url: '/api/admin/all-users',
+            data: {
+                is_search: true,
+                value: document.getElementById('userEmailOrGroup').value
+            },
+            xsrfCookieName: 'csrftoken',
+            xsrfHeaderName: 'X-CSRFTOKEN',
+            withCredentials: true
+        }).then((response) => {
+            if (response.status === 200) {
+                setUsers(response.data)
+            } else {
+                console.log(response)
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+
+        event.preventDefault()
+    }
+
     function closeModal() {
         const modal = document.getElementById('adminModal')
         modal.className = 'adminModal'
@@ -74,6 +137,32 @@ export default function AdminLanguages() {
             <Header/>
             <main className='admin__language__main'>
                 <AdminMainList data={languages} nextPage={'/admin/language/'}/>
+                <div className="admin__users">
+                    <div className="row-block">
+                        <input type='text' name='userEmailOrGroup' id='userEmailOrGroup'
+                               placeholder='Поиск по email, имени или группе'/>
+                        <button onClick={searchUser}>Поиск</button>
+                    </div>
+                    <ul className='admin__users__list'>
+                        {users.map((value, index) => {
+                            return (<>
+                                <li className='admin__users__list__element' id={`listElement_${value.id}`}>
+                                    <div className="admin__users__list__element__info">
+                                        <h3>{value.email}</h3>
+                                        <p>{value.name}</p>
+                                        <p>{value.group}</p>
+                                    </div>
+                                    <p>Количество пройденых ЯП-ов: {value.completed_languages_count}</p>
+                                    <p>Количество пройденых уровней: {value.completed_levels_count}</p>
+                                    <p>Количество пройденых заданий: {value.completed_tasks_count}</p>
+                                    <button className='deleteButton' onClick={() => deleteUser(value.id)}>
+                                        Удалить
+                                    </button>
+                                </li>
+                            </>)
+                        })}
+                    </ul>
+                </div>
             </main>
             <Footer/>
             <AdminModal createFunc={createLanguage} closeModalFunc={closeModal} status={status}>
