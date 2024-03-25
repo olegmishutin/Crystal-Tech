@@ -5,11 +5,17 @@
     padding: 80px 300px;
 }
 
+.admin__language__main .admin__main__list__box{
+    margin: 0;
+}
+
 .admin__users{
     min-height: auto;
     background-color: rgba(128, 128, 128, 0.15);;
     border-radius: 20px;
     box-sizing: border-box;
+    margin-top: 20px;
+    padding: 20px 200px 20px 200px;
 }
 
 .admin__users .row-block{
@@ -76,4 +82,8 @@
     display: flex;
     align-items: center;
     gap: 15px;
+}
+
+.admin__users .admin__main_list__header{
+    margin-bottom: 25px;
 }

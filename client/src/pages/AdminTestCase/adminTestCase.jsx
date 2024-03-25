@@ -16,6 +16,14 @@ export default function AdminTestCase() {
 
     useEffect(() => {
         getTestCase()
+
+        const inputField = document.getElementById('code'); // get textarea object
+        inputField.onkeydown = function (e) {
+            if (e.keyCode === 9) {
+                this.setRangeText('\t', this.selectionStart, this.selectionStart, 'end')
+                return false;
+            }
+        };
     }, []);
 
     function getTestCase() {

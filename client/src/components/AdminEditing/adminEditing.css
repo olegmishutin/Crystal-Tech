@@ -18,6 +18,10 @@
     gap: 10px;
 }
 
+.adminEditing .block.row{
+    flex-direction: row;
+}
+
 .adminEditing .button__box{
     gap: 10px;
     display: flex;

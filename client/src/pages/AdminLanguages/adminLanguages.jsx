@@ -136,8 +136,9 @@ export default function AdminLanguages() {
             <MainBackground/>
             <Header/>
             <main className='admin__language__main'>
-                <AdminMainList data={languages} nextPage={'/admin/language/'}/>
+                <AdminMainList data={languages} nextPage={'/admin/language/'} name='Языки программирования'/>
                 <div className="admin__users">
+                    <h2 className='admin__main_list__header'>Пользователи</h2>
                     <div className="row-block">
                         <input type='text' name='userEmailOrGroup' id='userEmailOrGroup'
                                placeholder='Поиск по email, имени или группе'/>
@@ -167,18 +168,25 @@ export default function AdminLanguages() {
             <Footer/>
             <AdminModal createFunc={createLanguage} closeModalFunc={closeModal} status={status}>
                 <div className="block">
-                    <label htmlFor='name'>Выберите язык программирования:</label>
-                    <select name='name' id='name'>
-                        <option value='js'>js</option>
-                        <option value='py'>python</option>
-                    </select>
-                    <label htmlFor='courseType'>Выберите тип курса</label>
-                    <select name='courseType' id='courseType'>
-                        <option value={true}>Закрытый</option>
-                        <option value={false}>Открытый</option>
-                    </select>
+                    <div className="block row">
+                        <label htmlFor='name'>Выберите язык программирования:</label>
+                        <select name='name' id='name'>
+                            <option value='js'>js</option>
+                            <option value='py'>python</option>
+                        </select>
+                    </div>
+                    <div className="block row">
+                        <label htmlFor='courseType'>Выберите тип курса:</label>
+                        <select name='courseType' id='courseType'>
+                            <option value={true}>Закрытый</option>
+                            <option value={false}>Открытый</option>
+                        </select>
+                    </div>
+                    <div className="block row">
+                        <label htmlFor='image'>Выберить изображение для курса:</label>
+                        <input type='file' name='image' id='image'/>
+                    </div>
                 </div>
-                <input type='file' name='image' id='image'/>
             </AdminModal>
         </>
     )

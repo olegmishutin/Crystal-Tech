@@ -28,10 +28,7 @@ export default function Index() {
     return (
         <>
             <MainBackground/>
-            <Header userProfile={true}>
-                <a href=""><img className="forum" src={sprav}/></a>
-                <a href=""><img className="forum" src={forum}/></a>
-            </Header>
+            <Header userProfile={true}/>
             <main className='index__main'>
                 <div className="main-text">
                     <div className="text-zagolovok">

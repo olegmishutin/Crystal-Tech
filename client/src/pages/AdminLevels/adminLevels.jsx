@@ -237,16 +237,15 @@ export default function AdminLevels() {
             </Header>
             <main className='admin__levels__main'>
                 <AdminEditing editFunc={editLanguage} deleteFunc={deleteLanguage} status={languageStatus}>
-                    <div className="block">
-                        <label htmlFor='name'>Текущий язык программирования: {language.name}</label>
+                    <div className="block row">
+                        <label htmlFor='name'>Текущий язык программирования: </label>
                         <select name='name' id='name' defaultValue={language.name}>
                             <option value='js' selected={language.name === 'js'}>js</option>
                             <option value='py' selected={language.name === 'py'}>python</option>
                         </select>
                     </div>
-                    <div className="block">
-                        <label htmlFor='courseType'>Текущий тип
-                            курса: {language.is_closed ? 'закрытый' : 'открытый'}</label>
+                    <div className="block row">
+                        <label htmlFor='courseType'>Текущий тип курса:</label>
                         <select name='courseType' id='courseType'>
                             <option value={true} selected={language.is_closed === true}>Закрытый</option>
                             <option value={false} selected={language.is_closed === false}>Открытый</option>
@@ -259,17 +258,17 @@ export default function AdminLevels() {
                         <input type='file' name='languageImage' id='languageImage'/>
                     </div>
                 </AdminEditing>
-                <AdminMainList data={levels} nextPage={'/admin/level/'}/>
+                <AdminMainList data={levels} nextPage={'/admin/level/'} name='Уровни'/>
                 {language.is_closed ?
                     <AdminMainList data={language.accepted_users} deleteElement={removeAcceptedUser}
-                                   openModal={OpenAddAcceptedUserModal}/> : ''}
+                                   openModal={OpenAddAcceptedUserModal} name='Пользователи курса'/> : ''}
             </main>
             <Footer/>
             <AdminModal createFunc={createLevel} closeModalFunc={closeModal} status={levelStatus}>
                 <input type='number' name='number' id='number' placeholder='Номер уровня' min='0'/>
                 <textarea placeholder='Краткое описание' name='description' id='description'></textarea>
-                <div className="block">
-                    <label htmlFor='image'>Картинка уровня</label>
+                <div className="block row">
+                    <label htmlFor='image'>Картинка уровня:</label>
                     <input type='file' name='image' id='image'/>
                 </div>
             </AdminModal>

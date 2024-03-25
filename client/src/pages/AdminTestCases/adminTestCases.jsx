@@ -20,6 +20,14 @@ export default function AdminTestCases() {
 
     useEffect(() => {
         getTask()
+
+        const inputField = document.getElementById('code'); // get textarea object
+        inputField.onkeydown = function (e) {
+            if (e.keyCode === 9) {
+                this.setRangeText('\t', this.selectionStart, this.selectionStart, 'end')
+                return false;
+            }
+        };
     }, []);
 
     function getTask() {
@@ -139,7 +147,7 @@ export default function AdminTestCases() {
                     <textarea placeholder='Опишите задачу' name='taskText' id='taskText'
                               defaultValue={task.text}></textarea>
                 </AdminEditing>
-                <AdminMainList data={task.testCases} nextPage={'/admin/test-case/'}></AdminMainList>
+                <AdminMainList data={task.testCases} nextPage={'/admin/test-case/'} name='Тест кейсы'></AdminMainList>
             </main>
             <Footer/>
             <AdminModal createFunc={createTestCase} closeModalFunc={closeModal} status={testCaseStatus}>

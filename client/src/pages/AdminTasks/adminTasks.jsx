@@ -243,14 +243,14 @@ export default function AdminTasks() {
             xsrfHeaderName: 'X-CSRFTOKEN',
             withCredentials: true
         }).then((response) => {
-            if (response.status === 201){
+            if (response.status === 201) {
                 getLevelAndTasks()
                 closeSitesModal()
             } else {
                 setSiteStatus('Что то пошло не так :(')
             }
         }).catch((error) => {
-            if (error.response.status === 400){
+            if (error.response.status === 400) {
                 setSiteStatus('Введены недействительные данные, проверьте все ли поля заполнены!')
             } else {
                 setSiteStatus('Что то пошло не так :(')
@@ -310,17 +310,18 @@ export default function AdminTasks() {
                         </div>
                     </AdminEditing>
                 </div>
-                <AdminMainList data={tasks} nextPage={`/admin/task/`}></AdminMainList>
+                <AdminMainList data={tasks} nextPage={`/admin/task/`} name='Задачи'></AdminMainList>
                 {level.material ?
                     <AdminMainList data={level.material.sites} nextPage={`/admin/level/${id}/site/`}
-                                   openModal={openSitesModal}></AdminMainList> : ''}
+                                   openModal={openSitesModal} name='Сайты с материалами'></AdminMainList> : ''}
             </main>
             <Footer/>
             <AdminModal createFunc={createTask} closeModalFunc={closeModal} status={taskStatus}>
                 <input type='number' name='taskNumber' id='taskNumber' placeholder='Номер задания' min='0'/>
-                <input type='number' name='taskTime' id='taskTime' placeholder='Время на выполнение (в милисекундах)' min='0'/>
+                <input type='number' name='taskTime' id='taskTime' placeholder='Время на выполнение (в милисекундах)'
+                       min='0'/>
                 <textarea placeholder='Опишите задачу' name='taskText' id='taskText'></textarea>
-                <h2>Тест кейс</h2>
+                <h2>Тест кейсы</h2>
                 <ul>
                     {
                         testCasesSet.map((value, index) => {
@@ -328,7 +329,13 @@ export default function AdminTasks() {
                                 <>
                                     <li>
                                         <textarea placeholder='Код тест кейса' name={`code-${value}`}
-                                                  id={`code-${value}`}></textarea>
+                                                  id={`code-${value}`} onKeyDown={(e) => {
+                                            if (e.keyCode === 9) {
+                                                e.preventDefault();
+                                                e.target.setRangeText('\t', e.target.selectionStart, e.target.selectionStart, 'end')
+                                                return false;
+                                            }
+                                        }}></textarea>
                                         <input type='text' name={`text-${value}`} id={`text-${value}`}
                                                placeholder='Краткое содержание (getSum(1, 2))'/>
                                     </li>

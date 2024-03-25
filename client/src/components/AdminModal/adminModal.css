@@ -35,7 +35,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 10px;
+}
+
+.adminModal__block .block.row{
+    flex-direction: row;
+    margin-top: 15px;
 }
 
 .adminModal__block .block.flexBlock{
