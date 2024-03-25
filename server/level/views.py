@@ -1,4 +1,4 @@
-import js2py
+from py_mini_racer import py_mini_racer
 from RestrictedPython import safe_builtins
 from rest_framework import generics
 from rest_framework.response import Response
@@ -88,7 +88,9 @@ class CodeCheckerView(APIView):
 
             try:
                 if language.name == 'js':
-                    result = js2py.eval_js(code)
+                    jsCode = py_mini_racer.MiniRacer()
+                    jsCode.eval(code)
+                    result = jsCode.call('check_user_code')
 
                 elif language.name == 'py':
                     loc = {}
