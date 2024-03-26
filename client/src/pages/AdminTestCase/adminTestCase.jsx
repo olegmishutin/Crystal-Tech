@@ -8,6 +8,7 @@ import AdminEditing from "../../components/AdminEditing/adminEditing.jsx";
 import back from "../../images/Header/back.png";
 import {Link, useParams} from "react-router-dom";
 import axios from "axios";
+import CodeEditor from "@uiw/react-textarea-code-editor";
 
 export default function AdminTestCase() {
     let {id} = useParams()
@@ -70,7 +71,7 @@ export default function AdminTestCase() {
         event.preventDefault()
     }
 
-    function deleteTestCase(event){
+    function deleteTestCase(event) {
         axios({
             method: 'DELETE',
             url: `/api/admin/test-case/${id}`,
@@ -98,8 +99,9 @@ export default function AdminTestCase() {
             </Header>
             <main className='admin__testCase__main'>
                 <AdminEditing status={testCaseStatus} editFunc={editTestCase} deleteFunc={deleteTestCase}>
-                    <textarea placeholder='Код тест кейса' name='code' id='code'
-                              defaultValue={testCase.code}></textarea>
+                    <CodeEditor style={{overflow: "auto"}} className='code__textarea' data-color-mode='light'
+                                language={testCase.language_name} padding={10} laceholder='Код тест кейса' name='code'
+                                id='code' value={testCase.code}/>
                     <input type='text' name='text' id='text' placeholder='Краткое содержание (getSum(1, 2))'
                            defaultValue={testCase.text}/>
                 </AdminEditing>

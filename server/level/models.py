@@ -50,6 +50,7 @@ class Task(models.Model):
         verbose_name = 'Задача'
         verbose_name_plural = 'Задачи'
         unique_together = ['number', 'level']
+        ordering = ['number']
 
     def __str__(self):
         return f'task {self.number}, {self.level}'

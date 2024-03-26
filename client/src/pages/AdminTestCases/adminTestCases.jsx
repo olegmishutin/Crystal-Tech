@@ -10,6 +10,7 @@ import AdminEditing from "../../components/AdminEditing/adminEditing.jsx";
 import AdminModal from "../../components/AdminModal/adminModal.jsx";
 import AdminMainList from "../../components/AdminMainList/adminMainList.jsx";
 import back from "../../images/Header/back.png";
+import CodeEditor from "@uiw/react-textarea-code-editor";
 
 
 export default function AdminTestCases() {
@@ -75,7 +76,7 @@ export default function AdminTestCases() {
         event.preventDefault()
     }
 
-    function deleteTask(event){
+    function deleteTask(event) {
         axios({
             method: 'DELETE',
             url: `/api/admin/task/${id}`,
@@ -95,7 +96,7 @@ export default function AdminTestCases() {
         event.preventDefault()
     }
 
-    function createTestCase(event){
+    function createTestCase(event) {
         const data = {
             code: document.getElementById('code').value,
             text: document.getElementById('text').value,
@@ -110,7 +111,7 @@ export default function AdminTestCases() {
             xsrfHeaderName: 'X-CSRFTOKEN',
             withCredentials: true
         }).then((response) => {
-            if (response.status === 201){
+            if (response.status === 201) {
                 getTask()
                 closeModal()
             } else {
@@ -142,7 +143,8 @@ export default function AdminTestCases() {
                 <AdminEditing status={taskStatus} editFunc={editTask} deleteFunc={deleteTask}>
                     <input type='number' placeholder='Номер задачи' name='taskNumber' id='taskNumber'
                            defaultValue={task.number}/>
-                    <input type='number' placeholder='Время на выполнение (в милисекундах)' name='taskTime' id='taskTime'
+                    <input type='number' placeholder='Время на выполнение (в милисекундах)' name='taskTime'
+                           id='taskTime'
                            defaultValue={task.time}/>
                     <textarea placeholder='Опишите задачу' name='taskText' id='taskText'
                               defaultValue={task.text}></textarea>
@@ -151,7 +153,9 @@ export default function AdminTestCases() {
             </main>
             <Footer/>
             <AdminModal createFunc={createTestCase} closeModalFunc={closeModal} status={testCaseStatus}>
-                <textarea placeholder='Код тест кейса' name='code' id='code'></textarea>
+                <CodeEditor style={{overflow: "auto"}} className='code__textarea' data-color-mode='light'
+                            language={task.language_name} padding={10} placeholder='Код тест кейса' name='code'
+                            id='code'/>
                 <input type='text' name='text' id='text' placeholder='Краткое содержание (getSum(1, 2))'/>
             </AdminModal>
         </>

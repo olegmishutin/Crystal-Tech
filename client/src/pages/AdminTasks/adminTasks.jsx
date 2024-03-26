@@ -10,6 +10,7 @@ import MainBackground from "../../components/MainBackgound/mainBackground.jsx";
 import AdminMainList from "../../components/AdminMainList/adminMainList.jsx";
 import axios from "axios";
 import back from "../../images/Header/back.png";
+import CodeEditor from "@uiw/react-textarea-code-editor";
 
 export default function AdminTasks() {
     let {id} = useParams();
@@ -263,6 +264,7 @@ export default function AdminTasks() {
     function closeModal() {
         const modal = document.getElementById('adminModal')
         modal.className = 'adminModal'
+        setTestCasesSet([1])
     }
 
     function openSitesModal() {
@@ -328,14 +330,16 @@ export default function AdminTasks() {
                             return (
                                 <>
                                     <li>
-                                        <textarea placeholder='Код тест кейса' name={`code-${value}`}
-                                                  id={`code-${value}`} onKeyDown={(e) => {
+                                        <CodeEditor style={{overflow: "auto"}} className='code__textarea'
+                                                    data-color-mode='light' language={level.language_name} padding={10}
+                                                    placeholder='Код тест кейса' name={`code-${value}`}
+                                                    id={`code-${value}`} onKeyDown={(e) => {
                                             if (e.keyCode === 9) {
                                                 e.preventDefault();
                                                 e.target.setRangeText('\t', e.target.selectionStart, e.target.selectionStart, 'end')
                                                 return false;
                                             }
-                                        }}></textarea>
+                                        }}/>
                                         <input type='text' name={`text-${value}`} id={`text-${value}`}
                                                placeholder='Краткое содержание (getSum(1, 2))'/>
                                     </li>

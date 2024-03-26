@@ -183,7 +183,7 @@ export default function AdminLanguages() {
                         </select>
                     </div>
                     <div className="block row">
-                        <label htmlFor='image'>Выберить изображение для курса:</label>
+                        <label htmlFor='image'>Изображение для курса:</label>
                         <input type='file' name='image' id='image'/>
                     </div>
                 </div>

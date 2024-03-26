@@ -74,7 +74,8 @@
 
 .adminEditing input[type='number'],
 .adminEditing input[type='text'],
-.adminEditing textarea{
+.adminEditing textarea,
+.adminEditing .code__textarea{
     width: 90%;
     height: 20px;
     padding: 10px;
@@ -83,7 +84,20 @@
     font-family: Inter, sans-serif;
 }
 
-.adminEditing textarea{
+.adminEditing textarea,
+.adminEditing .code__textarea{
     min-height: 150px;
     resize: none;
+}
+
+.adminEditing .code__textarea::-webkit-scrollbar,
+.adminEditing textarea::-webkit-scrollbar{
+    background: none;
+    width: 7px;
+}
+
+.adminEditing .code__textarea::-webkit-scrollbar-thumb,
+.adminEditing textarea::-webkit-scrollbar-thumb{
+    background-color: gray;
+    border-radius: 10px;
 }

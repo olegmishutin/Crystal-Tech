@@ -1,4 +1,4 @@
-.adminModal{
+.adminModal {
     width: 100%;
     height: 100%;
     position: fixed;
@@ -11,14 +11,15 @@
     overflow-y: auto;
 }
 
-.adminModalActive{
+.adminModalActive {
     display: flex;
 }
 
-.adminModal__block{
+.adminModal__block {
     width: 600px;
     min-height: 300px;
-    background-color: gray;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 2px solid white;
     border-radius: 20px;
     padding: 30px;
     box-sizing: border-box;
@@ -28,9 +29,10 @@
     justify-content: center;
     gap: 20px;
     font-family: Inter, sans-serif;
+    color: white;
 }
 
-.adminModal__block .block{
+.adminModal__block .block {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -39,23 +41,23 @@
     gap: 10px;
 }
 
-.adminModal__block .block.row{
+.adminModal__block .block.row {
     flex-direction: row;
     margin-top: 15px;
 }
 
-.adminModal__block .block.flexBlock{
+.adminModal__block .block.flexBlock {
     flex-direction: row;
     align-items: center;
 }
 
-.adminModal__block .button__box{
+.adminModal__block .button__box {
     display: flex;
     gap: 10px;
     margin-top: 30px;
 }
 
-.adminModal__block .button__box button{
+.adminModal__block .button__box button {
     min-width: 150px;
     height: 50px;
     border-radius: 20px;
@@ -64,26 +66,27 @@
     font-size: 20px;
 }
 
-.adminModal__block .block.flexBlock .button__box{
+.adminModal__block .block.flexBlock .button__box {
     margin: 0;
 }
 
-.adminModal__block .button__box .createButton{
+.adminModal__block .button__box .createButton {
     background-color: greenyellow;
 }
 
-.adminModal__block .button__box .cancelButton{
+.adminModal__block .button__box .cancelButton {
     background-color: yellow;
 }
 
-.adminModal__block .status{
+.adminModal__block .status {
     margin: 0;
     text-align: center;
 }
 
 .adminModal__block input[type='number'],
 .adminModal__block input[type='text'],
-.adminModal__block textarea{
+.adminModal__block textarea,
+.adminModal__block .code__textarea{
     width: 70%;
     height: 20px;
     padding: 10px;
@@ -92,12 +95,31 @@
     font-family: Inter, sans-serif;
 }
 
-.adminModal__block textarea{
+.adminModal__block .code__textarea,
+.adminModal__block textarea {
     min-height: 150px;
     resize: none;
+    background-color: white;
 }
 
-.adminModal__block ul{
+.adminModal__block .code__textarea{
+    width: 73%;
+    overflow-y: scroll;
+}
+
+.adminModal__block .code__textarea::-webkit-scrollbar,
+.adminModal__block textarea::-webkit-scrollbar{
+    background: none;
+    width: 7px;
+}
+
+.adminModal__block .code__textarea::-webkit-scrollbar-thumb,
+.adminModal__block textarea::-webkit-scrollbar-thumb{
+    background-color: gray;
+    border-radius: 10px;
+}
+
+.adminModal__block ul {
     padding: 0;
     margin: 0;
     width: 100%;
@@ -106,16 +128,16 @@
     list-style-type: none;
 }
 
-.adminModal__block ul::-webkit-scrollbar{
+.adminModal__block ul::-webkit-scrollbar {
     width: 5px;
     background-color: #606060;
 }
 
-.adminModal__block ul::-webkit-scrollbar-thumb{
+.adminModal__block ul::-webkit-scrollbar-thumb {
     background-color: black;
 }
 
-.adminModal__block ul li{
+.adminModal__block ul li {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -125,19 +147,20 @@
     margin-bottom: 20px;
 }
 
-.adminModal .big__list{
+.adminModal .big__list {
     max-height: 500px;
 }
 
-.adminModal__block ul .row__list__element{
+.adminModal__block ul .row__list__element {
     flex-direction: row;
     gap: 10px;
     background-color: white;
     border-radius: 20px;
     padding: 0 20px 0 20px;
     box-sizing: border-box;
+    color: black;
 }
 
-.adminModal__block ul .row__list__element button:last-child{
+.adminModal__block ul .row__list__element button:last-child {
     margin-left: auto;
 }

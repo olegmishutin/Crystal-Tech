@@ -1,6 +1,7 @@
 import './level.css'
 import {useState, useEffect, useRef} from "react";
 import {Link, useParams} from "react-router-dom";
+import CodeEditor from '@uiw/react-textarea-code-editor';
 
 import Header from "../../components/Header/Header.jsx"
 import Footer from "../../components/Footer/Footer.jsx"
@@ -126,8 +127,9 @@ export default function Level() {
                     <div className="level__main__task__block">
                         <p>{task.text}</p>
                     </div>
-                    <textarea className='level__main__task__block' name='code' id='textboxCode'
-                              placeholder='Пишите сюда свой код' readOnly={true}></textarea>
+                    <CodeEditor className='level__main__task__block textarea' style={{overflow: "auto"}}
+                                name='textboxCode' id='textboxCode' readOnly={true} language={task.language_name}
+                                data-color-mode='dark' placeholder='Пишите сюда свой код' padding={15}/>
                     <input className='level__main__task__block level__main__button level__submit__button' type='button'
                            onClick={checkCode} value='Check the code' id='checkCodeButton'/>
                     <button type='button' className='level__main__task__block level__main__button'

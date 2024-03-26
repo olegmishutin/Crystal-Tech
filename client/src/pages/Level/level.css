@@ -78,7 +78,7 @@
     width: 100%;
     border: 2px solid white;
     border-radius: 21px;
-    background: rgba(0, 0, 0, 0.45);
+    background: rgba(0, 0, 0, 0.45) !important;
     padding: 15px 20px;
     box-sizing: border-box;
     color: white;
@@ -98,13 +98,26 @@
     font-weight: 300;
 }
 
-.level__main__task textarea {
+.level__main__task .textarea {
     resize: none;
-    min-height: 379px;
+    min-height: 380px;
+    max-height: 380px;
+    font-family: Inter, sans-serif;
+    font-size: 16px;
+}
+
+.level__main__task .textarea::-webkit-scrollbar {
+    background: none;
+    width: 7px;
+}
+
+.level__main__task .textarea::-webkit-scrollbar-thumb {
+    background-color: gray;
+    border-radius: 10px;
 }
 
 .level__main__task input[type='button'],
-.level__main__task button{
+.level__main__task button {
     width: 277px;
     height: 84px;
     font-family: Molle, sans-serif;
@@ -158,10 +171,10 @@
     text-align: center;
 }
 
-.level__submit__button{
+.level__submit__button {
     display: none;
 }
 
-.countdown__text{
+.countdown__text {
     font-family: Inter, sans-serif;
 }
