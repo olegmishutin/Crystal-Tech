@@ -12,12 +12,14 @@ import AdminTasks from "./pages/AdminTasks/adminTasks.jsx";
 import AdminTestCases from "./pages/AdminTestCases/adminTestCases.jsx";
 import AdminTestCase from "./pages/AdminTestCase/adminTestCase.jsx";
 import AdminSite from "./pages/AdminSite/adminSite.jsx";
+import ErrorPage from "./pages/ErrorPage/errorPage.jsx";
 import './main.css'
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <Index/>
+        element: <Index/>,
+        errorElement: <ErrorPage/>
     },
     {
         path: 'language/:id',

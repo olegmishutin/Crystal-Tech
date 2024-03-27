@@ -94,13 +94,10 @@
 }
 
 .levels__main {
-    padding-right: 300px;
-    padding-left: 300px;
+    padding: 50px 300px;
     min-height: calc(100vh - 160px);
     display: flex;
     flex-direction: column;
-    padding-bottom: 200px;
-
 }
 
 .levels__main__list {
