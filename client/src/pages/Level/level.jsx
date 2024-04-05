@@ -21,6 +21,7 @@ export default function Level() {
 
     const [timerDate, setTimerDate] = useState(Date.now() + task.time)
     const timerRef = useRef();
+    const [codeTextbox, setCodeTextbox] = useState('')
 
     const handleStart = (e) => {
         setTimerDate(Date.now() + task.time)
@@ -129,7 +130,8 @@ export default function Level() {
                     </div>
                     <CodeEditor className='level__main__task__block textarea' style={{overflow: "auto"}}
                                 name='textboxCode' id='textboxCode' readOnly={true} language={task.language_name}
-                                data-color-mode='dark' placeholder='Пишите сюда свой код' padding={15}/>
+                                value={codeTextbox} data-color-mode='dark' placeholder='Пишите сюда свой код'
+                                padding={15} onChange={(evn) => setCodeTextbox(evn.target.value)}/>
                     <input className='level__main__task__block level__main__button level__submit__button' type='button'
                            onClick={checkCode} value='Check the code' id='checkCodeButton'/>
                     <button type='button' className='level__main__task__block level__main__button'
@@ -143,10 +145,9 @@ export default function Level() {
                             date={timerDate}
                             ref={timerRef}
                             autoStart={false}
-
                             renderer={({hours, minutes, seconds, completed}) => {
                                 if (completed) {
-                                    document.getElementById('textboxCode').value = ''
+                                    setCodeTextbox('')
                                     document.getElementById('checkCodeButton').style.display = 'none'
                                     document.getElementById('startCountdownButton').style.display = 'block'
                                     document.getElementById('textboxCode').readOnly = true

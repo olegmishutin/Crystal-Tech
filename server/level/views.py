@@ -1,65 +1,33 @@
 from py_mini_racer import py_mini_racer
 from RestrictedPython import safe_builtins
-from rest_framework import generics
+from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from .models import Level, Task, TestCase, CompletedTask
 from .serializers import LevelSerializer, TaskSerializer, TestCaseSerializer
 from language.models import Language
-from .permissions import TaskIsCanBePassed
 
 
-class AdminLevelsView(generics.ListCreateAPIView):
-    queryset = Level.objects.all().order_by('-number')
-    serializer_class = LevelSerializer
-    permission_classes = [IsAdminUser]
-
-
-class AdminLevelView(generics.RetrieveUpdateDestroyAPIView):
+class LevelViewSet(viewsets.ModelViewSet):
     queryset = Level.objects.all()
     serializer_class = LevelSerializer
-    permission_classes = [IsAdminUser]
 
 
-class AdminTasksView(generics.ListCreateAPIView):
+class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-    permission_classes = [IsAdminUser]
 
 
-class AdminTaskView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Task.objects.all()
-    serializer_class = TaskSerializer
-    permission_classes = [IsAdminUser]
-
-
-class AdminTestCasesView(generics.ListCreateAPIView):
+class TestCaseViewSet(viewsets.ModelViewSet):
     queryset = TestCase.objects.all()
     serializer_class = TestCaseSerializer
-    permission_classes = [IsAdminUser]
-
-
-class AdminTestCaseView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = TestCase.objects.all()
-    serializer_class = TestCaseSerializer
-    permission_classes = [IsAdminUser]
-
-
-class TaskView(generics.RetrieveAPIView):
-    queryset = Task.objects.all()
-    serializer_class = TaskSerializer
-    permission_classes = [IsAuthenticated, TaskIsCanBePassed]
-
-
-class LevelView(generics.RetrieveAPIView):
-    queryset = Level.objects.all()
-    serializer_class = LevelSerializer
-    permission_classes = [IsAuthenticated]
 
 
 class CodeCheckerView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def setPassed(self, query, id, obj, dataStatus):
         queryset = [i.id for i in query]
         if queryset[-1] == id:

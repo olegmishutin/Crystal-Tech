@@ -16,6 +16,7 @@ class Level(models.Model):
         verbose_name = 'Уровень'
         verbose_name_plural = 'Уровни'
         unique_together = ['language', 'number']
+        ordering = ['number']
 
     @property
     def image(self):
