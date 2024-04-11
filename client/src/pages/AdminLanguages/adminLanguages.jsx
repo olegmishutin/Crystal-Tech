@@ -103,16 +103,12 @@ export default function AdminLanguages() {
     }
 
     function searchUser(event) {
+        const searchField = document.getElementById('userEmailOrGroup').value
+        const href = searchField ? `/api/admin/all-users?userEmailOrGroup=${searchField}` : '/api/admin/all-users'
+
         axios({
-            method: 'POST',
-            url: '/api/admin/all-users',
-            data: {
-                is_search: true,
-                value: document.getElementById('userEmailOrGroup').value
-            },
-            xsrfCookieName: 'csrftoken',
-            xsrfHeaderName: 'X-CSRFTOKEN',
-            withCredentials: true
+            method: 'GET',
+            url: href,
         }).then((response) => {
             if (response.status === 200) {
                 setUsers(response.data)

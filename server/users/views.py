@@ -35,9 +35,22 @@ class RegisterView(generics.CreateAPIView):
 
 
 class AllUsersView(generics.ListAPIView):
-    queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAdminUser]
+
+    def get_queryset(self):
+        value = self.request.query_params.get('userEmailOrGroup')
+        if value:
+            users = User.objects.filter(email__icontains=value)
+
+            if not users.exists():
+                users = User.objects.filter(group__icontains=value)
+
+            if not users.exists():
+                users = User.objects.filter(name__icontains=value)
+
+            return users
+        return User.objects.all()
 
     def addOrRemoveAcceptedUser(self, request):
         userId = request.data.get('userId')
@@ -57,22 +70,6 @@ class AllUsersView(generics.ListAPIView):
         return Response({'message': 'Bad data'}, status=status.HTTP_400_BAD_REQUEST)
 
     def post(self, request):
-        if self.request.data.get('is_search'):
-            value = self.request.data.get('value')
-            users = User.objects.filter(email__icontains=value)
-
-            if not users.exists():
-                users = User.objects.filter(group__icontains=value)
-
-            if not users.exists():
-                users = User.objects.filter(name__icontains=value)
-
-            if users.exists():
-                userSerializer = UserSerializer(users, many=True)
-                return Response(userSerializer.data, status=status.HTTP_200_OK)
-
-            userSerializer = UserSerializer(User.objects.all(), many=True)
-            return Response(userSerializer.data, status=status.HTTP_200_OK)
         return self.addOrRemoveAcceptedUser(request)
 
     def delete(self, request):
