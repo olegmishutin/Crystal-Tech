@@ -23,6 +23,7 @@ class Language(models.Model):
     @property
     def image(self):
         return self._image
+
     @image.setter
     def image(self, value):
         if self._image and os.path.exists(self._image.path):
@@ -31,6 +32,9 @@ class Language(models.Model):
         self._image = value
 
     def delete(self, *args, **kwargs):
+        for level in self.levels.all():
+            level.delete()
+
         if os.path.exists(self._image.path):
             os.remove(self._image.path)
 

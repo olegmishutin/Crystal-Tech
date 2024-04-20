@@ -44,3 +44,9 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+
+    def delete(self, using=None, keep_parents=False):
+        if self._photo and os.path.exists(self._photo.path):
+            os.remove(self._photo.path)
+
+        return super(User, self).delete(using, keep_parents)

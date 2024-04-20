@@ -25,7 +25,7 @@ class Material(models.Model):
         self._file = value
 
     def delete(self, *args, **kwargs):
-        if os.path.exists(self._file.path):
+        if self._file and os.path.exists(self._file.path):
             os.remove(self._file.path)
 
         return super(Material, self).delete(*args, **kwargs)

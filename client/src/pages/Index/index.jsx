@@ -22,6 +22,8 @@ export default function Index() {
             if (response.status === 200) {
                 setLanguages(response.data)
             }
+        }).catch((error) => {
+            console.log(error)
         })
     }, []);
 

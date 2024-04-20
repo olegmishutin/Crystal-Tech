@@ -30,7 +30,7 @@ class Level(models.Model):
         self._image = value
 
     def delete(self, *args, **kwargs):
-        if os.path.exists(self._image.path):
+        if self._image and os.path.exists(self._image.path):
             os.remove(self._image.path)
 
         return super(Level, self).delete(*args, **kwargs)

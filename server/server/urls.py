@@ -17,12 +17,24 @@ Including another URLconf
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from rest_framework.views import APIView
+from rest_framework.renderers import TemplateHTMLRenderer
+from rest_framework.response import Response
+
+
+class IndexView(APIView):
+    renderer_classes = [TemplateHTMLRenderer]
+
+    def get(self, request, path=None):
+        return Response({}, template_name='index.html')
+
 
 urlpatterns = [
-    path('', include('users.urls')),
-    path('', include('language.urls')),
-    path('', include('level.urls')),
-    path('', include('material.urls')),
+    path('', IndexView.as_view()),
+    path('api/', include('users.urls')),
+    path('api/', include('language.urls')),
+    path('api/', include('level.urls')),
+    path('api/', include('material.urls')),
+    path('', include(static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))),
+    path('<path:path>', IndexView.as_view())
 ]
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

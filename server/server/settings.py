@@ -13,7 +13,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import configparser
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+SERVER_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = SERVER_DIR.parent
 
 SECRET_KEY = 'django-insecure-b-rg!#d0&*w+7*6s6p-2%$k7)5-k!i05uodmdjic)mhwp%u2v-'
 AUTH_USER_MODEL = 'users.User'
@@ -32,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
     'users',
@@ -53,12 +55,16 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'server.urls'
 
-REST_FRAMEWORK = {}
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
+}
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'client/dist'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,7 +78,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'server.wsgi.application'
-
 
 dbConfig = configparser.ConfigParser()
 dbConfig.read('db_settings.ini')
@@ -112,7 +117,12 @@ USE_I18N = True
 
 USE_TZ = True
 
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'client/dist/assets'
+]
+
 MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'media/'
+MEDIA_ROOT = SERVER_DIR / 'media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
