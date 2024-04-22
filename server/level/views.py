@@ -11,17 +11,17 @@ from language.models import Language
 
 
 class LevelViewSet(viewsets.ModelViewSet):
-    queryset = Level.objects.all()
+    queryset = Level.objects.all().select_related('language', 'material').prefetch_related('tasks__testCases')
     serializer_class = LevelSerializer
 
 
 class TaskViewSet(viewsets.ModelViewSet):
-    queryset = Task.objects.all()
+    queryset = Task.objects.all().select_related('level', 'level__language')
     serializer_class = TaskSerializer
 
 
 class TestCaseViewSet(viewsets.ModelViewSet):
-    queryset = TestCase.objects.all()
+    queryset = TestCase.objects.all().select_related('task', 'task__level', 'task__level__language')
     serializer_class = TestCaseSerializer
 
 

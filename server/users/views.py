@@ -40,17 +40,19 @@ class AllUsersView(generics.ListAPIView):
 
     def get_queryset(self):
         value = self.request.query_params.get('userEmailOrGroup')
+        allUsers = User.objects.all().prefetch_related('completedLanguages', 'completedLevels', 'completedTasks')
+
         if value:
-            users = User.objects.filter(email__icontains=value)
+            users = allUsers.filter(email__icontains=value)
 
             if not users.exists():
-                users = User.objects.filter(group__icontains=value)
+                users = allUsers.filter(group__icontains=value)
 
             if not users.exists():
-                users = User.objects.filter(name__icontains=value)
+                users = allUsers.filter(name__icontains=value)
 
             return users
-        return User.objects.all()
+        return allUsers
 
     def addOrRemoveAcceptedUser(self, request):
         userId = request.data.get('userId')
@@ -77,13 +79,13 @@ class AllUsersView(generics.ListAPIView):
 
 
 class DeleteUser(generics.DestroyAPIView):
-    queryset = User.objects.all()
+    queryset = User.objects.all().prefetch_related('completedLanguages', 'completedLevels', 'completedTasks')
     serializer_class = UserSerializer
     permission_classes = [IsAdminUser]
 
 
 class ProfileView(generics.RetrieveUpdateAPIView):
-    queryset = User.objects.all()
+    queryset = User.objects.all().prefetch_related('completedLanguages', 'completedLevels', 'completedTasks')
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated]
 
@@ -94,7 +96,7 @@ class ProfileView(generics.RetrieveUpdateAPIView):
         userSerializer = UserProfileSerializer(request.user, context={'request': self.request})
         data = {'user': userSerializer.data, 'languages': []}
 
-        for language in Language.objects.all():
+        for language in Language.objects.all().prefetch_related('levels__tasks', 'levels__completedTasks__task'):
             levelsData = []
             levels = language.levels.all()
             completedLevels = []
