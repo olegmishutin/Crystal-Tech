@@ -1,11 +1,11 @@
-import os
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from rest_framework.parsers import MultiPartParser
+from rest_framework.filters import SearchFilter
 from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import get_object_or_404
 from .models import User
 from .serializers import RegistrationSerializer, UserProfileSerializer, UserSerializer
 from language.models import Language
@@ -35,32 +35,19 @@ class RegisterView(generics.CreateAPIView):
 
 
 class AllUsersView(generics.ListAPIView):
+    queryset = User.objects.all().prefetch_related('completedLanguages', 'completedLevels', 'completedTasks')
     serializer_class = UserSerializer
     permission_classes = [IsAdminUser]
-
-    def get_queryset(self):
-        value = self.request.query_params.get('userEmailOrGroup')
-        allUsers = User.objects.all().prefetch_related('completedLanguages', 'completedLevels', 'completedTasks')
-
-        if value:
-            users = allUsers.filter(email__icontains=value)
-
-            if not users.exists():
-                users = allUsers.filter(group__icontains=value)
-
-            if not users.exists():
-                users = allUsers.filter(name__icontains=value)
-
-            return users
-        return allUsers
+    filter_backends = [SearchFilter]
+    search_fields = ['$email', '$group', '$name']
 
     def addOrRemoveAcceptedUser(self, request):
         userId = request.data.get('userId')
         languageId = request.data.get('languageId')
 
         if userId and languageId:
-            user = User.objects.get(pk=userId)
-            language = Language.objects.get(pk=languageId)
+            user = get_object_or_404(User.objects.all(), pk=userId)
+            language = get_object_or_404(Language.objects.all(), pk=languageId)
 
             if request.method == 'POST':
                 language.accepted_users.add(user)
@@ -110,8 +97,8 @@ class ProfileView(generics.RetrieveUpdateAPIView):
             uncompletedLevels = [level.id for level in levels.exclude(id__in=completedLevels).order_by('number')]
 
             for level in levels:
-                levelTasks = len(level.tasks.all())
-                levelCompletedTasks = len(level.completedTasks.all())
+                levelTasks = level.tasks.all().count()
+                levelCompletedTasks = level.completedTasks.filter(user_id=request.user.id).count()
 
                 try:
                     completedPercentage = round(100 * levelCompletedTasks / levelTasks, 0)

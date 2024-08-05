@@ -18,7 +18,7 @@ export default function AdminSite() {
     useEffect(() => {
         axios({
             method: 'GET',
-            url: `/api/admin/site/${id}`
+            url: `/api/admin/sites/${id}/`
         }).then((response) => {
             if (response.status === 200) {
                 setInfo(response.data)
@@ -31,7 +31,7 @@ export default function AdminSite() {
     function editSite(event) {
         axios({
             method: 'PATCH',
-            url: `/api/admin/site/${id}`,
+            url: `/api/admin/sites/${id}/`,
             data: {
                 href: document.getElementById('siteHref').value
             },
@@ -58,7 +58,7 @@ export default function AdminSite() {
     function deleteSite(event) {
         axios({
             method: 'DELETE',
-            url: `/api/admin/site/${id}`,
+            url: `/api/admin/sites/${id}/`,
             xsrfCookieName: 'csrftoken',
             xsrfHeaderName: 'X-CSRFTOKEN',
             withCredentials: true

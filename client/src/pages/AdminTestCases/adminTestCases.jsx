@@ -34,7 +34,7 @@ export default function AdminTestCases() {
     function getTask() {
         axios({
             method: 'GET',
-            url: `/api/admin/task/${id}`
+            url: `/api/admin/tasks/${id}/`
         }).then((response) => {
             setTask(response.data)
         }).catch((error) => {
@@ -53,7 +53,7 @@ export default function AdminTestCases() {
 
         axios({
             method: 'PATCH',
-            url: `/api/admin/task/${id}`,
+            url: `/api/admin/tasks/${id}/`,
             data: data,
             xsrfCookieName: 'csrftoken',
             xsrfHeaderName: 'X-CSRFTOKEN',
@@ -79,7 +79,7 @@ export default function AdminTestCases() {
     function deleteTask(event) {
         axios({
             method: 'DELETE',
-            url: `/api/admin/task/${id}`,
+            url: `/api/admin/tasks/${id}/`,
             xsrfCookieName: 'csrftoken',
             xsrfHeaderName: 'X-CSRFTOKEN',
             withCredentials: true
@@ -105,7 +105,7 @@ export default function AdminTestCases() {
 
         axios({
             method: 'POST',
-            url: '/api/admin/test-cases',
+            url: '/api/admin/test-cases/',
             data: data,
             xsrfCookieName: 'csrftoken',
             xsrfHeaderName: 'X-CSRFTOKEN',

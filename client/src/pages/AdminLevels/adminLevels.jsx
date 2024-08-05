@@ -24,7 +24,7 @@ export default function AdminLevels() {
     function getLanguageLevels() {
         axios({
             method: 'GET',
-            url: `/api/admin/language/${id}`
+            url: `/api/admin/languages/${id}/`
         }).then((response) => {
             setLevels(response.data.levels)
             setLanguage(response.data)
@@ -68,7 +68,7 @@ export default function AdminLevels() {
 
         axios({
             method: 'PATCH',
-            url: `/api/admin/language/${id}`,
+            url: `/api/admin/languages/${id}/`,
             data: formData,
             xsrfCookieName: 'csrftoken',
             xsrfHeaderName: 'X-CSRFTOKEN',
@@ -94,7 +94,7 @@ export default function AdminLevels() {
     function deleteLanguage(event) {
         axios({
             method: 'DELETE',
-            url: `/api/admin/language/${id}`,
+            url: `/api/admin/languages/${id}/`,
             xsrfCookieName: 'csrftoken',
             xsrfHeaderName: 'X-CSRFTOKEN',
             withCredentials: true
@@ -124,7 +124,7 @@ export default function AdminLevels() {
 
         axios({
             method: 'POST',
-            url: '/api/admin/levels',
+            url: '/api/admin/levels/',
             data: formData,
             xsrfCookieName: 'csrftoken',
             xsrfHeaderName: 'X-CSRFTOKEN',
@@ -192,19 +192,15 @@ export default function AdminLevels() {
         })
     }
 
-    function searchUser(event){
+    function searchUser(event) {
+        const searchField = document.getElementById('search').value
+        const href = searchField ? `/api/admin/all-users?search=${searchField}` : '/api/admin/all-users'
+
         axios({
-            method: 'POST',
-            url: '/api/admin/all-users',
-            data: {
-                is_search: true,
-                value: document.getElementById('userEmailOrGroup').value
-            },
-            xsrfCookieName: 'csrftoken',
-            xsrfHeaderName: 'X-CSRFTOKEN',
-            withCredentials: true
+            method: 'GET',
+            url: href,
         }).then((response) => {
-            if (response.status === 200){
+            if (response.status === 200) {
                 setUsers(response.data)
             } else {
                 console.log(response)
@@ -274,8 +270,7 @@ export default function AdminLevels() {
             </AdminModal>
             <AdminModal id='add-accepted-user-modal' status={usersStatus} closeModalFunc={CloseAddAcceptedUserModal}>
                 <div className="block flexBlock">
-                    <input type='text' name='userEmailOrGroup' id='userEmailOrGroup'
-                           placeholder='Поиск по email, имени или группе'/>
+                    <input type='text' name='search' id='search' placeholder='Поиск по email, имени или группе'/>
                     <div className="button__box">
                         <button onClick={searchUser}>Поиск</button>
                     </div>

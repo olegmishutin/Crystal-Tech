@@ -6,9 +6,6 @@ import Footer from "../../components/Footer/Footer.jsx";
 import MainBackground from "../../components/MainBackgound/mainBackground.jsx";
 
 import './index.css'
-
-import forum from '../../images/Header/forum.png'
-import sprav from '../../images/Header/sprav.png'
 import axios from "axios";
 
 export default function Index() {

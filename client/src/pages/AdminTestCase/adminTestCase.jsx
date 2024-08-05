@@ -30,7 +30,7 @@ export default function AdminTestCase() {
     function getTestCase() {
         axios({
             method: 'GET',
-            url: `/api/admin/test-case/${id}`
+            url: `/api/admin/test-cases/${id}/`
         }).then((response) => {
             setTestCase(response.data)
         }).catch((error) => {
@@ -48,7 +48,7 @@ export default function AdminTestCase() {
 
         axios({
             method: 'PATCH',
-            url: `/api/admin/test-case/${id}`,
+            url: `/api/admin/test-cases/${id}/`,
             data: data,
             xsrfCookieName: 'csrftoken',
             xsrfHeaderName: 'X-CSRFTOKEN',
@@ -74,7 +74,7 @@ export default function AdminTestCase() {
     function deleteTestCase(event) {
         axios({
             method: 'DELETE',
-            url: `/api/admin/test-case/${id}`,
+            url: `/api/admin/test-cases/${id}/`,
             xsrfCookieName: 'csrftoken',
             xsrfHeaderName: 'X-CSRFTOKEN',
             withCredentials: true

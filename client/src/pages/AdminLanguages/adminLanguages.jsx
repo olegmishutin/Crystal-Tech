@@ -17,7 +17,7 @@ export default function AdminLanguages() {
     function getLanguages() {
         axios({
             method: 'GET',
-            url: '/api/admin/languages'
+            url: '/api/admin/languages/'
         }).then((response) => {
             setLanguages(response.data)
         }).catch((error) => {
@@ -59,7 +59,7 @@ export default function AdminLanguages() {
 
         axios({
             method: 'POST',
-            url: '/api/admin/languages',
+            url: '/api/admin/languages/',
             data: formData,
             xsrfCookieName: 'csrftoken',
             xsrfHeaderName: 'X-CSRFTOKEN',
@@ -89,7 +89,7 @@ export default function AdminLanguages() {
             withCredentials: true
         }).then((response) => {
             if (response.status === 204) {
-                if (document.getElementById('userEmailOrGroup').value) {
+                if (document.getElementById('search').value) {
                     searchUser()
                 } else {
                     getUsers()
@@ -103,8 +103,8 @@ export default function AdminLanguages() {
     }
 
     function searchUser(event) {
-        const searchField = document.getElementById('userEmailOrGroup').value
-        const href = searchField ? `/api/admin/all-users?userEmailOrGroup=${searchField}` : '/api/admin/all-users'
+        const searchField = document.getElementById('search').value
+        const href = searchField ? `/api/admin/all-users?search=${searchField}` : '/api/admin/all-users'
 
         axios({
             method: 'GET',
@@ -136,8 +136,7 @@ export default function AdminLanguages() {
                 <div className="admin__users">
                     <h2 className='admin__main_list__header'>Пользователи</h2>
                     <div className="row-block">
-                        <input type='text' name='userEmailOrGroup' id='userEmailOrGroup'
-                               placeholder='Поиск по email, имени или группе'/>
+                        <input type='text' name='search' id='search' placeholder='Поиск по email, имени или группе'/>
                         <button onClick={searchUser}>Поиск</button>
                     </div>
                     <ul className='admin__users__list'>

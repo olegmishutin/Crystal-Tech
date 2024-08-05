@@ -1,34 +1,21 @@
+from rest_framework.routers import DefaultRouter
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.urls import re_path, include
-from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
-from .views import LanguageViewSet
 from .permissions import UserIsAccepted
+from . import views
 
-adminLanguages = LanguageViewSet.as_view({
-    'get': 'list',
-    'post': 'create'
-}, permission_classes=[IsAdminUser])
+router = DefaultRouter()
+router.register('languages', views.AdminLanguageViewSet, basename='languages')
 
-adminLanguage = LanguageViewSet.as_view({
-    'get': 'retrieve',
-    'put': 'update',
-    'patch': 'partial_update',
-    'delete': 'destroy'
-}, permission_classes=[IsAdminUser])
+userLanguagesList = views.AdminLanguageViewSet.as_view(
+    {'get': 'list'}, permission_classes=[IsAuthenticatedOrReadOnly])
 
-userLanguages = LanguageViewSet.as_view({
-    'get': 'list'
-}, permission_classes=[IsAuthenticatedOrReadOnly])
-
-userLanguage = LanguageViewSet.as_view({
-    'get': 'retrieve'
-}, permission_classes=[UserIsAccepted, IsAuthenticatedOrReadOnly])
+userLanguagesDetail = views.AdminLanguageViewSet.as_view(
+    {'get': 'retrieve'}, permission_classes=[UserIsAccepted, IsAuthenticatedOrReadOnly])
 
 app_name = 'language'
 urlpatterns = [
-    re_path(r'^admin/', include([
-        re_path(r'^languages$', adminLanguages, name='admin-languages'),
-        re_path(r'^language/(?P<pk>\w+)$', adminLanguage, name='admin-language'),
-    ])),
-    re_path(r'^languages$', userLanguages, name='languages'),
-    re_path(r'^language/(?P<pk>\w+)$', userLanguage, name='language')
+    re_path(r'^admin/', include(router.urls)),
+    re_path(r'^languages$', userLanguagesList, name='languages-list'),
+    re_path(r'^languages/(?P<pk>\w+)$', userLanguagesDetail, name='languages-detail')
 ]

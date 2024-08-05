@@ -21,7 +21,7 @@ export default function Levels() {
     useEffect(() => {
         axios({
             method: 'GET',
-            url: `/api/language/${id}`
+            url: `/api/languages/${id}`
         }).then((response) => {
             if (response.status === 200) {
                 if (response.data.levels.length > 0) {

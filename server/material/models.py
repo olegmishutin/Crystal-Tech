@@ -4,9 +4,9 @@ from level.models import Level
 
 
 class Material(models.Model):
-    level = models.OneToOneField(Level, on_delete=models.CASCADE)
-    name = models.CharField(max_length=150)
-    _file = models.FileField(upload_to='materialsFiles/')
+    level = models.OneToOneField(Level, on_delete=models.CASCADE, verbose_name='уровень')
+    name = models.CharField('название', max_length=150)
+    _file = models.FileField('файл', upload_to='materialsFiles/')
 
     class Meta:
         db_table = 'Material'
@@ -35,8 +35,8 @@ class Material(models.Model):
 
 
 class Site(models.Model):
-    material = models.ForeignKey(Material, related_name='sites', on_delete=models.CASCADE)
-    href = models.TextField()
+    material = models.ForeignKey(Material, related_name='sites', on_delete=models.CASCADE, verbose_name='материал')
+    href = models.URLField('ссылка')
 
     class Meta:
         db_table = 'Site'

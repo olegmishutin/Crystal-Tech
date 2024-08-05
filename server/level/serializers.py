@@ -6,7 +6,7 @@ from material.serializers import MaterialSerializer
 
 class TestCaseSerializer(serializers.ModelSerializer):
     language_name = serializers.SerializerMethodField(source='get_language_name')
-    task = serializers.PrimaryKeyRelatedField(queryset=Task.objects.all(), required=False, read_only=False)
+    task = serializers.PrimaryKeyRelatedField(queryset=Task.objects.all(), required=False)
 
     class Meta:
         model = TestCase

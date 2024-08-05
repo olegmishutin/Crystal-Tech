@@ -1,6 +1,6 @@
 import os
 from django.db import models
-from users.models import User
+from django.contrib.auth import get_user_model
 
 
 class Language(models.Model):
@@ -9,11 +9,13 @@ class Language(models.Model):
         'py': 'Python'
     }
 
-    name = models.CharField(max_length=150, choices=choices, unique=True)
-    _image = models.ImageField(upload_to='languagesIcons/')
-    users = models.ManyToManyField(User, db_table='CompletedLanguage', related_name='completedLanguages')
-    is_closed = models.BooleanField(default=False)
-    accepted_users = models.ManyToManyField(User, db_table='Accepted_Users', related_name='acceptedLanguages')
+    name = models.CharField('название', max_length=150, choices=choices, unique=True)
+    _image = models.ImageField('картинка', upload_to='languagesIcons/')
+    users = models.ManyToManyField(get_user_model(), db_table='CompletedLanguage', related_name='completedLanguages',
+                                   verbose_name='сдавшие')
+    is_closed = models.BooleanField('является ли закрытым', default=False)
+    accepted_users = models.ManyToManyField(get_user_model(), db_table='Accepted_Users',
+                                            related_name='acceptedLanguages', verbose_name='допущенные пользователи')
 
     class Meta:
         db_table = 'Language'

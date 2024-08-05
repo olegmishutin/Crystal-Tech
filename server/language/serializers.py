@@ -5,8 +5,8 @@ from level.serializers import LevelSerializer
 
 
 class LanguageSerializer(serializers.ModelSerializer):
-    levels = LevelSerializer(many=True, required=False)
-    accepted_users = serializers.SerializerMethodField(source='get_accepted_users', required=False)
+    levels = LevelSerializer(many=True, read_only=True)
+    accepted_users = serializers.SerializerMethodField(source='get_accepted_users', read_only=True)
     image = serializers.ImageField()
 
     class Meta:

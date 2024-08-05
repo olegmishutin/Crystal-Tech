@@ -19,12 +19,12 @@ export default function Level() {
     const [task, setTask] = useState({testCases: [], time: 1000})
     const [status, setStatus] = useState('')
 
-    const [timerDate, setTimerDate] = useState(Date.now() + task.time)
+    const [timerDate, setTimerDate] = useState(Date.now() + task.time * 1000)
     const timerRef = useRef();
     const [codeTextbox, setCodeTextbox] = useState('')
 
     const handleStart = (e) => {
-        setTimerDate(Date.now() + task.time)
+        setTimerDate(Date.now() + task.time * 1000)
         setStatus('')
         document.getElementById('textboxCode').readOnly = false
         timerRef.current.start();
@@ -44,7 +44,7 @@ export default function Level() {
         }).then((response) => {
             if (response.status === 200) {
                 setTask(response.data)
-                setTimerDate(Date.now() + response.data.time)
+                setTimerDate(Date.now() + response.data.time * 1000)
             } else {
                 window.location.href = `/language/${languageId}`
             }

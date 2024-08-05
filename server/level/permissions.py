@@ -9,10 +9,10 @@ class TaskIsCanBePassed(BasePermission):
         if taskLanguage.is_closed and not request.user.is_superuser:
             userAccepted = taskLanguage.accepted_users.filter(id=request.user.id).exists()
 
-        completedTasks = [task.task_id for task in obj.level.completedTasks.all()]
+        completedTasks = [task.task_id for task in request.user.completedTasks.all()]
         uncompletedTasks = list(obj.level.tasks.exclude(id__in=completedTasks).order_by('number'))
 
-        completedLevels = [level.id for level in request.user.completedLevels.all()]
+        completedLevels = [level.id for level in request.user.completed_tasks.all()]
         uncompletedLevels = list(taskLanguage.levels.all().exclude(id__in=completedLevels).order_by('number'))
 
         try:

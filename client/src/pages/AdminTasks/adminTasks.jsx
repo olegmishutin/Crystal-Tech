@@ -29,7 +29,7 @@ export default function AdminTasks() {
     function getLevelAndTasks() {
         axios({
             method: 'GET',
-            url: `/api/admin/level/${id}`
+            url: `/api/admin/levels/${id}/`
         }).then((response) => {
             setTasks(response.data.tasks)
             setLevel(response.data)
@@ -56,7 +56,7 @@ export default function AdminTasks() {
 
         axios({
             method: 'PATCH',
-            url: `/api/admin/level/${id}`,
+            url: `/api/admin/levels/${id}/`,
             data: formData,
             xsrfCookieName: 'csrftoken',
             xsrfHeaderName: 'X-CSRFTOKEN',
@@ -82,7 +82,7 @@ export default function AdminTasks() {
     function deleteLevel(event) {
         axios({
             method: 'DELETE',
-            url: `/api/admin/level/${id}`,
+            url: `/api/admin/levels/${id}/`,
             xsrfCookieName: 'csrftoken',
             xsrfHeaderName: 'X-CSRFTOKEN',
             withCredentials: true
@@ -117,7 +117,7 @@ export default function AdminTasks() {
 
         axios({
             method: 'POST',
-            url: '/api/admin/tasks',
+            url: '/api/admin/tasks/',
             data: data,
             xsrfCookieName: 'csrftoken',
             xsrfHeaderName: 'X-CSRFTOKEN',
@@ -161,7 +161,7 @@ export default function AdminTasks() {
 
         axios({
             method: 'POST',
-            url: '/api/admin/materials',
+            url: '/api/admin/materials/',
             data: formData,
             xsrfCookieName: 'csrftoken',
             xsrfHeaderName: 'X-CSRFTOKEN',
@@ -188,7 +188,7 @@ export default function AdminTasks() {
 
         axios({
             method: 'PATCH',
-            url: `/api/admin/material/${level.material.id}`,
+            url: `/api/admin/materials/${level.material.id}/`,
             data: formData,
             xsrfCookieName: 'csrftoken',
             xsrfHeaderName: 'X-CSRFTOKEN',
@@ -215,7 +215,7 @@ export default function AdminTasks() {
     function deleteMaterial(event) {
         axios({
             method: 'DELETE',
-            url: `/api/admin/material/${level.material.id}`,
+            url: `/api/admin/materials/${level.material.id}/`,
             xsrfCookieName: 'csrftoken',
             xsrfHeaderName: 'X-CSRFTOKEN',
             withCredentials: true
@@ -235,7 +235,7 @@ export default function AdminTasks() {
     function createMaterialSite(event) {
         axios({
             method: 'POST',
-            url: '/api/admin/sites',
+            url: '/api/admin/sites/',
             data: {
                 href: document.getElementById('siteHref').value,
                 material: level.material.id
@@ -320,7 +320,7 @@ export default function AdminTasks() {
             <Footer/>
             <AdminModal createFunc={createTask} closeModalFunc={closeModal} status={taskStatus}>
                 <input type='number' name='taskNumber' id='taskNumber' placeholder='Номер задания' min='0'/>
-                <input type='number' name='taskTime' id='taskTime' placeholder='Время на выполнение (в милисекундах)'
+                <input type='number' name='taskTime' id='taskTime' placeholder='Время на выполнение (в секундах)'
                        min='0'/>
                 <textarea placeholder='Опишите задачу' name='taskText' id='taskText'></textarea>
                 <h2>Тест кейсы</h2>

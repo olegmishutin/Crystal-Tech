@@ -1,22 +1,18 @@
 import os
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import AbstractBaseUser
 from .managers import CustomUserManager
 
 
-class User(AbstractUser):
-    username = None
-    first_name = None
-    last_name = None
-    date_joined = None
-    is_active = True
+class User(AbstractBaseUser):
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
 
-    email = models.EmailField(_("email address"), unique=True)
-    name = models.CharField(max_length=150)
-    age = models.IntegerField(default=0)
-    group = models.CharField(max_length=150, default='', null=True, blank=True)
-    _photo = models.ImageField(upload_to="usersPhotos/", null=True, blank=True)
+    email = models.EmailField('email', unique=True)
+    name = models.CharField('имя', max_length=150)
+    age = models.PositiveIntegerField('возрас', default=0)
+    group = models.CharField('группа', max_length=150, default='', null=True, blank=True)
+    _photo = models.ImageField('фото', upload_to="usersPhotos/", null=True, blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name']
@@ -38,9 +34,6 @@ class User(AbstractUser):
             os.remove(self._photo.path)
 
         self._photo = value
-
-    def get_full_name(self):
-        return self.name
 
     def __str__(self):
         return self.email
