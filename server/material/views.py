@@ -1,6 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAdminUser
+from django.shortcuts import get_object_or_404
 from django.http import FileResponse
 from .models import Material, Site
 from .serializers import MaterialSerializer, SiteSerializer
@@ -20,5 +21,5 @@ class AdminSitesViewSet(viewsets.ModelViewSet):
 
 @api_view(['GET'])
 def get_material(request, pk, format=None):
-    material = Material.objects.get(pk=pk)
+    material = get_object_or_404(Material.objects.all(), pk=pk)
     return FileResponse(material.file, as_attachment=True)
