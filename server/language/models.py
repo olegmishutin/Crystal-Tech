@@ -1,6 +1,6 @@
-import os
 from django.db import models
 from django.contrib.auth import get_user_model
+from server.utils.files import set_new_file, delete_old_files
 
 
 class Language(models.Model):
@@ -28,18 +28,13 @@ class Language(models.Model):
 
     @image.setter
     def image(self, value):
-        if self._image and os.path.exists(self._image.path):
-            os.remove(self._image.path)
-
-        self._image = value
+        set_new_file(self, '_image', value)
 
     def delete(self, *args, **kwargs):
         for level in self.levels.all():
             level.delete()
 
-        if os.path.exists(self._image.path):
-            os.remove(self._image.path)
-
+        delete_old_files(self._image)
         return super(Language, self).delete(*args, **kwargs)
 
     def __str__(self):

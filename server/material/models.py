@@ -1,6 +1,7 @@
 import os
 from django.db import models
 from level.models import Level
+from server.utils.files import set_new_file, delete_old_files
 
 
 class Material(models.Model):
@@ -19,15 +20,10 @@ class Material(models.Model):
 
     @file.setter
     def file(self, value):
-        if self._file and os.path.exists(self._file.path):
-            os.remove(self._file.path)
-
-        self._file = value
+        set_new_file(self, '_file', value)
 
     def delete(self, *args, **kwargs):
-        if self._file and os.path.exists(self._file.path):
-            os.remove(self._file.path)
-
+        delete_old_files(self._file)
         return super(Material, self).delete(*args, **kwargs)
 
     def __str__(self):

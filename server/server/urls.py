@@ -20,6 +20,7 @@ urlpatterns = [
         path('', include('language.urls')),
         path('', include('level.urls')),
         path('', include('material.urls')),
+        path('', include('tests.urls')),
     ])),
     path('', include(static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))),
     path('<path:path>', IndexView.as_view())

@@ -2,6 +2,7 @@ import os
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from .managers import CustomUserManager
+from server.utils.files import set_new_file, delete_old_files
 
 
 class User(AbstractBaseUser):
@@ -30,16 +31,11 @@ class User(AbstractBaseUser):
 
     @photo.setter
     def photo(self, value):
-        if self._photo and os.path.exists(self._photo.path):
-            os.remove(self._photo.path)
+        set_new_file(self, '_photo', value)
 
-        self._photo = value
+    def delete(self, using=None, keep_parents=False):
+        delete_old_files(self._photo)
+        return super(User, self).delete(using, keep_parents)
 
     def __str__(self):
         return self.email
-
-    def delete(self, using=None, keep_parents=False):
-        if self._photo and os.path.exists(self._photo.path):
-            os.remove(self._photo.path)
-
-        return super(User, self).delete(using, keep_parents)

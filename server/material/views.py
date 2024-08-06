@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAdminUser
 from django.shortcuts import get_object_or_404
 from django.http import FileResponse
+from asgiref.sync import sync_to_async
 from .models import Material, Site
 from .serializers import MaterialSerializer, SiteSerializer
 
@@ -19,6 +20,7 @@ class AdminSitesViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser]
 
 
+@sync_to_async()
 @api_view(['GET'])
 def get_material(request, pk, format=None):
     material = get_object_or_404(Material.objects.all(), pk=pk)
