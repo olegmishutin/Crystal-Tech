@@ -43,6 +43,7 @@ class TestResult(models.Model):
 class Question(models.Model):
     test = models.ForeignKey(Test, related_name='questions', verbose_name='тест', on_delete=models.CASCADE)
     text = models.TextField('текст')
+    have_multiple_choices = models.BooleanField()
 
     class Meta:
         db_table = 'Question'

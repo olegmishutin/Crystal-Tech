@@ -24,16 +24,18 @@ class QuestionsViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser]
 
 
-class AnswerView(generics.UpdateAPIView, generics.DestroyAPIView):
+class CreateUpdateDestroyAPIView(generics.CreateAPIView, generics.UpdateAPIView, generics.DestroyAPIView):
+    permission_classes = [IsAdminUser]
+
+
+class AnswerView(CreateUpdateDestroyAPIView):
     queryset = Answer.objects.all()
     serializer_class = serializers.AnswerSerializer
-    permission_classes = [IsAdminUser]
 
 
-class QuestionImageView(generics.CreateAPIView, generics.UpdateAPIView, generics.DestroyAPIView):
+class QuestionImageView(CreateUpdateDestroyAPIView):
     queryset = QuestionImage.objects.all()
     serializer_class = serializers.QuestionImageSerializer
-    permission_classes = [IsAdminUser]
 
 
 @sync_to_async()

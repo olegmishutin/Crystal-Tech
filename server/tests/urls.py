@@ -14,6 +14,7 @@ app_name = 'tests'
 urlpatterns = [
     re_path(r'^admin/', include([
         re_path('', include(router.urls)),
+        re_path(r'^answers/$', views.AnswerView.as_view(), name='answers'),
         re_path(r'^answers/(?P<pk>\w+)/$', views.AnswerView.as_view(), name='answers-detail'),
         re_path(r'^question_images/$', views.QuestionImageView.as_view(), name='question-images'),
         re_path(r'^question_images/(?P<pk>\w+)/$', views.QuestionImageView.as_view(), name='question-images-detail'),

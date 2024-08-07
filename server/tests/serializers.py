@@ -13,24 +13,39 @@ class QuestionImageSerializer(serializers.ModelSerializer):
 class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Answer
-        exclude = ['question']
+        fields = '__all__'
+        extra_kwargs = {
+            'question': {
+                'required': False
+            }
+        }
+
+    def update(self, instance, validated_data):
+        updated = super().update(instance, validated_data)
+
+        instance.question.have_multiple_choices = bool(instance.question.answers.filter(is_correct=True).count() > 1)
+        instance.question.save(update_fields=['have_multiple_choices'])
+
+        return updated
 
 
 class QuestionSerializer(serializers.ModelSerializer):
     answers = AnswerSerializer(many=True)
     images = QuestionImageSerializer(many=True, read_only=True)
-    have_multiple_choices = serializers.SerializerMethodField(method_name='is_have_multiple_choices')
 
     class Meta:
         model = Question
         fields = '__all__'
-
-    def is_have_multiple_choices(self, instance):
-        return instance.answers.filter(is_correct=True).count() > 1
+        extra_kwargs = {
+            'have_multiple_choices': {
+                'read_only': True
+            }
+        }
 
     def create(self, validated_data):
         answers = validated_data.pop('answers', [])
-        question = Question.objects.create(**validated_data)
+        is_have_multiple_choices = bool(len([answer for answer in answers if answer.get('is_correct')]) > 1)
+        question = Question.objects.create(have_multiple_choices=is_have_multiple_choices, **validated_data)
 
         for answer in answers:
             Answer.objects.create(question=question, **answer)
