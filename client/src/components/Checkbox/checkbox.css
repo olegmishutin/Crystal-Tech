@@ -1,0 +1,39 @@
+.checkbox_box {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.radio,
+.check {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+
+.radio + label,
+.check + label {
+    display: inline-flex;
+    align-items: center;
+    user-select: none;
+    gap: 10px;
+}
+
+.radio + label::before,
+.check + label::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+.check + label::before {
+    border-radius: 5px;
+}
+
+.radio:checked + label::before,
+.check:checked + label::before {
+    background-color: white;
+}

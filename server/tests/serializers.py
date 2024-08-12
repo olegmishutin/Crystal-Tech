@@ -30,7 +30,7 @@ class AnswerSerializer(serializers.ModelSerializer):
 
 
 class QuestionSerializer(serializers.ModelSerializer):
-    answers = AnswerSerializer(many=True)
+    answers = AnswerSerializer(many=True, required=False)
     images = QuestionImageSerializer(many=True, read_only=True)
 
     class Meta:

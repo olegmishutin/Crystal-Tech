@@ -7,6 +7,72 @@
     align-items: center;
 }
 
-.admin__test__main .adminEditing .textbox{
+.admin__test__main .adminEditing .textbox {
     min-width: 300px;
+}
+
+.questions {
+    font-family: "Inter", sans-serif;
+    color: white;
+    margin-top: 20px;
+    min-width: max-content;
+    background-color: rgba(128, 128, 128, 0.15);
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.questions ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.questions__list,
+.questions__list__element__answers {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+.questions__list {
+    gap: 25px;
+}
+
+.questions__list__element__answers {
+    gap: 10px;
+}
+
+.questions__list__element__text {
+    font-weight: bold;
+    margin: 0;
+}
+
+.questions__add,
+.answer__add,
+.questions__remove {
+    background-color: greenyellow;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 16px;
+    min-height: 20px;
+}
+
+.questions__add {
+    height: 30px;
+    margin-bottom: 20px;
+}
+
+.questions__remove {
+    background-color: red;
+}
+
+.questions__list__element_flex,
+.questions__list__element__answers__answer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.questions__list__element_flex {
+    margin-bottom: 10px;
 }
