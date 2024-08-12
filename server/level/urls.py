@@ -22,5 +22,5 @@ urlpatterns = [
     re_path(r'^admin/', include(router.urls)),
     re_path(r'^level/(?P<pk>\w+)$', userLevel, name='level'),
     re_path(r'^task/(?P<pk>\w+)$', userTasks, name='task'),
-    re_path(r'^check-code$', views.CodeCheckerView.as_view(), name='check-code')
+    re_path(r'^check-code$', views.check_code_view, name='check-code')
 ]
