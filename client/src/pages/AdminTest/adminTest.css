@@ -1,0 +1,12 @@
+.admin__test__main {
+    width: 100%;
+    min-height: 70vh;
+    padding: 80px 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.admin__test__main .adminEditing .textbox{
+    min-width: 300px;
+}

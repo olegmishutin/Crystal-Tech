@@ -12,6 +12,7 @@ import AdminTasks from "./pages/AdminTasks/adminTasks.jsx";
 import AdminTestCases from "./pages/AdminTestCases/adminTestCases.jsx";
 import AdminTestCase from "./pages/AdminTestCase/adminTestCase.jsx";
 import AdminSite from "./pages/AdminSite/adminSite.jsx";
+import AdminTest from "./pages/AdminTest/adminTest.jsx";
 import ErrorPage from "./pages/ErrorPage/errorPage.jsx";
 import './main.css'
 
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
             {
                 path: 'level/:levelId/site/:id',
                 element: <AdminSite/>
+            },
+            {
+                path: 'test/:id',
+                element: <AdminTest/>
             }
         ]
     }

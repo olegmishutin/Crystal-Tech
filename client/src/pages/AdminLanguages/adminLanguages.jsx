@@ -11,8 +11,10 @@ import axios from "axios";
 
 export default function AdminLanguages() {
     const [languages, setLanguages] = useState([])
+    const [tests, setTests] = useState([])
     const [users, setUsers] = useState([])
     const [status, setStatus] = useState('')
+    const [testStatus, setTestStatus] = useState('')
 
     function getLanguages() {
         axios({
@@ -24,6 +26,19 @@ export default function AdminLanguages() {
             if (error.response.status === 403) {
                 window.location.href = '/'
             }
+        })
+    }
+
+    function getTests() {
+        axios({
+            method: 'GET',
+            url: '/api/admin/tests/'
+        }).then((response) => {
+            if (response.status === 200) {
+                setTests(response.data)
+            }
+        }).catch((error) => {
+            console.log(error)
         })
     }
 
@@ -44,6 +59,7 @@ export default function AdminLanguages() {
 
     useEffect(() => {
         getLanguages()
+        getTests()
         getUsers()
     }, []);
 
@@ -74,6 +90,35 @@ export default function AdminLanguages() {
                 setStatus('Введены недействительные данные, проверьте все ли поля заполнены, также названия языков не должны повторяться!')
             } else {
                 setStatus('Что то пошло не так :(')
+            }
+        })
+
+        event.preventDefault()
+    }
+
+    function createTest(event) {
+        const data = {
+            name: document.getElementById('testName').value,
+            highest_score_percentage: document.getElementById('testHighestScorePercentage').value
+        }
+
+        axios({
+            method: 'POST',
+            url: '/api/admin/tests/',
+            data: data,
+            xsrfCookieName: 'csrftoken',
+            xsrfHeaderName: 'X-CSRFTOKEN',
+            withCredentials: true
+        }).then((response) => {
+            if (response.status === 201) {
+                closeTestModal()
+                getTests()
+            }
+        }).catch((error) => {
+            if (error.response.status === 400) {
+                setTestStatus('Введены недействительные данные, проверьте все ли поля заполнены')
+            } else {
+                setTestStatus('Что то пошло не так :(')
             }
         })
 
@@ -122,6 +167,16 @@ export default function AdminLanguages() {
         event.preventDefault()
     }
 
+    function openTestModal() {
+        const modal = document.getElementById('testModal')
+        modal.className = 'adminModal adminModalActive'
+    }
+
+    function closeTestModal() {
+        const modal = document.getElementById('testModal')
+        modal.className = 'adminModal'
+    }
+
     function closeModal() {
         const modal = document.getElementById('adminModal')
         modal.className = 'adminModal'
@@ -132,7 +187,8 @@ export default function AdminLanguages() {
             <MainBackground/>
             <Header/>
             <main className='admin__language__main'>
-                <AdminMainList data={languages} nextPage={'/admin/language/'} name='Языки программирования'/>
+                <AdminMainList data={languages} nextPage='/admin/language/' name='Языки программирования'/>
+                <AdminMainList data={tests} nextPage='/admin/test/' name='Тесты' openModal={openTestModal}/>
                 <div className="admin__users">
                     <h2 className='admin__main_list__header'>Пользователи</h2>
                     <div className="row-block">
@@ -182,6 +238,11 @@ export default function AdminLanguages() {
                         <input type='file' name='image' id='image'/>
                     </div>
                 </div>
+            </AdminModal>
+            <AdminModal id='testModal' closeModalFunc={closeTestModal} createFunc={createTest} status={testStatus}>
+                <input type='text' name='testName' id='testName' placeholder='Название теста'/>
+                <input type='number' min={0} max={100} name='testHighestScorePercentage'
+                       id='testHighestScorePercentage' placeholder='Процент выполнения для получения 5'/>
             </AdminModal>
         </>
     )
