@@ -33,12 +33,12 @@ class AdminTestCaseViewSet(viewsets.ModelViewSet):
 @sync_to_async()
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def check_code_view(self, request, format=None):
-    def setPassed(self, query, id, obj, dataStatus):
+def check_code_view(request, format=None):
+    def setPassed(query, id, obj, dataStatus):
         queryset = [i.id for i in query]
         if queryset[-1] == id:
-            self.responseData[dataStatus] = True
-            obj.add(self.request.user)
+            responseData[dataStatus] = True
+            obj.add(request.user)
             return True
         return False
 
@@ -49,8 +49,8 @@ def check_code_view(self, request, format=None):
     testCases = task.testCases.all()
 
     passedTestCasesNumber = 0
-    self.responseData = {'level': task.level.id, 'text': task.text, 'testCases': [],
-                         'level_is_passed': False, 'task_is_passed': False, 'language_is_passed': False}
+    responseData = {'level': task.level.id, 'text': task.text, 'testCases': [],
+                    'level_is_passed': False, 'task_is_passed': False, 'language_is_passed': False}
 
     for testCase in testCases:
         testCaseCode = testCase.code
@@ -85,17 +85,18 @@ def check_code_view(self, request, format=None):
                 passedTestCasesNumber += 1
 
             serializerData.update({'is_passed': result})
-            self.responseData['testCases'].append(serializerData)
+            responseData['testCases'].append(serializerData)
         except BaseException:
             return Response({'message': 'Bad code data'}, status=status.HTTP_400_BAD_REQUEST)
 
     if testCases.count() == passedTestCasesNumber:
-        self.responseData['task_is_passed'] = True
+        responseData['task_is_passed'] = True
         obj, created = CompletedTask.objects.get_or_create(task=task, level=task.level, user=request.user)
 
-        if self.setPassed(task.level.tasks.all().order_by('number'), task.id, task.level.users, 'level_is_passed'):
-            self.setPassed(language.levels.all().order_by('number'), task.level.id, language.users,
-                           'language_is_passed')
+        if setPassed(task.level.tasks.all().order_by('number'), task.id, task.level.users, 'level_is_passed'):
+            setPassed(language.levels.all().order_by('number'), task.level.id, language.users,
+                      'language_is_passed')
     else:
-        return Response({'message': 'Bad code result'}, status=status.HTTP_400_BAD_REQUEST)
-    return Response(self.responseData, status=status.HTTP_200_OK)
+        responseData.update({'message': 'Bad code result'})
+        return Response(responseData, status=status.HTTP_400_BAD_REQUEST)
+    return Response(responseData, status=status.HTTP_200_OK)

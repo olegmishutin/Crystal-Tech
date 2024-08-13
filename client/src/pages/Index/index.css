@@ -24,7 +24,7 @@
     box-sizing: border-box;
 }
 
-main{
+main {
     box-sizing: border-box;
 }
 
@@ -42,25 +42,19 @@ main{
     background-position: 80%, center;
 }
 
-.js {
+.JavaScript,
+.Python {
+    position: absolute;
+    width: 190px;
+    margin-bottom: 10px;
+}
+
+.JavaScript {
     top: 180px;
     left: 80px;
 }
 
-.c-sharp {
-    left: 725px;
-    top: 183px;
-}
-
-.py {
+.Python {
     left: 281px;
     top: 494px;
-}
-
-.c-sharp,
-.js,
-.py {
-    position: absolute;
-    width: 190px;
-    margin-bottom: 10px;
 }

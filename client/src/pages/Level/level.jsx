@@ -98,6 +98,7 @@ export default function Level() {
                     setStatus('Обнаружены ошибки в коде, проверьте что названия функций и классов совпадают с теми, которые в задании!')
                 }
                 if (error.response.data.message === 'Bad code result') {
+                    setTask(error.response.data)
                     setStatus('Результаты кода оказались неправильными')
                 }
             } else {
