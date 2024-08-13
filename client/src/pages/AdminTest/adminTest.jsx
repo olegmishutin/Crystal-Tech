@@ -19,6 +19,7 @@ export default function AdminTest() {
     const [questionStatus, setQuestionStatus] = useState('')
     const [currentQuestionId, setCurrentQuestionId] = useState()
     const [answerStatus, setAnswerStatus] = useState('')
+    const [globalEditinStatus, setGlobalEditinStatus] = useState('')
 
     function getTest() {
         axios({
@@ -136,6 +137,82 @@ export default function AdminTest() {
         id.preventDefault()
     }
 
+    function changeQuestion(id) {
+        const data = {
+            text: document.getElementById(`question_${id}_text`).value
+        }
+
+        axios({
+            method: 'PATCH',
+            url: `/api/admin/questions/${id}/`,
+            data: data,
+            xsrfCookieName: 'csrftoken',
+            xsrfHeaderName: 'X-CSRFTOKEN',
+            withCredentials: true
+        }).then((response) => {
+            if (response.status === 200) {
+                setGlobalEditinStatus('Вопрос успешно изменен')
+            } else {
+                setGlobalEditinStatus('Что то пошло не так :(')
+            }
+        }).catch((error) => {
+            if (error.response.status === 400) {
+                setAnswerStatus('Введены недействительные данные, проверьте все ли поля заполнены')
+            } else {
+                setAnswerStatus('Что то пошло не так :(')
+            }
+        })
+
+        id.preventDefault()
+    }
+
+    function loadQuestionImage(id) {
+        const data = {
+            question: id,
+            file: document.getElementById(`question_${id}_file`).files[0]
+        }
+
+        if (data["file"]) {
+            const formData = new FormData()
+
+            formData.append('question', data['question'])
+            formData.append('file', data['file'])
+
+            axios({
+                method: 'POST',
+                url: '/api/admin/question_images/',
+                data: formData,
+                xsrfCookieName: 'csrftoken',
+                xsrfHeaderName: 'X-CSRFTOKEN',
+                withCredentials: true
+            }).then((response) => {
+                if (response.status === 201) {
+                    getTest()
+                }
+            }).catch((error) => {
+                console.log(error)
+            })
+
+            id.preventDefault()
+        }
+    }
+
+    function deleteQuestionImage(id) {
+        axios({
+            method: 'DELETE',
+            url: `/api/admin/question_images/${id}/`,
+            xsrfCookieName: 'csrftoken',
+            xsrfHeaderName: 'X-CSRFTOKEN',
+            withCredentials: true
+        }).then((response) => {
+            if (response.status === 204) {
+                getTest()
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+
     function createAnswer(event) {
         const data = {
             text: document.getElementById('asnwerText').value,
@@ -185,6 +262,36 @@ export default function AdminTest() {
         id.preventDefault()
     }
 
+    function changeAnswer(id) {
+        const data = {
+            is_correct: document.getElementById(`answer-${id}`).checked,
+            text: document.getElementById(`answer_${id}_text`).value
+        }
+
+        axios({
+            method: 'PATCH',
+            url: `/api/admin/answers/${id}/`,
+            data: data,
+            xsrfCookieName: 'csrftoken',
+            xsrfHeaderName: 'X-CSRFTOKEN',
+            withCredentials: true
+        }).then((response) => {
+            if (response.status === 200) {
+                setGlobalEditinStatus('Ответ успешно изменен')
+            } else {
+                setGlobalEditinStatus('Что то пошло не так :(')
+            }
+        }).catch((error) => {
+            if (error.response.status === 400) {
+                setAnswerStatus('Введены недействительные данные, проверьте все ли поля заполнены')
+            } else {
+                setAnswerStatus('Что то пошло не так :(')
+            }
+        })
+
+        id.preventDefault()
+    }
+
     function openQuestionModal() {
         const modal = document.getElementById('createQuestion')
         modal.className = 'adminModal adminModalActive'
@@ -224,18 +331,48 @@ export default function AdminTest() {
                     </div>
                 </AdminEditing>
                 <div className="questions">
-                    <button className='questions__add' onClick={openQuestionModal}>Добавить</button>
+                    <div className="questions__list__element_flex">
+                        <button className='questions__add' onClick={openQuestionModal}>Добавить</button>
+                        <p className='questions__list__element__text'>{globalEditinStatus}</p>
+                    </div>
                     <ul className='questions__list'>
                         {
                             testData.questions.map((question, index) => {
                                 return (
                                     <>
                                         <li className='questions__list__element'>
+                                            {
+                                                question.images.map((image, index) => {
+                                                    return (
+                                                        <>
+                                                            <div className="questions__list__element__image">
+                                                                <img src={image.file} alt='test_image'/>
+                                                                <button className='delete_image_button' onClick={() => {
+                                                                    deleteQuestionImage(image.id)
+                                                                }}>Удалить
+                                                                </button>
+                                                            </div>
+                                                        </>
+                                                    )
+                                                })
+                                            }
                                             <div className="questions__list__element_flex">
-                                                <p className='questions__list__element__text'>{question.text}</p>
+                                                <input type='text' defaultValue={question.text}
+                                                       className='question_text_input text_input'
+                                                       id={`question_${question.id}_text`}/>
+                                                <input type='file' id={`question_${question.id}_file`}
+                                                       className='question_file' accept='image/*' onChange={() => {
+                                                    loadQuestionImage(question.id)
+                                                }}/>
+                                                <label htmlFor={`question_${question.id}_file`}
+                                                       className='question_file_label'>Изображение</label>
                                                 <button className='answer__add' onClick={() => {
                                                     openAnswerModal(question.id)
                                                 }}>+
+                                                </button>
+                                                <button className='change_button' onClick={() => {
+                                                    changeQuestion(question.id)
+                                                }}>+/-
                                                 </button>
                                                 <button className='questions__remove' onClick={() => {
                                                     deleteQuestion(question.id)
@@ -244,14 +381,23 @@ export default function AdminTest() {
                                             </div>
                                             <ul className='questions__list__element__answers'>
                                                 {
-                                                    question.answers.map((answer, inde) => {
+                                                    question.answers.map((answer, index) => {
                                                         return (
                                                             <>
                                                                 <li className='questions__list__element__answers__answer'>
-                                                                    <Checkbox text={answer.text}
-                                                                              id={`answer-${answer.id}`}
+                                                                    <Checkbox id={`answer-${answer.id}`}
                                                                               name='answer-1'
-                                                                              checked={answer.is_correct}/>
+                                                                              checked={answer.is_correct}
+                                                                              onChange={() => {
+                                                                                  changeAnswer(answer.id)
+                                                                              }}/>
+                                                                    <input type='text' defaultValue={answer.text}
+                                                                           className='answer_text_input text_input'
+                                                                           id={`answer_${answer.id}_text`}/>
+                                                                    <button className='change_button' onClick={() => {
+                                                                        changeAnswer(answer.id)
+                                                                    }}>+/-
+                                                                    </button>
                                                                     <button className='questions__remove'
                                                                             onClick={() => {
                                                                                 deleteAnswer(answer.id)
