@@ -120,9 +120,10 @@ export default function Level() {
                 <div className="circle"></div>
             </Circles>
             <Header userProfile={true}>
-                <Link to={`/language/${languageId}`}><img className="back" src={back}/></Link>
+                <Link to={`/language/${languageId}`}><img className="back" src={back} alt='back'/></Link>
                 <Link to={`/language/${languageId}/task/${id}/level/${task.level}/book`}><img className="back"
-                                                                                              src={reference}/></Link>
+                                                                                              src={reference}
+                                                                                              alt='reference'/></Link>
             </Header>
             <main className='level__main'>
                 <form className="level__main__task">

@@ -14,6 +14,7 @@ import AdminTestCase from "./pages/AdminTestCase/adminTestCase.jsx";
 import AdminSite from "./pages/AdminSite/adminSite.jsx";
 import AdminTest from "./pages/AdminTest/adminTest.jsx";
 import ErrorPage from "./pages/ErrorPage/errorPage.jsx";
+import Tests from "./pages/Tests/tests.jsx";
 import './main.css'
 
 const router = createBrowserRouter([
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
     {
         path: 'me/',
         element: <Profile/>
+    },
+    {
+        path: 'tests/',
+        element: <Tests/>
     },
     {
         path: 'admin/',

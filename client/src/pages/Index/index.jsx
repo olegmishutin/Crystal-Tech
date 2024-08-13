@@ -7,6 +7,7 @@ import MainBackground from "../../components/MainBackgound/mainBackground.jsx";
 
 import './index.css'
 import axios from "axios";
+import test from "../../images/Header/sprav.png";
 
 export default function Index() {
     const [languages, setLanguages] = useState([])
@@ -27,7 +28,9 @@ export default function Index() {
     return (
         <>
             <MainBackground/>
-            <Header userProfile={true}/>
+            <Header userProfile={true}>
+                <Link to='/tests/'><img className="back" src={test} alt='test'/></Link>
+            </Header>
             <main className='index__main'>
                 <div className="main-text">
                     <div className="text-zagolovok">
