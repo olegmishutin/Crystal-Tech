@@ -3,7 +3,7 @@ import './viewPictures.css'
 export default function ViewPictures() {
     return (
         <>
-            <div className="picture_view showed_picture_view" id='pictureView'>
+            <div className="picture_view" id='pictureView'>
                 <div className="picture_view__image">
                     <img alt='picture' id='pictureView_picture'/>
                 </div>
