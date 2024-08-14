@@ -1,0 +1,25 @@
+.test_main {
+    width: 100%;
+    min-height: 70vh;
+    padding: 80px 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Inter", sans-serif;
+}
+
+.questions__list__element {
+    max-width: 60svw;
+}
+
+.questions__list__element_flex h1 {
+    word-break: break-all;
+    margin: 10px 0 10px 0;
+}
+
+.questions__check {
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+    margin-top: 50px;
+}

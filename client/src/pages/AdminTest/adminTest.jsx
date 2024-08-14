@@ -391,7 +391,7 @@ export default function AdminTest() {
                                                             <>
                                                                 <li className='questions__list__element__answers__answer'>
                                                                     <Checkbox id={`answer-${answer.id}`}
-                                                                              name='answer-1'
+                                                                              name={`answer-${answer.id}`}
                                                                               checked={answer.is_correct}
                                                                               onChange={() => {
                                                                                   changeAnswer(answer.id)

@@ -117,12 +117,13 @@
     flex-direction: column;
     gap: 5px;
     margin-bottom: 10px;
+    align-items: center;
 }
 
 .questions__list__element__image img {
-    width: 100%;
+    width: min-content;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 20px;
 }
 
