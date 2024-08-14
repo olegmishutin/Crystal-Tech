@@ -3,11 +3,19 @@ from .models import Test, TestResult, Question, QuestionImage, Answer
 
 
 class QuestionImageSerializer(serializers.ModelSerializer):
-    file = serializers.ImageField()
+    file = serializers.ImageField(required=False)
+    uploaded_files = serializers.ListField(child=serializers.ImageField(), write_only=True)
 
     class Meta:
         model = QuestionImage
         exclude = ['_file']
+
+    def create(self, validated_data):
+        uploaded_files = validated_data.pop('uploaded_files')
+        questionImage_list = [QuestionImage(_file=file, **validated_data) for file in uploaded_files]
+
+        created = QuestionImage.objects.bulk_create(questionImage_list)
+        return created[-1]
 
 
 class AnswerSerializer(serializers.ModelSerializer):

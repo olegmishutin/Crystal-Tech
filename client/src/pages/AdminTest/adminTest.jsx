@@ -11,6 +11,8 @@ import './adminTest.css'
 import back from "../../images/Header/back.png";
 import axios from "axios";
 import AdminModal from "../../components/AdminModal/adminModal.jsx";
+import ViewPictures from "../../components/ViewPictures/viewPictures.jsx";
+import {openViewPictures} from "../../components/ViewPictures/viewPictures.jsx";
 
 export default function AdminTest() {
     const {id} = useParams();
@@ -167,16 +169,16 @@ export default function AdminTest() {
     }
 
     function loadQuestionImage(id) {
-        const data = {
-            question: id,
-            file: document.getElementById(`question_${id}_file`).files[0]
-        }
+        const fileInput = document.getElementById(`question_${id}_file`);
+        const selectedFiles = fileInput.files;
 
-        if (data["file"]) {
+        if (selectedFiles.length > 0) {
             const formData = new FormData()
+            formData.append('question', id)
 
-            formData.append('question', data['question'])
-            formData.append('file', data['file'])
+            for (let i = 0; i < selectedFiles.length; i++) {
+                formData.append("uploaded_files", selectedFiles[i]);
+            }
 
             axios({
                 method: 'POST',
@@ -346,7 +348,9 @@ export default function AdminTest() {
                                                     return (
                                                         <>
                                                             <div className="questions__list__element__image">
-                                                                <img src={image.file} alt='test_image'/>
+                                                                <img src={image.file} alt='test_image' onClick={() => {
+                                                                    openViewPictures(image.file)
+                                                                }}/>
                                                                 <button className='delete_image_button' onClick={() => {
                                                                     deleteQuestionImage(image.id)
                                                                 }}>Удалить
@@ -361,9 +365,10 @@ export default function AdminTest() {
                                                        className='question_text_input text_input'
                                                        id={`question_${question.id}_text`}/>
                                                 <input type='file' id={`question_${question.id}_file`}
-                                                       className='question_file' accept='image/*' onChange={() => {
-                                                    loadQuestionImage(question.id)
-                                                }}/>
+                                                       className='question_file' accept='image/*' multiple={true}
+                                                       onChange={() => {
+                                                           loadQuestionImage(question.id)
+                                                       }}/>
                                                 <label htmlFor={`question_${question.id}_file`}
                                                        className='question_file_label'>Изображение</label>
                                                 <button className='answer__add' onClick={() => {
@@ -430,6 +435,7 @@ export default function AdminTest() {
                     <input type='text' className='textbox' name='answerText' id='asnwerText' placeholder='Ответ'/>
                 </div>
             </AdminModal>
+            <ViewPictures/>
         </>
     )
 }

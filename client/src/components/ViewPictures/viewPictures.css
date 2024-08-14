@@ -1,0 +1,38 @@
+.picture_view {
+    width: 100%;
+    height: 100svh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
+    z-index: 10;
+}
+
+.showed_picture_view {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.picture_view__image {
+    width: 90%;
+}
+
+.picture_view__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.picture_view__close_button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: white;
+    border: none;
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 30px;
+}
