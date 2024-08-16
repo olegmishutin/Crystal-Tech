@@ -42,19 +42,19 @@ main {
     background-position: 80%, center;
 }
 
-.JavaScript,
-.Python {
+.js,
+.py {
     position: absolute;
     width: 190px;
     margin-bottom: 10px;
 }
 
-.JavaScript {
+.js {
     top: 180px;
     left: 80px;
 }
 
-.Python {
+.py {
     left: 281px;
     top: 494px;
 }

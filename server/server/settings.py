@@ -110,6 +110,8 @@ STATICFILES_DIRS = [
     BASE_DIR / 'client/dist/assets'
 ]
 
+STATIC_ROOT = BASE_DIR / 'static/'
+
 MEDIA_URL = 'media/'
 MEDIA_ROOT = SERVER_DIR / 'media/'
 

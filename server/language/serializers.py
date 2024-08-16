@@ -12,11 +12,6 @@ class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Language
         fields = ['id', 'name', 'image', 'levels', 'is_closed', 'accepted_users']
-        extra_kwargs = {
-            'name': {
-                'source': 'get_name_display'
-            }
-        }
 
     def get_accepted_users(self, obj):
         return [{'id': user.id, 'email': user.email} for user in obj.accepted_users.all()]

@@ -9,7 +9,7 @@ class Language(models.Model):
         'py': 'Python'
     }
 
-    name = models.CharField('название', max_length=150, choices=choices)
+    name = models.CharField('название', max_length=150, choices=choices, unique=True)
     _image = models.ImageField('картинка', upload_to='languagesIcons/')
     users = models.ManyToManyField(get_user_model(), db_table='CompletedLanguage', related_name='completedLanguages',
                                    verbose_name='сдавшие')
