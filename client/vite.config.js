@@ -13,6 +13,7 @@ export default defineConfig({
     }
   },
   build: {
+    outDir: '../server/dist',
     assetsInlineLimit: 102400,
   }
 })

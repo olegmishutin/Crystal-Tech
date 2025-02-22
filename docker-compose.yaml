@@ -1,0 +1,36 @@
+services:
+  mysqldb:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'crystal_tech'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - 3307:3306
+    volumes:
+      - mysqldata:/var/lib/mysql
+  app:
+    build: ./server
+    restart: always
+    environment:
+      SECRET_KEY: 'django-insecure-b-rg!#d0&*w+7*6s6p-2%$k7)5-k!i05uodmdjic)mhwp%u2v-'
+      DB_NAME: 'crystal_tech'
+      DB_USER: 'root'
+      DB_PASSWORD: 'root'
+      DB_HOST: 'mysqldb'
+      DB_PORT: '3306'
+      MEDIA_PATH: '/usr/src/media/'
+      IN_DOCKER: true
+    volumes:
+      - media:/usr/src/media
+    command: >
+      sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - 8000:8000
+    depends_on:
+      mysqldb:
+        condition: service_started
+
+volumes:
+  mysqldata: {}
+  media: {}

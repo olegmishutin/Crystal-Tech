@@ -5,9 +5,10 @@ from dotenv import load_dotenv
 SERVER_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = SERVER_DIR.parent
 
-load_dotenv(SERVER_DIR / '.env')
+if os.environ.get('IN_DOCKER') is None:
+    load_dotenv(SERVER_DIR / '.env')
 
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY', os.getenv('SECRET_KEY'))
 AUTH_USER_MODEL = 'users.User'
 
 DEBUG = True
@@ -24,6 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
     'users',
@@ -55,7 +57,7 @@ REST_FRAMEWORK = {
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'client/dist'],
+        'DIRS': [SERVER_DIR / 'dist'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,11 +75,11 @@ WSGI_APPLICATION = 'server.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT')
+        'NAME': os.environ.get('DB_NAME', os.getenv('DB_NAME')),
+        'USER': os.environ.get('DB_USER', os.getenv('DB_USER')),
+        'PASSWORD': os.environ.get('DB_PASSWORD', os.getenv('DB_PASSWORD')),
+        'HOST': os.environ.get('DB_HOST', os.getenv('DB_HOST')),
+        'PORT': os.environ.get('DB_PORT', os.getenv('DB_PORT')),
     }
 }
 
@@ -104,7 +106,13 @@ USE_I18N = True
 
 USE_TZ = True
 
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    SERVER_DIR / 'dist/assets/'
+]
+STATIC_ROOT = BASE_DIR / 'static/'
+
 MEDIA_URL = 'media/'
-MEDIA_ROOT = SERVER_DIR / 'media/'
+MEDIA_ROOT = os.environ.get('MEDIA_PATH', SERVER_DIR / 'media/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
