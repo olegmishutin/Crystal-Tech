@@ -24,7 +24,6 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
     'users',
@@ -104,13 +103,6 @@ TIME_ZONE = 'Europe/Moscow'
 USE_I18N = True
 
 USE_TZ = True
-
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    BASE_DIR / 'client/dist/assets'
-]
-
-STATIC_ROOT = BASE_DIR / 'static/'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = SERVER_DIR / 'media/'

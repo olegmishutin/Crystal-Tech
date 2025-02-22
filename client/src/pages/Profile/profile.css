@@ -86,6 +86,8 @@
 }
 
 .profile__header__settings{
+    max-width: 50px;
+    max-height: 50px;
     background: none;
     border: none;
     display: flex;
@@ -93,8 +95,8 @@
 
 .profile__header__photo{
     align-self: flex-end;
-    width: 287px;
-    height: 295px;
+    min-width: 287px;
+    min-height: 295px;
     max-width: 287px;
     max-height: 295px;
     position: relative;

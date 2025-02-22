@@ -49,8 +49,15 @@ def check_code_view(request, format=None):
     testCases = task.testCases.all()
 
     passedTestCasesNumber = 0
-    responseData = {'level': task.level.id, 'text': task.text, 'testCases': [],
-                    'level_is_passed': False, 'task_is_passed': False, 'language_is_passed': False}
+    serialized_data = TaskSerializer(task, context={'request': request}).data
+    serialized_data.update(
+        {
+            'text': task.text, 'testCases': [],
+            'level_is_passed': False, 'task_is_passed': False,
+            'language_is_passed': False
+        }
+    )
+    responseData = serialized_data
 
     for testCase in testCases:
         testCaseCode = testCase.code
@@ -62,6 +69,7 @@ def check_code_view(request, format=None):
         try:
             if language.name == 'js':
                 jsCode = py_mini_racer.MiniRacer()
+                print(code)
                 jsCode.eval(code)
                 result = jsCode.call('check_user_code')
 
